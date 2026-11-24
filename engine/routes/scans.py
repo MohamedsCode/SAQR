@@ -7,10 +7,11 @@ import io
 import json
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import Response
+from fastapi.responses import FileResponse, Response
 from starlette.datastructures import UploadFile
 
 from engine.normalize import InvalidInput
+from engine.settings import RUNTIME_DIR
 from engine.store import store
 from shared.contract import BatchRequest, Job, Report, ReportRequest, ScanRequest, ScanResult
 
@@ -126,6 +127,16 @@ def evidence_json(scan_id: str) -> Response:
         media_type="application/json",
         headers={"Content-Disposition": f'attachment; filename="{scan.id}-evidence.json"'},
     )
+
+
+@router.get("/scans/{scan_id}/screenshot/{kind}")
+def screenshot(scan_id: str, kind: str) -> FileResponse:
+    scan = _get_scan(scan_id)
+    relative = {"desktop": scan.evidence.screenshot_desktop, "mobile": scan.evidence.screenshot_mobile}.get(kind)
+    path = (RUNTIME_DIR / relative).resolve() if relative else None
+    if not path or not path.is_file() or RUNTIME_DIR.resolve() not in path.parents:
+        raise HTTPException(status_code=404, detail="Screenshot not found")
+    return FileResponse(path, media_type="image/png")
 
 
 @router.get("/scans/{scan_id}/evidence.pdf")

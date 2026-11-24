@@ -84,7 +84,7 @@ def _has_valid_suffix(host: str) -> bool:
         ascii_host = idna.encode(host, uts46=True).decode("ascii")
     except idna.IDNAError:
         return False
-    return bool(_extract(ascii_host).suffix)
+    return ascii_host.endswith(".localhost") or bool(_extract(ascii_host).suffix)
 
 
 def find_candidate(text: str) -> tuple[str, bool]:
@@ -137,6 +137,10 @@ def normalize(text: str) -> NormalizedUrl:
 
     if is_ip:
         registered, domain_label, subdomain, suffix = host, host, "", ""
+    elif host.endswith(".localhost"):
+        labels = host.removesuffix(".localhost").split(".")
+        registered, domain_label = f"{labels[-1]}.localhost", labels[-1]
+        subdomain, suffix = ".".join(labels[:-1]), "localhost"
     else:
         ext = _extract(host)
         if not ext.suffix or not ext.domain:

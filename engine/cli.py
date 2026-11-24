@@ -1,7 +1,7 @@
 """Command line: scan a list of URLs, or evaluate the engine on a labelled set.
 
-  python -m engine.cli scan --input urls.txt|urls.csv --output results.csv [--mode url|network]
-  python -m engine.cli evaluate --input data/datasets/labeled.csv [--split test] [--mode url|network] [--sweep]
+  python -m engine.cli scan --input urls.txt|urls.csv --output results.csv [--mode url|network|full]
+  python -m engine.cli evaluate --input data/datasets/labeled.csv [--split test] [--mode url|network|full] [--sweep]
 """
 
 from __future__ import annotations
@@ -15,7 +15,8 @@ from pathlib import Path
 
 from engine import evaluate as ev
 from engine.normalize import InvalidInput
-from engine.scanner import default_mode, scan
+from engine.browser import pool
+from engine.scanner import scan
 from engine.settings import RUNTIME_DIR, settings
 
 COLUMNS = ["input", "normalized_url", "registered_domain", "status", "score", "verdict", "impersonated_brand",
@@ -33,6 +34,13 @@ def read_inputs(path: Path) -> list[str]:
 
 
 async def scan_many(inputs: list[str], mode: str, concurrency: int) -> list[dict]:
+    try:
+        return await _scan_many(inputs, mode, concurrency)
+    finally:
+        await pool.close()
+
+
+async def _scan_many(inputs: list[str], mode: str, concurrency: int) -> list[dict]:
     limit = asyncio.Semaphore(concurrency)
 
     async def one(text: str) -> dict:
@@ -104,7 +112,7 @@ def main(argv: list[str] | None = None) -> int:
     for name in ("scan", "evaluate"):
         p = sub.add_parser(name)
         p.add_argument("--input", type=Path, required=True)
-        p.add_argument("--mode", choices=["url", "network"], default=default_mode())
+        p.add_argument("--mode", choices=["url", "network", "full"], default="network")
         p.add_argument("--concurrency", type=int, default=settings.page_concurrency * 4)
         if name == "scan":
             p.add_argument("--output", type=Path, required=True)

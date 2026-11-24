@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from discovery.routes import router as discovery_router
+from engine.browser import pool
 from engine.routes.demo import router as demo_router
 from engine.routes.phone import router as phone_router
 from engine.routes.scans import router as scans_router
@@ -18,7 +20,15 @@ from shared.contract import Brand
 
 BRAND_CONFIG = json.loads((SHARED_DIR / "brand_config.json").read_text(encoding="utf-8"))
 
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    yield
+    await pool.close()
+
+
 app = FastAPI(
+    lifespan=lifespan,
     title=f"{BRAND_CONFIG['product_name_en']} API",
     description=BRAND_CONFIG["tagline_en"],
     version="0.1.0",

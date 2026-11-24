@@ -16,6 +16,8 @@ from engine.normalize import InvalidInput, normalize
         ("https://sps.dubaipolice.gov.ae:443/x#frag", "https://sps.dubaipolice.gov.ae/x", "dubaipolice.gov.ae"),
         ("emiratesnbd.com.sa", "https://emiratesnbd.com.sa/", "emiratesnbd.com.sa"),
         ("http://203.0.113.5:8080/pay", "http://203.0.113.5:8080/pay", "203.0.113.5"),
+        ("http://adpolice-fines-pay.localhost:8081/", "http://adpolice-fines-pay.localhost:8081/",
+         "adpolice-fines-pay.localhost"),
     ],
 )
 def test_normalize(text, url, registered):

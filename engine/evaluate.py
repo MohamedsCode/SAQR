@@ -10,6 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from engine.brands import official_brand_for_host, tranco_top
+from engine.browser import pool
 from engine.normalize import InvalidInput
 from engine.scanner import Mode, scan
 from shared.contract import FRAUD_MIN, SUSPICIOUS_MIN, ScanResult
@@ -41,6 +42,13 @@ def load(path: Path, split: str | None) -> list[Row]:
 
 
 async def run(rows: list[Row], mode: Mode, concurrency: int) -> list[Outcome]:
+    try:
+        return await _run(rows, mode, concurrency)
+    finally:
+        await pool.close()
+
+
+async def _run(rows: list[Row], mode: Mode, concurrency: int) -> list[Outcome]:
     limit = asyncio.Semaphore(concurrency)
 
     async def one(row: Row) -> Outcome:

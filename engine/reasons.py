@@ -136,6 +136,54 @@ TEXT: dict[str, tuple[str, str]] = {
         "The site's first security certificate was issued less than 7 days ago.",
         "صدرت أول شهادة أمان للموقع منذ أقل من 7 أيام.",
     ),
+    "CARD_FORM": (
+        "Page asks for payment card details.",
+        "تطلب الصفحة بيانات بطاقة الدفع.",
+    ),
+    "OTP_FIELD": (
+        "Page asks for a one-time password (OTP).",
+        "تطلب الصفحة رمز التحقق لمرة واحدة.",
+    ),
+    "PASSWORD_FIELD": (
+        "Page asks for a password.",
+        "تطلب الصفحة كلمة المرور.",
+    ),
+    "EMIRATES_ID_FIELD": (
+        "Page asks for an Emirates ID number.",
+        "تطلب الصفحة رقم الهوية الإماراتية.",
+    ),
+    "IBAN_FIELD": (
+        "Page asks for a bank account or IBAN number.",
+        "تطلب الصفحة رقم الحساب البنكي أو الآيبان.",
+    ),
+    "CROSS_DOMAIN_FORM": (
+        "Form sends what you type to a different website.",
+        "يرسل النموذج ما تكتبه إلى موقع مختلف.",
+    ),
+    "BRAND_IN_CONTENT": (
+        "Page presents itself as {brand_en}, but the site does not belong to {brand_en}.",
+        "تقدّم الصفحة نفسها على أنها {brand_ar}، لكن الموقع لا يتبع لها.",
+    ),
+    "URGENCY_LANGUAGE": (
+        "Page pressures the visitor to act immediately.",
+        "تضغط الصفحة على الزائر للتصرف فوراً.",
+    ),
+    "PAYMENT_REQUEST": (
+        "Page asks for a payment.",
+        "تطلب الصفحة دفع مبلغ مالي.",
+    ),
+    "VISUAL_SIMILARITY": (
+        "Page looks like the official {brand_en} website.",
+        "تشبه الصفحة الموقع الرسمي لـ{brand_ar}.",
+    ),
+    "FAVICON_MATCH": (
+        "Site uses the same icon as the official {brand_en} website.",
+        "يستخدم الموقع نفس أيقونة الموقع الرسمي لـ{brand_ar}.",
+    ),
+    "CLOAKING": (
+        "Site shows different content to different visitors, a trick to hide from security checks.",
+        "يعرض الموقع محتوى مختلفاً لزوار مختلفين، وهي حيلة للتخفي من فحوصات الأمان.",
+    ),
     "CROSS_DOMAIN_REDIRECT": (
         "Link redirects to a different website.",
         "يعيد الرابط التوجيه إلى موقع مختلف.",

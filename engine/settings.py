@@ -39,6 +39,7 @@ class Settings:
     allow_localhost_demo: bool
     web_origin: str
     network_enabled: bool
+    browser_enabled: bool
     seed_fixtures: bool
 
 
@@ -55,6 +56,7 @@ def load_settings() -> Settings:
         allow_localhost_demo=_flag("ALLOW_LOCALHOST_DEMO", False),
         web_origin=os.getenv("WEB_ORIGIN", "http://localhost:5173"),
         network_enabled=_flag("NETWORK_ENABLED", True),
+        browser_enabled=_flag("BROWSER_ENABLED", True),
         seed_fixtures=_flag("SEED_FIXTURES", False),
     )
 

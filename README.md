@@ -74,7 +74,20 @@ tunnel and shortener lists live in `engine/config/signals.json`.
    (every hop is checked and private network addresses are refused), DNS, RDAP domain age, registrar and abuse
    contact, the first certificate in crt.sh, and IP to ASN through Team Cymru's DNS service. When a link redirects
    to another domain, the landing domain is scored too.
-4. **Scoring**: a transparent weighted sum (weights in `engine/config/signals.json`), clamped to 0-100.
+4. **Live page** (Layer B): headless Chromium visits the page twice, as desktop Chrome and as Safari on an iPhone
+   with the `ar-AE` locale and Dubai time zone, recording each redirect chain (including JavaScript redirects).
+   - **Cloaking:** flagged when the two visits end on different sites, only one of them gets the page, or the
+     content differs strongly.
+   - **Forms:** fields asking for card number, expiry, CVV, OTP, password, Emirates ID or IBAN are detected in
+     English and Arabic (رقم البطاقة، تاريخ الانتهاء، الرمز السري، رمز التحقق، رقم الهوية الإماراتية), as well as
+     forms that post to another website.
+   - **Content:** brand names, urgency language and payment requests in both languages.
+   - **Visual similarity:** a perceptual-hash comparison of the screenshot and favicon against each brand's
+     reference images.
+   - **Contacts and evidence:** phone numbers (E.164), WhatsApp links and emails on the page. Screenshots and
+     HTML are saved under `data/runtime/evidence/<case id>/` with SHA-256 hashes; every request the browser
+     makes passes the same private-address guard.
+5. **Scoring**: a transparent weighted sum (weights in `engine/config/signals.json`), clamped to 0-100.
    Every signal becomes a reason in English and Arabic with its weight and evidence. Below 30 is safe, 30-69
    suspicious, 70 or more fraud. Summaries come from templates, or from the LLM when `ANTHROPIC_API_KEY` and
    `LLM_MODEL` are set.
@@ -84,7 +97,8 @@ python -m engine.cli scan --input urls.txt --output results.csv            # txt
 python -m engine.cli evaluate --input data/datasets/labeled.csv --split test
 ```
 
-`--mode url` scores from the address alone with no network access; the default `network` mode adds the lookups.
+`--mode url` scores from the address alone with no network access, `network` (the CLI default) adds the
+lookups, and `full` (the API default) also visits the page. `BROWSER_ENABLED=false` turns the page visits off.
 
 ### Evaluation data
 

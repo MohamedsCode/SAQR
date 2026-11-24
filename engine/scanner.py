@@ -1,25 +1,28 @@
-"""Scan one input end to end: normalize, URL signals, network lookups, score, summarise."""
+"""Scan one input end to end: normalize, URL signals, network lookups, live page, score, summarise."""
 
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import uuid
 from collections.abc import Awaitable
 from datetime import datetime, timezone
 from typing import Literal
 
-from engine import llm, net
+from engine import browser, llm, net
 from engine.brands import brands
 from engine.layer_a import LayerAResult, analyse
-from engine.normalize import NormalizedUrl, normalize
+from engine.normalize import InvalidInput, NormalizedUrl, normalize
+from engine.page_analysis import Capture, PageFindings, analyse_captures
 from engine.reasons import Signal
 from engine.scoring import category_for, score_signals, template_summary
-from engine.settings import SHARED_DIR, settings
+from engine.settings import RUNTIME_DIR, SHARED_DIR, settings
 from shared.contract import DiscoveredBy, Evidence, ScanResult, Status
 
-Mode = Literal["url", "network"]
+Mode = Literal["url", "network", "full"]
 CASE_PREFIX = json.loads((SHARED_DIR / "brand_config.json").read_text(encoding="utf-8"))["case_id_prefix"]
+EVIDENCE_DIR = RUNTIME_DIR / "evidence"
 IMPERSONATION = {"BRAND_IN_DOMAIN", "BRAND_IN_SUBDOMAIN", "OFFICIAL_DOMAIN_IN_HOST", "LOOKALIKE_CHAR_SWAP",
                  "LOOKALIKE_EDIT_DISTANCE", "HOMOGLYPH_BRAND", "BRAND_IN_PATH"}
 
@@ -29,7 +32,9 @@ def new_case_id(now: datetime) -> str:
 
 
 def default_mode() -> Mode:
-    return "network" if settings.network_enabled else "url"
+    if not settings.network_enabled:
+        return "url"
+    return "full" if settings.browser_enabled else "network"
 
 
 def _is_demo_host(url: NormalizedUrl) -> bool:
@@ -45,11 +50,7 @@ async def _settle(tasks: dict[str, Awaitable], deadline: float) -> dict[str, obj
     done, pending = await asyncio.wait(running, timeout=max(0.1, deadline - loop.time()))
     for task in pending:
         task.cancel()
-    results = {}
-    for task in done:
-        if not task.cancelled() and task.exception() is None:
-            results[running[task]] = task.result()
-    return results
+    return {running[t]: t.result() for t in done if not t.cancelled() and t.exception() is None}
 
 
 def _age_signal(created: datetime | None, now: datetime) -> Signal | None:
@@ -74,12 +75,13 @@ class _Collected:
         self.override = layer.override
         self.brand_id = layer.brand_id
         self.bait_words = list(layer.bait_words)
+        self.handled_finals: set[str] = set()
 
     def has(self, code: str) -> bool:
         return any(s.code == code for s in self.signals)
 
     def add(self, signal: Signal | None) -> None:
-        if signal and not any(s.code == signal.code for s in self.signals):
+        if signal and not self.has(signal.code):
             self.signals.append(signal)
 
     def merge(self, other: LayerAResult) -> None:
@@ -88,6 +90,30 @@ class _Collected:
                 self.add(signal)
         self.brand_id = self.brand_id or other.brand_id
         self.bait_words += other.bait_words
+
+    def apply_final(self, url: NormalizedUrl, final_url: str) -> NormalizedUrl | None:
+        """Score the domain a link lands on. Returns it when it differs from where the link started."""
+        try:
+            final = normalize(final_url)
+        except InvalidInput:
+            return None
+        if final.registered_domain == url.registered_domain:
+            return None
+        if final.registered_domain in self.handled_finals:
+            return final
+        self.handled_finals.add(final.registered_domain)
+        final_layer = analyse(final)
+        impersonating = any(s.code in IMPERSONATION for s in self.signals)
+        if final_layer.override and not impersonating:
+            self.override = final_layer.override
+            self.brand_id = final_layer.brand_id
+        elif final_layer.override:
+            self.add(Signal("REDIRECTS_TO_OFFICIAL", final.registered_domain, final_layer.brand_id))
+        else:
+            self.merge(final_layer)
+            if not url.is_ip and not self.has("SHORTENER"):
+                self.add(Signal("CROSS_DOMAIN_REDIRECT", f"{url.registered_domain} → {final.registered_domain}"))
+        return final
 
 
 async def _network_layer(url: NormalizedUrl, collected: _Collected, evidence: Evidence, now: datetime,
@@ -109,25 +135,9 @@ async def _network_layer(url: NormalizedUrl, collected: _Collected, evidence: Ev
 
     target = url
     if len(chain) > 1:
-        try:
-            final = normalize(chain[-1])
-        except ValueError:
-            final = None
-        if final and final.registered_domain != url.registered_domain:
-            final_layer = analyse(final)
-            impersonating = any(s.code in IMPERSONATION for s in collected.signals)
-            if final_layer.override and not impersonating:
-                collected.override = final_layer.override
-                collected.brand_id = final_layer.brand_id
-            elif final_layer.override:
-                collected.add(Signal("REDIRECTS_TO_OFFICIAL", final.registered_domain, final_layer.brand_id))
-            else:
-                collected.merge(final_layer)
-                if not url.is_ip and not collected.has("SHORTENER"):
-                    collected.add(Signal("CROSS_DOMAIN_REDIRECT", f"{url.registered_domain} → {final.registered_domain}"))
-            if collected.has("SHORTENER") or not collected.override:
-                target = final
-
+        final = collected.apply_final(url, chain[-1])
+        if final and (collected.has("SHORTENER") or not collected.override):
+            target = final
     if collected.override:
         return status, final_url
 
@@ -141,10 +151,9 @@ async def _network_layer(url: NormalizedUrl, collected: _Collected, evidence: Ev
         if not collected.has("TRANCO_TOP"):
             lookups["crt"] = net.first_certificate(target.registered_domain)
         second = await _settle(lookups, deadline)
-    dns_result = second.get("dns")
-    if dns_result:
+    if dns_result := second.get("dns"):
         evidence.dns, resolves = dns_result
-        if resolves is False and not target.is_ip:
+        if resolves is False and not target.is_ip and not _is_demo_host(target):
             collected.add(Signal("NO_DNS", target.host))
         if evidence.dns.a:
             more = await _settle({"hosting": net.hosting(evidence.dns.a[0])}, deadline)
@@ -165,33 +174,80 @@ async def _network_layer(url: NormalizedUrl, collected: _Collected, evidence: Ev
     return status, final_url
 
 
+def _save_artifacts(case_id: str, desktop: Capture, mobile: Capture, primary: Capture, evidence: Evidence) -> None:
+    folder = EVIDENCE_DIR / case_id
+    folder.mkdir(parents=True, exist_ok=True)
+    for capture, attr in ((desktop, "screenshot_desktop"), (mobile, "screenshot_mobile")):
+        if capture.screenshot:
+            path = folder / f"{capture.profile}.png"
+            path.write_bytes(capture.screenshot)
+            setattr(evidence, attr, path.relative_to(RUNTIME_DIR).as_posix())
+    if primary.html:
+        html = primary.html.encode("utf-8")
+        (folder / "page.html").write_bytes(html)
+        evidence.html_sha256 = hashlib.sha256(html).hexdigest()
+    if primary.screenshot:
+        evidence.screenshot_sha256 = hashlib.sha256(primary.screenshot).hexdigest()
+
+
+def _apply_page(findings: PageFindings, primary: Capture, collected: _Collected, evidence: Evidence) -> None:
+    if not collected.override:
+        for signal in findings.signals:
+            collected.add(signal)
+        collected.brand_id = collected.brand_id or findings.brand_id
+    evidence.forms = findings.forms
+    evidence.phones_found = findings.phones
+    evidence.emails_found = findings.emails
+    evidence.favicon_phash = findings.favicon_phash
+    evidence.visual_similarity = findings.visual
+    evidence.cloaking = findings.cloaking
+    if len(primary.chain) > len(evidence.redirect_chain):
+        evidence.redirect_chain = primary.chain
+
+
 async def scan(text: str, discovered_by: DiscoveredBy = "user", mode: Mode | None = None,
                first_seen: datetime | None = None) -> ScanResult:
     """Scan one input. Raises engine.normalize.InvalidInput when the input holds no URL."""
     mode = mode or default_mode()
     now = datetime.now(timezone.utc)
+    case_id = new_case_id(now)
     loop = asyncio.get_running_loop()
     deadline = loop.time() + settings.scan_timeout_s
     url = normalize(text)
-    layer = analyse(url)
-    collected = _Collected(layer)
+    collected = _Collected(analyse(url))
     evidence = Evidence()
     status: Status = "offline"
     final_url: str | None = None
 
     if mode == "network":
         status, final_url = await _network_layer(url, collected, evidence, now, deadline)
+    elif mode == "full":
+        page_budget = max(2.0, deadline - loop.time() - 0.5)
+        (status, final_url), (desktop, mobile) = await asyncio.gather(
+            _network_layer(url, collected, evidence, now, deadline),
+            browser.visit_both(url.url, page_budget, allow_localhost=_is_demo_host(url)),
+        )
+        findings, primary = analyse_captures(desktop, mobile)
+        if primary.ok:
+            status = "live"
+            final_url = primary.final_url or final_url
+            collected.signals = [s for s in collected.signals if s.code != "OFFLINE"]
+            for capture in (desktop, mobile):
+                if capture.ok and capture.final_url:
+                    collected.apply_final(url, capture.final_url)
+            _save_artifacts(case_id, desktop, mobile, primary, evidence)
+        _apply_page(findings, primary, collected, evidence)
 
     score, verdict, reasons = score_signals(collected.signals, collected.override)
     brand_id = collected.brand_id if verdict != "safe" or collected.override else None
-    shown_status = status if mode == "network" else "unknown"
+    shown_status = status if mode != "url" else "unknown"
     summary = None
     if verdict != "safe" and llm.enabled():
         brand = brands().get(brand_id) if brand_id else None
         summary = await llm.summarise(verdict, score, brand.name_en if brand else None, reasons)
     summary_en, summary_ar = summary or template_summary(verdict, score, reasons, brand_id, shown_status)
     return ScanResult(
-        id=new_case_id(now),
+        id=case_id,
         input=text.strip()[:4096],
         normalized_url=url.url,
         final_url=final_url,
