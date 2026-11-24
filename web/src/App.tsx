@@ -1,14 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
+import CaseDetail from "./pages/CaseDetail";
 import CheckPage from "./pages/citizen/CheckPage";
-import Operations from "./pages/Operations";
+import Dashboard from "./pages/Dashboard";
+import ScanLink from "./pages/ScanLink";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/check" element={<CheckPage />} />
-        <Route path="/" element={<Layout><Operations /></Layout>} />
+        <Route path="/" element={<Layout><Dashboard /></Layout>} />
+        <Route path="/cases/:id" element={<Layout><CaseDetail /></Layout>} />
+        <Route path="/scan" element={<Layout><ScanLink /></Layout>} />
       </Routes>
     </BrowserRouter>
   );

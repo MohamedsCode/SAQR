@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "types": ["vite/client"],
-    "paths": { "@shared/*": ["../shared/*"] }
+    "paths": { "@shared/*": ["../shared/*"], "@data/*": ["../data/*"] }
   },
   "include": ["src", "../shared/contract.ts"]
 }
