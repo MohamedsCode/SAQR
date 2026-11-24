@@ -20,13 +20,6 @@
     "col_first_seen": "First seen",
     "status_offline": "offline"
   },
-  "citizen": {
-    "title": "Is this link safe?",
-    "placeholder": "Paste a link or a message that contains one",
-    "check": "Check",
-    "checking": "Checking…",
-    "top_reasons": "Why"
-  },
   "verdict": {
     "safe": "Safe",
     "suspicious": "Suspicious",
@@ -42,7 +35,57 @@
     "batch": "Batch"
   },
   "error": {
-    "load": "Could not load data from the API.",
-    "scan": "This link could not be checked right now."
+    "load": "Could not load data from the API."
+  },
+  "check": {
+    "intro": "Paste a suspicious link or message to check it",
+    "placeholder": "Paste a link or message",
+    "paste": "Paste",
+    "paste_hint": "Press and hold in the box, then tap Paste.",
+    "clear": "Clear",
+    "check": "Check",
+    "checking": "Checking the link",
+    "cancel": "Cancel",
+    "cancelled": "Check cancelled.",
+    "steps": {
+      "address": "Reading the address…",
+      "registration": "Checking when the domain was registered…",
+      "dns": "Checking its DNS and certificate…",
+      "visit": "Opening the page safely in an isolated browser…",
+      "forms": "Looking for card and password forms…",
+      "compare": "Comparing it with the official site…"
+    },
+    "verdict": {
+      "safe": "No warning signs found",
+      "suspicious": "Be careful with this link",
+      "fraud": "This link is a scam"
+    },
+    "lead": {
+      "safe": "We checked the address, its registration and the page itself.",
+      "suspicious": "We found warning signs. Don't enter personal or payment details on this site.",
+      "fraud": "Don't open it, and don't enter any details on it.",
+      "official": "This is a verified official website."
+    },
+    "goes_to": "This link really goes to",
+    "disguise_note": "Only the part in bold is the real website. Everything before it can be made up to look official.",
+    "redirects_to": "It then sends you to",
+    "offline": "This site is offline now. It was judged on its address and registration records.",
+    "why": "Why",
+    "what_now": "What to do",
+    "advice_dont_open": "Don't open the link, and don't reply to the message.",
+    "advice_no_details": "Never enter card details, passwords or one-time codes.",
+    "advice_bank": "If you already entered card details, call your bank now on the number printed on your card.",
+    "advice_safe": "No check is perfect. Never share one-time codes, even on a site that looks official.",
+    "pretends_to_be": "This site pretends to be {{brand}}.",
+    "real_site": "The real website is",
+    "official_number": "and the official number is",
+    "report": "Report this link",
+    "report_retry": "Report failed. Try again",
+    "reported": "Reported. Thank you.",
+    "another": "Check another link",
+    "error_no_link_title": "No link found",
+    "error_no_link": "We couldn't find a link in that text. Paste the full link or the whole message.",
+    "error_unavailable_title": "We couldn't check this link right now",
+    "error_unavailable": "Try again in a minute. Until then, don't enter any personal details on it."
   }
 }

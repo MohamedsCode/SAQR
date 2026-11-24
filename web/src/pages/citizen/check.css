@@ -1,0 +1,203 @@
+/* Citizen "Check a link" page: a soft jade surface, navy text, a deep jade primary button and warm gold labels.
+   After a check the background tints faintly toward the verdict and the verdict colour carries the headline.
+   Sizes scale fluidly from a 360 px phone to a wide desktop. */
+.chk-page {
+  --chk-bg: #e6f2ec;
+  --chk-fg: #0b1e33;
+  --chk-muted: rgb(11 30 51 / 0.76);
+  --chk-subtle: rgb(11 30 51 / 0.58);
+  --chk-rule: rgb(11 30 51 / 0.12);
+  --chk-gold: #85661c;
+  --chk-jade: #17644f;
+  --chk-tone: var(--chk-jade);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--chk-bg);
+  background-image: radial-gradient(ellipse 75% 55% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%);
+  color: var(--chk-fg);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1875rem);
+  transition: background-color 300ms ease-out;
+}
+
+.chk-page[data-verdict="safe"] {
+  --chk-bg: #dcf0e3;
+  --chk-tone: #1b6e45;
+}
+
+.chk-page[data-verdict="suspicious"] {
+  --chk-bg: #f8eedb;
+  --chk-tone: #8a5300;
+}
+
+.chk-page[data-verdict="fraud"] {
+  --chk-bg: #f9e5e3;
+  --chk-tone: #b42318;
+}
+
+.chk-pad {
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+.chk-column {
+  width: min(100% - 2.5rem, 50rem);
+  margin-inline: auto;
+}
+
+.chk-tone {
+  color: var(--chk-tone);
+}
+
+.chk-muted {
+  color: var(--chk-muted);
+}
+
+.chk-subtle {
+  color: var(--chk-subtle);
+}
+
+.chk-rule {
+  border-color: var(--chk-rule);
+}
+
+.chk-gold {
+  color: var(--chk-gold);
+}
+
+.chk-mark {
+  width: clamp(5rem, 3.5rem + 5vw, 8.5rem);
+  height: auto;
+}
+
+.chk-title {
+  font-size: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
+  line-height: 1.05;
+}
+
+.chk-intro {
+  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.4rem);
+}
+
+.chk-bar {
+  height: clamp(3.5rem, 3rem + 1.2vw, 4.5rem);
+}
+
+.chk-input {
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.3rem);
+}
+
+.chk-verdict {
+  font-size: clamp(1.75rem, 1.35rem + 1.6vw, 2.9rem);
+  line-height: 1.12;
+}
+
+.chk-domain {
+  font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2.1rem);
+  line-height: 1.25;
+}
+
+.chk-label {
+  font-size: 0.875em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--chk-gold);
+}
+
+.chk-check-btn {
+  background-color: var(--chk-jade);
+  color: #ffffff;
+}
+
+.chk-check-btn:hover:not(:disabled) {
+  background-color: #11513f;
+}
+
+.chk-check-btn:disabled {
+  opacity: 0.45;
+}
+
+.chk-focus:focus-visible {
+  outline: 3px solid #b8892b;
+  outline-offset: 3px;
+}
+
+.chk-bar:focus-within {
+  border-color: var(--chk-jade);
+  box-shadow: 0 0 0 3px rgb(23 100 79 / 0.22);
+}
+
+.chk-enter {
+  animation: chk-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes chk-enter {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes chk-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Thin indeterminate progress line under the input while a check runs. */
+.chk-progress {
+  direction: ltr;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(23 100 79 / 0.14);
+}
+
+.chk-progress::after {
+  content: "";
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: var(--chk-jade);
+  animation: chk-slide 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes chk-slide {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 300% 0;
+  }
+}
+
+@keyframes chk-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chk-page {
+    transition: none;
+  }
+
+  .chk-enter {
+    animation: chk-fade 120ms linear both;
+  }
+
+  .chk-progress::after {
+    width: 100%;
+    animation: chk-breathe 1.6s ease-in-out infinite;
+  }
+}

@@ -1,17 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import CheckLink from "./pages/CheckLink";
+import CheckPage from "./pages/citizen/CheckPage";
 import Operations from "./pages/Operations";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Operations />} />
-          <Route path="/check" element={<CheckLink />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/check" element={<CheckPage />} />
+        <Route path="/" element={<Layout><Operations /></Layout>} />
+      </Routes>
     </BrowserRouter>
   );
 }
