@@ -99,7 +99,7 @@ export default function CaseDetail() {
     return (
       <div className="panel mx-auto max-w-lg p-8 text-center">
         <p className="mb-4">{t("case.not_found")}</p>
-        <Link to="/" className="text-gold hover:underline">
+        <Link to="/cases" className="text-gold hover:underline">
           {t("case.back")}
         </Link>
       </div>
@@ -144,7 +144,7 @@ export default function CaseDetail() {
 
   return (
     <div className="space-y-6">
-      <Link to="/" className="inline-flex items-center gap-1 text-sm text-muted hover:text-gold-soft">
+      <Link to="/cases" className="inline-flex items-center gap-1 text-sm text-muted hover:text-gold-soft">
         <IconArrowBack size={16} className="rtl:rotate-180" />
         {t("case.back")}
       </Link>
@@ -200,6 +200,14 @@ export default function CaseDetail() {
               <IconFile size={16} />
               {pdfState === "loading" ? t("case.pdf_loading") : t("case.download_pdf")}
             </button>
+            {scan.verdict !== "safe" && (
+              <Link
+                to={`/networks/${encodeURIComponent(scan.id)}`}
+                className="inline-flex items-center gap-2 rounded-lg border border-gold/50 px-4 py-2 text-sm text-gold-soft hover:bg-gold/10"
+              >
+                {t("case.expand")}
+              </Link>
+            )}
             <button
               type="button"
               onClick={downloadEvidence}

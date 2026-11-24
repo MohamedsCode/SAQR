@@ -1,6 +1,6 @@
-import type { Brand, ModelInfo, ScanResult, Stats, TrainingRun } from "@shared/contract";
+import type { Brand, DiscoveryRun, Graph, MapsSweep, ModelInfo, ScanResult, Stats, TrainingRun } from "@shared/contract";
 import { useSyncExternalStore } from "react";
-import { findSampleScan, normalizeScan, sampleBrands, sampleScans, sampleStats } from "./data/fixtures";
+import { findSampleScan, normalizeScan, sampleBrands, sampleScans, sampleStats, sampleSweep } from "./data/fixtures";
 
 export class ApiError extends Error {
   constructor(
@@ -79,6 +79,13 @@ export const api = {
         return found;
       },
     ),
+  graph: (seed?: string) =>
+    detectMode().then(() => request<Graph>(seed ? `/graph?seed=${encodeURIComponent(seed)}` : "/graph")),
+  mapsSweep: () => live(() => request<MapsSweep>("/maps-sweep"), sampleSweep),
+  runMapsSweep: () => request<MapsSweep>("/maps-sweep/run", { method: "POST" }),
+  startDiscovery: (brandId: string) =>
+    request<DiscoveryRun>("/discovery/run", { method: "POST", body: JSON.stringify({ brand_id: brandId }) }),
+  discoveryRun: (id: string) => request<DiscoveryRun>(`/discovery/runs/${encodeURIComponent(id)}`),
   model: () => detectMode().then(() => request<ModelInfo>("/model")),
   retrain: () => request<TrainingRun>("/model/retrain", { method: "POST" }),
   demoReset: () => request<{ ok: boolean }>("/demo/reset", { method: "POST" }),

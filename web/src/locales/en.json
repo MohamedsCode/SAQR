@@ -2,9 +2,15 @@
   "nav": {
     "operations": "Operations centre",
     "citizen": "Check a link",
-    "scan": "Investigate a link",
+    "scan": "Check a link",
     "citizen_view": "Citizen view",
-    "model": "AI model"
+    "model": "AI accuracy",
+    "overview": "Overview",
+    "detection": "Early detection",
+    "helplines": "Fake helplines",
+    "cases": "Cases",
+    "networks": "Scam networks",
+    "public_app": "Public app"
   },
   "lang_toggle": "العربية",
   "ops": {
@@ -147,7 +153,7 @@
     "iban": "IBAN"
   },
   "case": {
-    "back": "Back to the command centre",
+    "back": "Back to cases",
     "loading": "Loading case…",
     "not_found": "This case was not found.",
     "risk_score": "Risk score",
@@ -197,7 +203,8 @@
     "input": "Original input",
     "final_url": "Final URL",
     "pdf_loading": "Preparing the evidence pack…",
-    "pdf_unavailable": "The evidence pack could not be generated. It needs the SAQR API running with the evidence module enabled."
+    "pdf_unavailable": "The evidence pack could not be generated. It needs the SAQR API running with the evidence module enabled.",
+    "expand": "Expand campaign"
   },
   "scan": {
     "kicker": "Investigation",
@@ -353,5 +360,90 @@
     },
     "autoplay": "Auto-play",
     "pause": "Pause"
+  },
+  "pages": {
+    "overview": {
+      "title": "Overview",
+      "lead": "What SAQR has found across UAE institutions, and how early it found it."
+    },
+    "detection": {
+      "title": "Early detection",
+      "lead": "Domains that imitate UAE brands, found from certificate logs and look-alike scans before anyone reports them."
+    },
+    "helplines": {
+      "title": "Fake helplines",
+      "lead": "Business listings that claim to be a UAE institution, with the number they show compared to the official one."
+    },
+    "cases": {
+      "title": "Cases",
+      "lead": "Every link SAQR has scored, with its verdict, source and evidence."
+    },
+    "networks": {
+      "title": "Scam networks",
+      "lead": "Scam sites linked by the hosting, registrar, certificates, favicons and phone numbers they share."
+    },
+    "scan": {
+      "title": "Check a link",
+      "lead": "Paste any link or message: every check runs in front of you, then SAQR explains the verdict."
+    },
+    "model": {
+      "title": "AI accuracy",
+      "lead": "How accurate SAQR is on labelled URLs it never trained on."
+    }
+  },
+  "detection": {
+    "run_for": "Run discovery for",
+    "run": "Run discovery",
+    "running": "Running…",
+    "progress": "{{checked}} of {{total}} candidates checked · {{found}} flagged",
+    "simulated": "simulated data",
+    "error": "Discovery could not start.",
+    "lag_title": "Hours from domain registration to SAQR detection",
+    "lag": "Hours",
+    "col_domain": "Domain",
+    "col_brand": "Imitates",
+    "col_source": "Found by",
+    "col_registered": "Registered",
+    "col_first_seen": "First seen",
+    "col_score": "Score",
+    "col_verdict": "Verdict",
+    "empty": "No domains discovered yet."
+  },
+  "helplines": {
+    "run": "Run helpline sweep",
+    "running": "Sweeping…",
+    "count_fake": "Fake helplines",
+    "count_official": "Official numbers",
+    "count_unknown": "Unverified",
+    "ran_at": "Last sweep {{time}}",
+    "simulated": "Simulated data",
+    "col_listing": "Listing",
+    "col_brand": "Claims to be",
+    "col_found": "Number shown",
+    "col_official": "Official number",
+    "col_status": "Status",
+    "status_official": "Official",
+    "status_fake_listing": "Fake",
+    "status_reported_scam": "Reported scam",
+    "status_unknown": "Unverified",
+    "empty": "No listings found yet."
+  },
+  "networks": {
+    "error": "The campaign graph could not be loaded.",
+    "indicator": "Shared indicator",
+    "edge_ip": "same IP",
+    "edge_asn": "same hosting",
+    "edge_registrar": "same registrar",
+    "edge_nameserver": "same name server",
+    "edge_certificate": "same certificate",
+    "edge_favicon": "same favicon",
+    "edge_phone": "same phone",
+    "edge_email": "same email",
+    "edge_impersonates": "imitates",
+    "caption_report": "1 report",
+    "caption_sites_one": "{{count}} scam site",
+    "caption_sites_other": "{{count}} scam sites",
+    "caption_takedown": "1 takedown request",
+    "export": "Export takedown package"
   }
 }

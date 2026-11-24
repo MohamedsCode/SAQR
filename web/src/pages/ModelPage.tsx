@@ -4,6 +4,7 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, useDataMode } from "../api";
+import { PageHeader } from "../components/ui";
 import { localized } from "../brand";
 import { dateTime, number } from "../lib/format";
 
@@ -94,9 +95,8 @@ export default function ModelPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <div className="text-xs uppercase tracking-[0.3em] text-gold">{t("model.kicker")}</div>
-          <h1 className="mt-1 text-3xl font-bold">{t("model.title")}</h1>
-          <p className="mt-1 text-sm text-muted">
+          <PageHeader page="model" criteria={["accuracy"]} />
+          <p className="mt-3 text-sm text-muted">
             {info.algorithm} · {t("model.features", { count: info.feature_count })} · {t("model.last_trained")}{" "}
             {dateTime(info.trained_at, lang)}
             {info.training_seconds !== null && ` · ${t("model.seconds", { value: number(info.training_seconds, lang) })}`}

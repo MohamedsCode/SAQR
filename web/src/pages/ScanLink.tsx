@@ -7,6 +7,7 @@ import { localized } from "../brand";
 import { sampleScans } from "../data/fixtures";
 import { IconAlert, IconCheck, IconMinus, IconSearch, IconShieldCheck } from "../components/Icons";
 import ScoreGauge from "../components/ScoreGauge";
+import { PageHeader } from "../components/ui";
 import VerdictBadge from "../components/VerdictBadge";
 import { daysSince } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
@@ -119,11 +120,7 @@ export default function ScanLink() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <div className="text-center">
-        <div className="text-xs uppercase tracking-[0.3em] text-gold">{t("scan.kicker")}</div>
-        <h1 className="mt-2 text-4xl font-bold">{t("scan.title")}</h1>
-        <p className="mt-2 text-muted">{t("scan.subtitle")}</p>
-      </div>
+      <PageHeader page="scan" criteria={["accuracy", "explain"]} />
 
       <form onSubmit={onSubmit} className="panel flex items-center gap-2 p-2 glow-gold">
         <IconSearch className="ms-3 shrink-0 text-gold" size={22} />

@@ -1,7 +1,7 @@
 import rawListings from "@data/fixtures/maps_results.json";
 import rawScans from "@data/fixtures/sample_scans.json";
 import rawBrands from "@shared/brands.json";
-import type { Brand, Evidence, ScanResult, Stats } from "@shared/contract";
+import type { Brand, Evidence, MapsSweep, ScanResult, Stats } from "@shared/contract";
 
 const EMPTY_EVIDENCE: Evidence = {
   redirect_chain: [],
@@ -60,6 +60,15 @@ export function sampleStats(scans: ScanResult[]): Stats {
       ? Math.round((detectHours.reduce((a, b) => a + b, 0) / detectHours.length) * 10) / 10
       : null,
     by_source: bySource,
+  };
+}
+
+export function sampleSweep(): MapsSweep {
+  const ranAt = new Date().toISOString();
+  return {
+    simulated: true,
+    ran_at: ranAt,
+    listings: (rawListings as unknown as MapsSweep["listings"]).map((l) => ({ ...l, source: "fixture", simulated: true, seen_at: ranAt })),
   };
 }
 
