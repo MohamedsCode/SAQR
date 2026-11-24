@@ -42,7 +42,7 @@ The operations centre lists every scam website SAQR has found, with its score an
 citizen, spotted as a look-alike name, or found through a new website certificate. It shows which institutions are
 being targeted, which kinds of scams are most common, and how many were caught before anyone reported them. Each case
 opens into the full evidence, including screenshots, registration records and the reasons in both languages,
-ready to download as a report with a takedown letter. [Open the operations centre](https://saqr-nu.vercel.app/).
+ready to download as a report with a takedown letter.
 
 <p align="center">
   <img src="docs/screens/police-dashboard.png" alt="The SAQR police operations centre" width="760">
