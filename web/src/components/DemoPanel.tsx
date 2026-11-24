@@ -42,7 +42,7 @@ export default function DemoPanel() {
   }
 
   return (
-    <section className="panel flex flex-wrap items-center gap-4 p-4">
+    <section data-tour="demo" className="panel flex flex-wrap items-center gap-4 p-4">
       <span className="grid size-10 place-items-center rounded-xl bg-gold/15 text-gold ring-1 ring-gold/40">
         <IconPhone />
       </span>

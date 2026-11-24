@@ -24,9 +24,9 @@ function Card({ label, value, hint, tone = "text-gold-soft" }: { label: string; 
   );
 }
 
-function Section({ title, children, className = "" }: { title: string; children: ReactNode; className?: string }) {
+function Section({ title, children, className = "", tour }: { title: string; children: ReactNode; className?: string; tour?: string }) {
   return (
-    <section className={`panel p-5 ${className}`}>
+    <section data-tour={tour} className={`panel p-5 ${className}`}>
       <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-gold-soft">{title}</h2>
       {children}
     </section>
@@ -129,7 +129,7 @@ export default function ModelPage() {
         ))}
       </div>
 
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+      <section data-tour="model-cards" className="grid grid-cols-2 gap-4 lg:grid-cols-5">
         <Card label={t("model.precision")} value={pct(current.precision)} hint={t("model.test_split")} />
         <Card label={t("model.recall")} value={pct(current.recall)} hint={t("model.test_split")} />
         <Card label={t("model.f1")} value={pct(current.f1)} hint={t("model.test_split")} />

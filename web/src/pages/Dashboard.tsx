@@ -13,6 +13,24 @@ import { useBrands } from "../lib/useBrands";
 const POLL_MS = 4000;
 const CATEGORY_COLORS = ["#d4a63c", "#ff4d5e", "#2bb673", "#7c8cff", "#f2a93b", "#38bdf8", "#e879f9"];
 
+function CountUp({ value, lang }: { value: number; lang: string }) {
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const start = performance.now();
+    const decimals = Number.isInteger(value) ? 0 : 1;
+    let frame = 0;
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - start) / 1100);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setShown(Number((value * eased).toFixed(decimals)));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  return <>{number(shown, lang)}</>;
+}
+
 function Kpi({
   icon,
   label,
@@ -23,7 +41,7 @@ function Kpi({
 }: {
   icon: ReactNode;
   label: string;
-  value: string;
+  value: ReactNode;
   hint?: string;
   tone?: string;
   delay?: number;
@@ -155,11 +173,11 @@ export default function Dashboard() {
 
       {stats && (
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-          <Kpi icon={<IconRadar />} label={t("ops.kpi_scans")} value={number(stats.scans, lang)} delay={0} />
+          <Kpi icon={<IconRadar />} label={t("ops.kpi_scans")} value={<CountUp value={stats.scans} lang={lang} />} delay={0} />
           <Kpi
             icon={<IconAlert />}
             label={t("ops.kpi_fraud")}
-            value={number(stats.fraud_found, lang)}
+            value={<CountUp value={stats.fraud_found} lang={lang} />}
             hint={t("ops.kpi_suspicious", { count: stats.suspicious_found })}
             tone="text-fraud"
             delay={60}
@@ -167,21 +185,21 @@ export default function Dashboard() {
           <Kpi
             icon={<IconShield />}
             label={t("ops.kpi_before_report")}
-            value={number(stats.found_before_report, lang)}
+            value={<CountUp value={stats.found_before_report} lang={lang} />}
             tone="text-cyber"
             delay={120}
           />
           <Kpi
             icon={<IconPhone />}
             label={t("ops.kpi_fake_helplines")}
-            value={number(stats.fake_helplines, lang)}
+            value={<CountUp value={stats.fake_helplines} lang={lang} />}
             tone="text-suspicious"
             delay={180}
           />
           <Kpi
             icon={<IconClock />}
             label={t("ops.kpi_time_to_detect")}
-            value={stats.avg_hours_to_detect === null ? "—" : number(stats.avg_hours_to_detect, lang)}
+            value={stats.avg_hours_to_detect === null ? "—" : <CountUp value={stats.avg_hours_to_detect} lang={lang} />}
             hint={t("ops.kpi_time_hint")}
             delay={240}
           />
@@ -189,7 +207,7 @@ export default function Dashboard() {
       )}
 
       <section className="grid gap-6 lg:grid-cols-5">
-        <div className="panel p-5 lg:col-span-2">
+        <div data-tour="feed" className="panel p-5 lg:col-span-2">
           <SectionTitle
             aside={
               <span className="flex items-center gap-1.5 text-xs text-safe">

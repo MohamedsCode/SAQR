@@ -276,5 +276,72 @@
     "log": "Training log",
     "done": "Training finished. The results above are updated.",
     "failed": "Training failed. See the log."
+  },
+  "tour": {
+    "cta": "Take the tour",
+    "label": "Guided tour",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "start": "Start the tour",
+    "finish": "Finish",
+    "progress": "Step {{current}} of {{total}}",
+    "criteria": {
+      "accuracy": "Detection accuracy · 30%",
+      "early": "Early detection · 25%",
+      "explain": "Explainability · 20%",
+      "uae": "UAE relevance · 15%",
+      "feasibility": "Feasibility · 10%"
+    },
+    "pillars": {
+      "find": {
+        "title": "Find early",
+        "body": "Certificate logs, look-alike domains, Maps listings"
+      },
+      "explain": {
+        "title": "Explain clearly",
+        "body": "Every score has reasons in English and Arabic"
+      },
+      "act": {
+        "title": "Act fast",
+        "body": "Police-ready evidence and takedown letters"
+      }
+    },
+    "steps": {
+      "welcome": {
+        "title": "Meet SAQR",
+        "body": "Finds fake UAE police, bank and government sites, explains them, and hands police the evidence."
+      },
+      "feed": {
+        "title": "Found before anyone reports",
+        "body": "Certificate logs, look-alike domains and Maps listings surface scams before victims do."
+      },
+      "case": {
+        "title": "One score, one verdict",
+        "body": "Rules plus machine learning give a 0–100 risk score. Official sites are never flagged."
+      },
+      "reasons": {
+        "title": "Every point explained",
+        "body": "Each reason shows its weight and evidence, in English and Arabic."
+      },
+      "visual": {
+        "title": "Caught looking like the real thing",
+        "body": "Visual match to the official site, and cloaking that hides the scam from computers."
+      },
+      "evidence": {
+        "title": "Police-ready in one click",
+        "body": "Bilingual PDF with hashes, timestamps and a takedown letter to the registrar and host."
+      },
+      "model": {
+        "title": "Measured, not claimed",
+        "body": "Precision and recall on a held-out test set, with zero official sites flagged."
+      },
+      "demo": {
+        "title": "Watch it stop a live scam",
+        "body": "Trigger a scam call: the SMS link is blocked on the phone and the case opens here. We never read calls or messages."
+      }
+    },
+    "autoplay": "Auto-play",
+    "pause": "Pause"
   }
 }

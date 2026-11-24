@@ -84,7 +84,34 @@ body {
 .animate-spin-slow { animation: spin 1s linear infinite; }
 .animate-ring-alert { animation: ring-alert 1.4s ease-in-out infinite; }
 
+@keyframes tour-radar {
+  from { transform: scale(0.75); opacity: 0.9; }
+  to { transform: scale(1.6); opacity: 0; }
+}
+@keyframes tour-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes tour-pulse {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(1.06); opacity: 0; }
+}
+@keyframes tour-pop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes tour-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+.tour-radar { animation: tour-radar 2.4s ease-out infinite; }
+.tour-float { animation: tour-float 3s ease-in-out infinite; }
+.tour-pulse { animation: tour-pulse 1.6s ease-out infinite; }
+.tour-pop { animation: tour-pop 0.4s cubic-bezier(0.2, 1.4, 0.3, 1) both; }
+.tour-progress { animation: tour-progress linear forwards; }
+
 @media (prefers-reduced-motion: reduce) {
+  .tour-radar, .tour-float, .tour-pulse, .tour-pop,
   .animate-fade-up, .animate-pulse-dot, .animate-sweep, .animate-spin-slow, .animate-ring-alert { animation: none; }
 }
 

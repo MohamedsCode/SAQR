@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
+import { TourProvider } from "./components/Tour";
 import CaseDetail from "./pages/CaseDetail";
 import CheckPage from "./pages/citizen/CheckPage";
 import Dashboard from "./pages/Dashboard";
@@ -10,6 +11,7 @@ import ScanLink from "./pages/ScanLink";
 export default function App() {
   return (
     <BrowserRouter>
+      <TourProvider>
       <Routes>
         <Route path="/check" element={<CheckPage />} />
         <Route path="/" element={<Layout><Dashboard /></Layout>} />
@@ -18,6 +20,7 @@ export default function App() {
         <Route path="/model" element={<Layout><ModelPage /></Layout>} />
         <Route path="/demo/phone" element={<PhonePage />} />
       </Routes>
+      </TourProvider>
     </BrowserRouter>
   );
 }

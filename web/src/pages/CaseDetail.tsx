@@ -24,9 +24,21 @@ import { referenceImage } from "../lib/assets";
 import { dateTime, daysSince, duration } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
 
-function Panel({ title, icon, children, className = "" }: { title: string; icon?: ReactNode; children: ReactNode; className?: string }) {
+function Panel({
+  title,
+  icon,
+  children,
+  className = "",
+  tour,
+}: {
+  title: string;
+  icon?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  tour?: string;
+}) {
   return (
-    <section className={`panel p-5 ${className}`}>
+    <section data-tour={tour} className={`panel p-5 ${className}`}>
       <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-gold-soft">
         {icon}
         {title}
@@ -149,7 +161,7 @@ export default function CaseDetail() {
         </section>
       )}
 
-      <section className={`panel animate-fade-up flex flex-wrap items-center gap-8 p-6 ${glow}`}>
+      <section data-tour="case-header" className={`panel animate-fade-up flex flex-wrap items-center gap-8 p-6 ${glow}`}>
         <ScoreGauge score={scan.score} verdict={scan.verdict} />
         <div className="min-w-64 flex-1 space-y-3">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
@@ -178,7 +190,7 @@ export default function CaseDetail() {
             )}
           </div>
           <p className="max-w-3xl text-[15px] leading-relaxed text-text/90">{localized(lang, scan.summary_en, scan.summary_ar)}</p>
-          <div className="flex flex-wrap gap-2 pt-1">
+          <div data-tour="evidence" className="flex flex-wrap gap-2 pt-1">
             <button
               type="button"
               onClick={downloadPdf}
@@ -206,7 +218,7 @@ export default function CaseDetail() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-5">
-        <Panel title={t("case.reasons")} icon={<IconAlert size={16} />} className="lg:col-span-3">
+        <Panel title={t("case.reasons")} icon={<IconAlert size={16} />} className="lg:col-span-3" tour="reasons">
           <ol className="space-y-3">
             {reasons.map((reason, index) => (
               <li key={reason.code} className="animate-fade-up rounded-lg border border-line bg-bg/40 p-3" style={{ animationDelay: `${index * 60}ms` }}>
@@ -331,7 +343,7 @@ export default function CaseDetail() {
         </div>
       </div>
 
-      <Panel title={t("case.visual")} icon={<IconEye size={16} />}>
+      <Panel title={t("case.visual")} icon={<IconEye size={16} />} tour="visual">
         <div className="grid gap-4 md:grid-cols-[1fr_1fr_auto_1fr] md:items-center">
           <Shot label={t("case.shot_desktop")} src={screenshotUrl(scan, "desktop")} />
           <Shot label={t("case.shot_mobile")} src={screenshotUrl(scan, "mobile")} />
