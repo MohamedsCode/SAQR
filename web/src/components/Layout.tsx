@@ -69,7 +69,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div className="min-w-0 flex-1">
         <main className="mx-auto max-w-6xl px-8 py-10">{children}</main>
         <footer className="mx-auto max-w-6xl px-8 pb-8 text-xs text-muted">
-          {localized(lang, BRAND.privacy_note_en, BRAND.privacy_note_ar)}
+          {localized(lang, BRAND.footer_en, BRAND.footer_ar)}
         </footer>
       </div>
     </div>
