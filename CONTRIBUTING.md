@@ -15,6 +15,9 @@ the other. If a change touches anything in the "do not touch" lists below, ask t
 - If the tunnel restarts, its address changes: update the four addresses in `vercel.json` and redeploy, or the
   site breaks.
 - **Do not edit `vercel.json`** unless you are moving the server. A wrong rewrite takes the live site down.
+- A watchdog keeps it up: `scripts/keep_live.py` (scheduled task "SAQR keep live demo", log in
+  `data/runtime/hosting/keep_live.log`) restarts the server or the tunnel within about a minute, and when the
+  tunnel gets a new address it updates `vercel.json` on the deploy repo so Vercel redeploys. Don't stop it.
 
 ## 2. Website and extension: UI changes only
 
