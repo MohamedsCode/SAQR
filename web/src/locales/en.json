@@ -38,7 +38,15 @@
     "all_brands": "All brands",
     "all_sources": "All sources",
     "col_case": "Case",
-    "no_match": "No cases match these filters."
+    "no_match": "No cases match these filters.",
+    "kpi_median_detect": "Median: registration → detection",
+    "kpi_median_hint": "real first-seen vs RDAP",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "hours_one": "{{count}} hour",
+    "hours_other": "{{count}} hours",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
   },
   "verdict": {
     "safe": "Safe",
@@ -237,7 +245,9 @@
     "bus_offline": "The demo channel is not available. Start the web app with npm run dev.",
     "blocked_banner": "SAQR just blocked this link on the victim's phone.",
     "first_seen_before": "SAQR first saw this site {{duration}} before the call.",
-    "first_seen_now": "Detected at the moment the link was opened."
+    "first_seen_now": "Detected at the moment the link was opened.",
+    "menu": "Demo",
+    "open_phone": "Open the phone simulator"
   },
   "model": {
     "kicker": "Detection accuracy",

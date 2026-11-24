@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Emirates Post | بريد الإمارات - رسوم إعادة التوصيل</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Tahoma, "Segoe UI", Arial, sans-serif; background: #f7f4ef; color: #2b2622; }
+      .top { background: #c8102e; height: 6px; }
+      header { background: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #e8e1d8; }
+      .stamp { width: 42px; height: 42px; border: 2px dashed #c8102e; border-radius: 6px; display: grid; place-items: center; color: #c8102e; font-weight: 700; }
+      header b { font-size: 18px; }
+      header small { display: block; color: #7a6f66; }
+      main { max-width: 560px; margin: 26px auto; padding: 0 16px; }
+      .track { background: #fff; border-radius: 10px; padding: 18px; border: 1px solid #e8e1d8; margin-bottom: 16px; }
+      .steps { display: flex; justify-content: space-between; margin-top: 14px; font-size: 12px; color: #7a6f66; }
+      .steps span.on { color: #c8102e; font-weight: 700; }
+      .bar { height: 6px; background: #eee5da; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+      .bar i { display: block; width: 70%; height: 100%; background: #c8102e; }
+      .alert { background: #fdecef; color: #8c0b20; border-radius: 8px; padding: 12px; font-size: 14px; margin-bottom: 16px; }
+      .en { direction: ltr; text-align: left; margin-top: 4px; color: #5c4a44; }
+      form { background: #fff; border-radius: 10px; padding: 18px; border: 1px solid #e8e1d8; }
+      label { display: block; font-size: 13px; margin: 12px 0 4px; }
+      input { width: 100%; padding: 11px; border: 1px solid #d6cbbf; border-radius: 6px; font-size: 16px; }
+      .fee { display: flex; justify-content: space-between; font-weight: 700; font-size: 18px; margin-bottom: 4px; }
+      button { width: 100%; margin-top: 18px; padding: 13px; border: 0; border-radius: 6px; background: #c8102e; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+      .note { display: none; margin-top: 12px; font-size: 13px; background: #f3efe9; padding: 10px; border-radius: 6px; }
+      footer { text-align: center; font-size: 11px; color: #998e84; padding: 24px 16px; }
+    </style>
+  </head>
+  <body>
+    <div class="top"></div>
+    <header>
+      <div class="stamp">EP</div>
+      <div><b>بريد الإمارات — تتبع الشحنات</b><small>Emirates Post — Parcel tracking</small></div>
+    </header>
+    <main>
+      <div class="track">
+        رقم الشحنة / Tracking no.: <b dir="ltr">EE 448 120 937 AE</b>
+        <div class="bar"><i></i></div>
+        <div class="steps"><span>تم الشحن</span><span>في الجمارك</span><span class="on">بانتظار الدفع</span><span>التسليم</span></div>
+      </div>
+      <div class="alert">
+        طردك محتجز بسبب عنوان غير مكتمل. ادفع رسوم إعادة التوصيل خلال 12 ساعة وإلا سيُعاد الطرد إلى المرسل.
+        <div class="en">Your parcel is on hold due to an incomplete address. Pay the redelivery fee within 12 hours or it will be returned to the sender.</div>
+      </div>
+      <form id="pay">
+        <div class="fee"><span>رسوم إعادة التوصيل / Redelivery fee</span><span dir="ltr">AED 12.50</span></div>
+        <label for="name">الاسم الكامل / Full name</label>
+        <input id="name" name="name" autocomplete="name" />
+        <label for="cc">رقم البطاقة / Card number</label>
+        <input id="cc" name="card_number" autocomplete="cc-number" inputmode="numeric" dir="ltr" />
+        <label for="exp">تاريخ الانتهاء / Expiry</label>
+        <input id="exp" name="card_expiry" autocomplete="cc-exp" dir="ltr" placeholder="MM/YY" />
+        <label for="cvv">الرمز السري / CVV</label>
+        <input id="cvv" name="cvv" autocomplete="cc-csc" inputmode="numeric" dir="ltr" />
+        <button type="submit">ادفع وأعد جدولة التوصيل / Pay and reschedule</button>
+        <div class="note" id="note">هذه صفحة تجريبية ولا يتم إرسال أي بيانات. / This is a demonstration page. Nothing you type is sent anywhere.</div>
+      </form>
+      <p style="text-align:center;font-size:13px;margin-top:16px">واتساب الدعم / Support on WhatsApp: <span dir="ltr">+971 52 555 0178</span></p>
+    </main>
+    <footer>Demonstration page — hackathon prototype · صفحة تجريبية — نموذج أولي لهاكاثون</footer>
+    <script>
+      document.getElementById("pay").addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("note").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

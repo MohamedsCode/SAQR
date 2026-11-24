@@ -111,9 +111,7 @@ export default function ModelPage() {
           >
             {training === "running" ? t("model.training") : t("model.retrain")}
           </button>
-        ) : (
-          <span className="max-w-xs text-end text-xs text-muted">{t("model.retrain_disabled")}</span>
-        )}
+        ) : null}
       </div>
 
       <div className="flex gap-2">

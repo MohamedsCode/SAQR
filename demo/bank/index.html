@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>FAB Secure Verification | التحقق الآمن - بنك أبوظبي الأول</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; font-family: "Segoe UI", Arial, sans-serif; background: linear-gradient(160deg, #0f2a5c, #1b4fa0); color: #13213a; display: flex; flex-direction: column; }
+      header { color: #fff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+      .logo { font-weight: 800; font-size: 22px; letter-spacing: 0.08em; }
+      .logo small { display: block; font-weight: 400; font-size: 11px; letter-spacing: 0.02em; opacity: 0.8; }
+      main { flex: 1; display: grid; place-items: center; padding: 16px; }
+      .box { width: 100%; max-width: 420px; background: #fff; border-radius: 14px; padding: 26px; box-shadow: 0 20px 50px rgb(0 0 0 / 0.3); }
+      h1 { margin: 0 0 4px; font-size: 21px; }
+      .ar { direction: rtl; text-align: right; color: #4d5b74; font-size: 14px; }
+      .lock { background: #eef3fb; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 16px 0; color: #24467f; }
+      label { display: block; font-size: 13px; color: #4d5b74; margin: 12px 0 4px; }
+      input { width: 100%; padding: 12px; border: 1px solid #cdd6e4; border-radius: 8px; font-size: 16px; }
+      .otp { letter-spacing: 0.5em; text-align: center; font-size: 22px; }
+      .timer { text-align: center; font-size: 13px; color: #c0392b; margin-top: 8px; }
+      button { width: 100%; margin-top: 18px; padding: 13px; border: 0; border-radius: 8px; background: #1b4fa0; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+      .note { display: none; margin-top: 12px; font-size: 13px; background: #eef3fb; padding: 10px; border-radius: 6px; }
+      footer { text-align: center; font-size: 11px; color: rgb(255 255 255 / 0.7); padding: 18px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">FAB ONLINE<small>Secure account verification</small></div>
+      <div style="font-size:13px">العربية</div>
+    </header>
+    <main>
+      <form class="box" id="verify">
+        <h1>Unusual sign-in blocked</h1>
+        <div class="ar">تم إيقاف تسجيل دخول غير معتاد. أكّد هويتك لتجنب تجميد حسابك.</div>
+        <div class="lock">To keep your account active, confirm your identity within 10 minutes. Accounts not verified today will be frozen.</div>
+        <label for="user">Username / اسم المستخدم</label>
+        <input id="user" name="username" autocomplete="username" />
+        <label for="pw">Password / كلمة المرور</label>
+        <input id="pw" name="password" type="password" autocomplete="current-password" />
+        <label for="eid">Emirates ID / رقم الهوية الإماراتية</label>
+        <input id="eid" name="emirates_id" placeholder="784-XXXX-XXXXXXX-X" />
+        <label for="otp">Verification code sent by SMS / رمز التحقق</label>
+        <input id="otp" class="otp" name="otp" autocomplete="one-time-code" inputmode="numeric" maxlength="6" placeholder="••••••" />
+        <div class="timer">Code expires in 09:42 / ينتهي الرمز خلال 09:42</div>
+        <button type="submit">Verify and continue / تحقق ومتابعة</button>
+        <div class="note" id="note">This is a demonstration page. Nothing you type is sent anywhere. / هذه صفحة تجريبية ولا يتم إرسال أي بيانات.</div>
+      </form>
+    </main>
+    <footer>Demonstration page — hackathon prototype · صفحة تجريبية — نموذج أولي لهاكاثون</footer>
+    <script>
+      document.getElementById("verify").addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("note").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

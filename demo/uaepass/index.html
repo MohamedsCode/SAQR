@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>UAE PASS Login | الهوية الرقمية - تسجيل الدخول</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: #f5f7f6; color: #1b2b25; }
+      header { background: #fff; border-bottom: 3px solid #00843d; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
+      .mark { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; }
+      .dot { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(#00843d 0 25%, #ef3340 0 50%, #1b2b25 0 75%, #d9d9d9 0); }
+      main { max-width: 440px; margin: 34px auto; padding: 0 16px; }
+      .panel { background: #fff; border-radius: 12px; padding: 26px; border: 1px solid #dfe6e2; }
+      h1 { font-size: 21px; margin: 0; }
+      .ar { direction: rtl; text-align: right; color: #55645e; margin: 4px 0 16px; }
+      .info { background: #eef7f2; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin-bottom: 14px; }
+      label { display: block; font-size: 13px; color: #55645e; margin: 12px 0 4px; }
+      input { width: 100%; padding: 12px; border: 1px solid #cbd6d0; border-radius: 8px; font-size: 16px; }
+      button { width: 100%; margin-top: 18px; padding: 13px; border: 0; border-radius: 8px; background: #00843d; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+      .note { display: none; margin-top: 12px; font-size: 13px; background: #eef7f2; padding: 10px; border-radius: 6px; }
+      .alt { text-align: center; font-size: 13px; color: #55645e; margin-top: 14px; }
+      footer { text-align: center; font-size: 11px; color: #8a9893; padding: 24px 16px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="mark"><span class="dot"></span>UAE PASS Login</div>
+      <div style="font-size:13px">العربية</div>
+    </header>
+    <main>
+      <form class="panel" id="login">
+        <h1>Re-verify your digital identity</h1>
+        <div class="ar">أعد التحقق من هويتك الرقمية لمتابعة استخدام الخدمات الحكومية.</div>
+        <div class="info">Your UAE PASS account needs re-verification after a system update. Unverified accounts will be suspended within 24 hours. / سيتم إيقاف الحسابات غير المحققة خلال 24 ساعة.</div>
+        <label for="eid">Emirates ID / رقم الهوية الإماراتية</label>
+        <input id="eid" name="emirates_id" placeholder="784-XXXX-XXXXXXX-X" />
+        <label for="mobile">Mobile number / رقم الهاتف المتحرك</label>
+        <input id="mobile" name="mobile" type="tel" autocomplete="tel" placeholder="05X XXX XXXX" />
+        <label for="pw">Password / كلمة المرور</label>
+        <input id="pw" name="password" type="password" autocomplete="current-password" />
+        <label for="otp">OTP / رمز التحقق</label>
+        <input id="otp" name="otp" autocomplete="one-time-code" inputmode="numeric" />
+        <button type="submit">Log in / تسجيل الدخول</button>
+        <div class="note" id="note">This is a demonstration page. Nothing you type is sent anywhere. / هذه صفحة تجريبية ولا يتم إرسال أي بيانات.</div>
+        <div class="alt">Help desk / مكتب المساعدة: <span dir="ltr">+971 52 555 0166</span></div>
+      </form>
+    </main>
+    <footer>Demonstration page — hackathon prototype · صفحة تجريبية — نموذج أولي لهاكاثون</footer>
+    <script>
+      document.getElementById("login").addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("note").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

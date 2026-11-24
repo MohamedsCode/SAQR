@@ -5,7 +5,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDataMode } from "../api";
 import { BRAND, localized, productName } from "../brand";
 import { useDemoEvents } from "../lib/demoBus";
-import { useTour } from "./Tour";
+import DemoMenu from "./DemoPanel";
+import { rememberSkitCase } from "../lib/display";
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
@@ -34,10 +35,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const navigate = useNavigate();
-  const tour = useTour();
 
   useDemoEvents((event) => {
     if (event.type === "blocked") {
+      rememberSkitCase(event.scan_id);
       const call = event.call_at ? `?call=${encodeURIComponent(event.call_at)}` : "";
       navigate(`/cases/${encodeURIComponent(event.scan_id)}${call}`);
     }
@@ -74,13 +75,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </NavLink>
           </nav>
           <DataModeBadge />
-          <button
-            type="button"
-            onClick={tour.start}
-            className="rounded-lg bg-gold/15 px-3 py-1.5 text-sm font-semibold text-gold-soft ring-1 ring-gold/50 hover:bg-gold/25"
-          >
-            ▶ {t("tour.cta")}
-          </button>
+          <DemoMenu />
           <button
             type="button"
             onClick={() => i18n.changeLanguage(lang === "ar" ? "en" : "ar")}

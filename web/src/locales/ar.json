@@ -38,7 +38,27 @@
     "all_brands": "كل الجهات",
     "all_sources": "كل المصادر",
     "col_case": "الحالة",
-    "no_match": "لا توجد حالات مطابقة لهذه المرشحات."
+    "no_match": "لا توجد حالات مطابقة لهذه المرشحات.",
+    "kpi_median_detect": "الوسيط: من التسجيل إلى الرصد",
+    "kpi_median_hint": "أول رصد فعلي مقابل RDAP",
+    "minutes_zero": "{{count}} دقيقة",
+    "minutes_one": "دقيقة",
+    "minutes_two": "دقيقتان",
+    "minutes_few": "{{count}} دقائق",
+    "minutes_many": "{{count}} دقيقة",
+    "minutes_other": "{{count}} دقيقة",
+    "hours_zero": "{{count}} ساعة",
+    "hours_one": "ساعة",
+    "hours_two": "ساعتان",
+    "hours_few": "{{count}} ساعات",
+    "hours_many": "{{count}} ساعة",
+    "hours_other": "{{count}} ساعة",
+    "days_zero": "{{count}} يوم",
+    "days_one": "يوم",
+    "days_two": "يومان",
+    "days_few": "{{count}} أيام",
+    "days_many": "{{count}} يوماً",
+    "days_other": "{{count}} يوم"
   },
   "verdict": {
     "safe": "آمن",
@@ -249,7 +269,9 @@
     "bus_offline": "قناة العرض غير متاحة. شغّل تطبيق الويب باستخدام npm run dev.",
     "blocked_banner": "صقر حظر هذا الرابط للتو على هاتف الضحية.",
     "first_seen_before": "رصد صقر هذا الموقع قبل المكالمة بـ {{duration}}.",
-    "first_seen_now": "رُصد لحظة فتح الرابط."
+    "first_seen_now": "رُصد لحظة فتح الرابط.",
+    "menu": "العرض",
+    "open_phone": "فتح محاكي الهاتف"
   },
   "model": {
     "kicker": "دقة الرصد",

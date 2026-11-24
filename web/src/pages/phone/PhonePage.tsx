@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../../api";
 import { sampleBrands, sampleScans } from "../../data/fixtures";
 import { DEMO_URL, emitDemo, useDemoEvents } from "../../lib/demoBus";
+import { hostOf } from "../../lib/display";
 import "./phone.css";
 
 type Screen = "lock" | "incoming" | "incall" | "thread" | "blocked";
@@ -375,7 +376,7 @@ export default function PhonePage() {
                     {brand ? `${brand.name_en} · ${brand.name_ar}` : "—"}
                   </div>
                   <div style={{ fontFamily: "ui-monospace, monospace", fontSize: 12, opacity: 0.6, marginBottom: 6 }} dir="ltr">
-                    {scan.registered_domain}
+                    {hostOf(scan)}
                   </div>
                   {topReasons.map((reason) => (
                     <div key={reason.code} className="ph-reason">

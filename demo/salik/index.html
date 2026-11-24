@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Salik Toll Payment | سالك - دفع رسوم التعرفة</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: #f3f6f9; color: #1c2a39; }
+      header { background: #0a3d6b; color: #fff; padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; }
+      .brand { font-size: 22px; font-weight: 700; letter-spacing: 0.04em; }
+      .brand span { color: #f5b700; }
+      .lang { font-size: 13px; opacity: 0.85; }
+      .hero { background: linear-gradient(90deg, #0a3d6b, #13609f); color: #fff; padding: 26px 22px 40px; }
+      .hero h1 { margin: 0 0 6px; font-size: 24px; }
+      .hero p { margin: 0; opacity: 0.85; }
+      main { max-width: 600px; margin: -24px auto 0; padding: 0 16px 30px; }
+      .card { background: #fff; border-radius: 12px; padding: 22px; box-shadow: 0 6px 20px rgb(10 61 107 / 0.12); }
+      .warn { background: #fff7e0; border: 1px solid #f5b700; border-radius: 8px; padding: 12px 14px; margin-bottom: 18px; font-size: 14px; }
+      .warn b { color: #a65f00; }
+      .ar { direction: rtl; text-align: right; margin-top: 4px; }
+      .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e4e9ee; font-size: 14px; }
+      .total { font-size: 22px; font-weight: 700; color: #0a3d6b; }
+      label { display: block; font-size: 13px; margin: 14px 0 4px; color: #44546a; }
+      input { width: 100%; padding: 12px; border: 1px solid #c8d2dc; border-radius: 8px; font-size: 16px; }
+      .two { display: flex; gap: 12px; }
+      .two > div { flex: 1; }
+      button { width: 100%; margin-top: 20px; padding: 14px; border: 0; border-radius: 8px; background: #f5b700; color: #0a3d6b; font-size: 17px; font-weight: 700; cursor: pointer; }
+      .note { display: none; margin-top: 14px; padding: 10px; border-radius: 6px; background: #eaf4ff; font-size: 13px; }
+      .help { text-align: center; font-size: 14px; margin-top: 18px; }
+      footer { text-align: center; font-size: 11px; color: #8795a6; padding: 24px 16px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">SALIK<span>•</span>PAY</div>
+      <div class="lang">English | العربية</div>
+    </header>
+    <section class="hero">
+      <h1>Unpaid toll balance — account suspension notice</h1>
+      <p>رصيد التعرفة غير مدفوع — إشعار بإيقاف الحساب</p>
+    </section>
+    <main>
+      <div class="card">
+        <div class="warn">
+          <b>Final reminder:</b> your Salik tag will be blocked and a fine of AED 400 added if the balance is not paid today.
+          <div class="ar"><b>تذكير أخير:</b> سيتم إيقاف ملصق سالك وإضافة مخالفة بقيمة 400 درهم إذا لم يتم سداد الرصيد اليوم.</div>
+        </div>
+        <div class="row"><span>Plate / رقم اللوحة</span><span>Dubai A 48213</span></div>
+        <div class="row"><span>Unpaid crossings / عبورات غير مدفوعة</span><span>6</span></div>
+        <div class="row"><span>Amount due / المبلغ المستحق</span><span class="total">AED 24.00</span></div>
+
+        <form id="pay">
+          <label for="cc">Card number / رقم البطاقة</label>
+          <input id="cc" name="card_number" autocomplete="cc-number" inputmode="numeric" placeholder="0000 0000 0000 0000" />
+          <div class="two">
+            <div>
+              <label for="exp">Expiry / تاريخ الانتهاء</label>
+              <input id="exp" name="card_expiry" autocomplete="cc-exp" placeholder="MM/YY" />
+            </div>
+            <div>
+              <label for="cvv">CVV / الرمز السري</label>
+              <input id="cvv" name="cvv" autocomplete="cc-csc" inputmode="numeric" placeholder="123" />
+            </div>
+          </div>
+          <button type="submit">Pay now / ادفع الآن</button>
+          <div class="note" id="note">This is a demonstration page. Nothing you type is sent anywhere. / هذه صفحة تجريبية ولا يتم إرسال أي بيانات.</div>
+        </form>
+      </div>
+      <div class="help">Support / الدعم: <span dir="ltr">+971 52 555 0190</span></div>
+    </main>
+    <footer>Demonstration page — hackathon prototype · صفحة تجريبية — نموذج أولي لهاكاثون</footer>
+    <script>
+      document.getElementById("pay").addEventListener("submit", function (e) {
+        e.preventDefault();
+        document.getElementById("note").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, useDataMode } from "../api";
-import DemoPanel from "../components/DemoPanel";
 import { IconAlert, IconClock, IconPhone, IconRadar, IconSearch, IconShield } from "../components/Icons";
 import VerdictBadge, { SourceBadge, verdictColor } from "../components/VerdictBadge";
 import { number, relativeTime } from "../lib/format";
+import { hostOf, medianHours, visibleCases } from "../lib/display";
 import { useBrands } from "../lib/useBrands";
 
 const POLL_MS = 4000;
@@ -92,7 +92,7 @@ export default function Dashboard() {
         .then(([s, list]) => {
           if (!active) return;
           setStats(s);
-          setScans(list);
+          setScans(visibleCases(list));
           setFailed(false);
         })
         .catch(() => active && setFailed(true));
@@ -113,9 +113,16 @@ export default function Dashboard() {
       scans
         .filter((s) => s.verdict !== "safe")
         .sort((a, b) => Date.parse(b.first_seen) - Date.parse(a.first_seen))
+        .filter((s, i, list) => list.findIndex((o) => hostOf(o) === hostOf(s)) === i)
         .slice(0, 8),
     [scans],
   );
+
+  const flaggedCases = scans.filter((s) => s.verdict !== "safe");
+  const fraudCount = scans.filter((s) => s.verdict === "fraud").length;
+  const suspiciousCount = scans.filter((s) => s.verdict === "suspicious").length;
+  const beforeReport = flaggedCases.filter((s) => s.discovered_by !== "user").length;
+  const median = medianHours(scans);
 
   const brandRows = new Map<string, { name: string; fraud: number; suspicious: number }>();
   for (const s of scans) {
@@ -145,7 +152,7 @@ export default function Dashboard() {
     if (brand && s.impersonated_brand !== brand) return false;
     if (source && s.discovered_by !== source) return false;
     const q = query.trim().toLowerCase();
-    return !q || s.registered_domain.includes(q) || s.input.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
+    return !q || hostOf(s).includes(q) || s.input.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
   });
 
   const usedBrands = [...new Set(scans.map((s) => s.impersonated_brand).filter(Boolean))] as string[];
@@ -169,23 +176,21 @@ export default function Dashboard() {
 
       {failed && <p className="panel p-3 text-fraud">{t("error.load")}</p>}
 
-      <DemoPanel />
-
       {stats && (
-        <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-          <Kpi icon={<IconRadar />} label={t("ops.kpi_scans")} value={<CountUp value={stats.scans} lang={lang} />} delay={0} />
+        <section className={`grid grid-cols-2 gap-4 ${median === null ? "lg:grid-cols-4" : "lg:grid-cols-5"}`}>
+          <Kpi icon={<IconRadar />} label={t("ops.kpi_scans")} value={<CountUp value={scans.length} lang={lang} />} delay={0} />
           <Kpi
             icon={<IconAlert />}
             label={t("ops.kpi_fraud")}
-            value={<CountUp value={stats.fraud_found} lang={lang} />}
-            hint={t("ops.kpi_suspicious", { count: stats.suspicious_found })}
+            value={<CountUp value={fraudCount} lang={lang} />}
+            hint={t("ops.kpi_suspicious", { count: suspiciousCount })}
             tone="text-fraud"
             delay={60}
           />
           <Kpi
             icon={<IconShield />}
             label={t("ops.kpi_before_report")}
-            value={<CountUp value={stats.found_before_report} lang={lang} />}
+            value={<CountUp value={beforeReport} lang={lang} />}
             tone="text-cyber"
             delay={120}
           />
@@ -196,13 +201,16 @@ export default function Dashboard() {
             tone="text-suspicious"
             delay={180}
           />
-          <Kpi
-            icon={<IconClock />}
-            label={t("ops.kpi_time_to_detect")}
-            value={stats.avg_hours_to_detect === null ? "—" : <CountUp value={stats.avg_hours_to_detect} lang={lang} />}
-            hint={t("ops.kpi_time_hint")}
-            delay={240}
-          />
+          {median !== null && (
+            <Kpi
+              icon={<IconClock />}
+              label={t("ops.kpi_median_detect")}
+              value={median < 1 ? t("ops.minutes", { count: Math.max(1, Math.round(median * 60)) }) : median < 48 ? t("ops.hours", { count: Math.round(median) }) : t("ops.days", { count: Math.round(median / 24) })}
+              hint={t("ops.kpi_median_hint")}
+              tone="text-cyber"
+              delay={240}
+            />
+          )}
         </section>
       )}
 
@@ -233,7 +241,7 @@ export default function Dashboard() {
                   />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate font-mono text-sm" dir="ltr">
-                      {scan.registered_domain}
+                      {hostOf(scan)}
                     </span>
                     <span className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-muted">
                       <SourceBadge source={scan.discovered_by} />
@@ -366,7 +374,7 @@ export default function Dashboard() {
                     {scan.id}
                   </td>
                   <td className="px-3 py-3 font-mono" dir="ltr">
-                    {scan.registered_domain}
+                    {hostOf(scan)}
                     {scan.status === "offline" && (
                       <span className="ms-2 rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-muted">{t("ops.status_offline")}</span>
                     )}
