@@ -1,0 +1,80 @@
+{
+  "weights": {
+    "BRAND_IN_DOMAIN": 28,
+    "BRAND_IN_SUBDOMAIN": 30,
+    "OFFICIAL_DOMAIN_IN_HOST": 60,
+    "BRAND_IN_PATH": 15,
+    "LOOKALIKE_CHAR_SWAP": 35,
+    "LOOKALIKE_EDIT_DISTANCE": 35,
+    "HOMOGLYPH_BRAND": 40,
+    "MIXED_SCRIPT": 25,
+    "PUNYCODE": 10,
+    "BAIT_IN_DOMAIN": 10,
+    "BRAND_PLUS_BAIT": 10,
+    "PATH_BAIT": 8,
+    "PATH_BAIT_MANY": 12,
+    "RISKY_TLD": 15,
+    "IP_HOST": 25,
+    "USERINFO_IN_URL": 20,
+    "MANY_SUBDOMAINS": 10,
+    "MANY_HYPHENS": 8,
+    "LONG_URL": 5,
+    "NON_STANDARD_PORT": 10,
+    "FREE_HOSTING": 15,
+    "SHORTENER": 10,
+    "TRANCO_TOP": -40,
+    "DOMAIN_AGE_LT_7D": 25,
+    "DOMAIN_AGE_LT_30D": 20,
+    "DOMAIN_AGE_LT_90D": 10,
+    "DOMAIN_AGE_GT_2Y": -10,
+    "DOMAIN_NOT_REGISTERED": 10,
+    "NO_DNS": 10,
+    "CERT_FIRST_SEEN_LT_7D": 10,
+    "CROSS_DOMAIN_REDIRECT": 10,
+    "REDIRECTS_TO_OFFICIAL": 0,
+    "OFFLINE": 0
+  },
+  "risky_tlds": [
+    "top", "xyz", "cyou", "xin", "icu", "shop", "online", "site", "live", "click", "buzz", "sbs", "cfd",
+    "rest", "bond", "monster", "lol", "quest", "beauty", "hair", "skin", "makeup", "boats", "autos", "yachts",
+    "mom", "pics", "help", "support", "vip", "win", "loan", "work", "fit", "cam", "gq", "ml", "cf", "tk", "ga",
+    "zip", "mov", "info", "pw", "cc", "ws", "su", "today", "life", "world", "store", "space", "website", "fun",
+    "best", "asia", "link", "digital", "ink", "kim", "men", "date", "party", "review", "stream", "trade",
+    "racing", "accountant", "bid", "download", "faith", "science", "country", "cricket", "gdn", "host", "uno"
+  ],
+  "domain_bait_words": [
+    "pay", "payment", "payments", "fine", "fines", "ae", "uae", "online", "portal", "verify", "verification",
+    "gov", "govt", "services", "service", "update", "secure", "security", "login", "signin", "account",
+    "refund", "track", "tracking", "delivery", "redelivery", "parcel", "customs", "toll", "recharge", "topup",
+    "wallet", "reward", "rewards", "gift", "support", "help", "care", "official", "violation", "violations",
+    "penalty", "traffic", "unlock", "kyc", "otp", "bank", "banking", "card", "points", "claim", "fees", "fee",
+    "mukhalafat", "renew", "renewal", "visa"
+  ],
+  "path_bait_words": [
+    "login", "signin", "logon", "verify", "verification", "update", "pay", "payment", "fine", "fines", "otp",
+    "redeliver", "redelivery", "mukhalafat", "salik", "tamm", "card", "billing", "secure", "confirm", "kyc",
+    "refund", "wallet", "account", "unlock", "suspend", "suspended", "penalty", "violation", "traffic",
+    "parcel", "track", "customs", "fee", "fees", "reward", "claim", "uaepass", "darb", "emiratesid"
+  ],
+  "free_hosting": [
+    "pages.dev", "workers.dev", "netlify.app", "vercel.app", "github.io", "gitlab.io", "firebaseapp.com",
+    "web.app", "glitch.me", "weebly.com", "weeblysite.com", "wixsite.com", "wixstudio.io", "blogspot.com",
+    "sites.google.com", "docs.google.com", "forms.gle", "googleusercontent.com", "storage.googleapis.com",
+    "000webhostapp.com", "onrender.com", "herokuapp.com", "replit.app", "repl.co", "azurewebsites.net",
+    "appspot.com", "cloudfront.net", "s3.amazonaws.com", "r2.dev", "webflow.io", "framer.app", "framer.website",
+    "carrd.co", "square.site", "mystrikingly.com", "godaddysites.com", "jimdosite.com", "wordpress.com",
+    "tumblr.com", "notion.site", "typedream.app", "myshopify.com", "surge.sh", "fly.dev", "deno.dev",
+    "ipfs.io", "dweb.link", "translate.goog"
+  ],
+  "tunnels": [
+    "ngrok.io", "ngrok-free.app", "ngrok.app", "trycloudflare.com", "loca.lt", "serveo.net", "duckdns.org",
+    "no-ip.com", "ddns.net", "hopto.org", "zapto.org"
+  ],
+  "shorteners": [
+    "bit.ly", "bitly.com", "tinyurl.com", "t.co", "cutt.ly", "is.gd", "rb.gy", "shorturl.at", "ow.ly", "goo.su",
+    "t.ly", "tiny.cc", "s.id", "v.gd", "lnkd.in", "rebrand.ly", "shorturl.asia", "short.gy", "urlz.fr",
+    "qrco.de", "u.to", "clck.ru", "bit.do", "buff.ly", "tr.ee", "linktr.ee", "x.gd", "rebrandly.com"
+  ],
+  "tranco_top_n": 10000,
+  "edit_distance_min_length": 5
+}

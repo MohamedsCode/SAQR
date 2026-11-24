@@ -38,6 +38,8 @@ class Settings:
     page_concurrency: int
     allow_localhost_demo: bool
     web_origin: str
+    network_enabled: bool
+    seed_fixtures: bool
 
 
 def load_settings() -> Settings:
@@ -52,6 +54,8 @@ def load_settings() -> Settings:
         page_concurrency=int(os.getenv("PAGE_CONCURRENCY", "8")),
         allow_localhost_demo=_flag("ALLOW_LOCALHOST_DEMO", False),
         web_origin=os.getenv("WEB_ORIGIN", "http://localhost:5173"),
+        network_enabled=_flag("NETWORK_ENABLED", True),
+        seed_fixtures=_flag("SEED_FIXTURES", False),
     )
 
 

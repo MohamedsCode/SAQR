@@ -160,7 +160,7 @@ export interface Job {
   total: number;
   done: number;
   result_ids: string[];
-  unmatched: string[];
+  failed: string[];
 }
 
 export interface PhoneCheckRequest {

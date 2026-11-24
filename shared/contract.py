@@ -169,7 +169,7 @@ class Job(BaseModel):
     total: int
     done: int
     result_ids: list[str] = Field(default_factory=list)
-    unmatched: list[str] = Field(default_factory=list)
+    failed: list[str] = Field(default_factory=list)
 
 
 class PhoneCheckRequest(BaseModel):

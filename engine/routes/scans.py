@@ -10,6 +10,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import Response
 from starlette.datastructures import UploadFile
 
+from engine.normalize import InvalidInput
 from engine.store import store
 from shared.contract import BatchRequest, Job, Report, ReportRequest, ScanRequest, ScanResult
 
@@ -43,14 +44,11 @@ def _inputs_from_upload(content: str) -> list[str]:
 
 
 @router.post("/scan", response_model=ScanResult)
-def scan(request: ScanRequest) -> ScanResult:
-    result = store.find_scan(request.input)
-    if not result:
-        raise HTTPException(
-            status_code=501,
-            detail="Live scanning is not available yet; only fixture inputs are recognised.",
-        )
-    return result
+async def scan(request: ScanRequest) -> ScanResult:
+    try:
+        return await store.scan_and_store(request.input)
+    except InvalidInput as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.post("/scan/batch", response_model=Job)
@@ -66,7 +64,7 @@ async def scan_batch(request: Request) -> Job:
         inputs = BatchRequest.model_validate(await request.json()).inputs
     if not inputs:
         raise HTTPException(status_code=422, detail="No inputs found.")
-    return store.add_job(inputs)
+    return store.start_job(inputs)
 
 
 @router.get("/jobs/{job_id}", response_model=Job)

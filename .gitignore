@@ -14,6 +14,9 @@ web/dist/
 # Runtime data (database, screenshots, evidence packs, downloaded feeds)
 data/runtime/
 
+# Generated evaluation set (contains live phishing URLs; rebuild with scripts/build_dataset.py)
+data/datasets/
+
 # Local editor settings
 CLAUDE.md
 .claude/

@@ -1,9 +1,10 @@
 """Build the allowlist files in data/allowlist/.
 
 - official_uae.txt: every official domain in shared/brands.json.
-- tranco_top.txt: the top N registered domains from a downloaded Tranco list, minus data/allowlist/exclude.txt.
+- tranco_top.txt: the top N registered domains from a downloaded Tranco list, minus the free-hosting,
+  tunnel and shortener domains in engine/config/signals.json.
 
-Usage: python scripts/build_allowlist.py [path/to/top-1m.csv] [--top N]
+Usage: python scripts/build_allowlist.py [path/to/top-1m.csv]
 The Tranco step is skipped when no CSV is given.
 """
 
@@ -19,12 +20,11 @@ ROOT = Path(__file__).resolve().parent.parent
 ALLOWLIST_DIR = ROOT / "data" / "allowlist"
 
 
-def read_list(path: Path) -> set[str]:
-    return {
-        line.strip().lower()
-        for line in path.read_text(encoding="utf-8").splitlines()
-        if line.strip() and not line.startswith("#")
-    }
+SIGNALS = json.loads((ROOT / "engine" / "config" / "signals.json").read_text(encoding="utf-8"))
+
+
+def excluded_domains() -> set[str]:
+    return {d.lower() for key in ("free_hosting", "tunnels", "shorteners") for d in SIGNALS[key]}
 
 
 def build_official() -> int:
@@ -37,7 +37,7 @@ def build_official() -> int:
 
 
 def build_tranco(csv_path: Path, top: int) -> int:
-    excluded = read_list(ALLOWLIST_DIR / "exclude.txt")
+    excluded = excluded_domains()
     kept: list[str] = []
     with csv_path.open(encoding="utf-8") as handle:
         for _rank, domain in csv.reader(handle):
@@ -56,11 +56,10 @@ def build_tranco(csv_path: Path, top: int) -> int:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("tranco_csv", nargs="?", type=Path)
-    parser.add_argument("--top", type=int, default=10_000)
     args = parser.parse_args()
     print(f"official_uae.txt: {build_official()} domains")
     if args.tranco_csv:
-        print(f"tranco_top.txt: {build_tranco(args.tranco_csv, args.top)} domains")
+        print(f"tranco_top.txt: {build_tranco(args.tranco_csv, SIGNALS["tranco_top_n"])} domains")
 
 
 if __name__ == "__main__":

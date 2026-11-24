@@ -52,8 +52,50 @@ on that brand's own domain.
 
 ```bash
 python scripts/capture_brand_assets.py       # favicons + reference screenshots -> shared/brand_assets/
-python scripts/build_allowlist.py data/runtime/tranco/top-1m.csv   # official domains + Tranco top 10k
+python scripts/build_allowlist.py data/runtime/tranco/top-1m.csv   # official domains + Tranco top 10,000
 ```
 
-`data/allowlist/exclude.txt` lists free-hosting platforms, tunnels and URL shorteners that are never
-allowlisted, however popular they are.
+Only official brand domains and registered domains under `.gov.ae` are treated as verified official sites.
+A Tranco top-10,000 domain only lowers the score (it is never an override), and gets no credit at all on
+free hosting, tunnels, URL shorteners, or when the subdomain or path impersonates a brand. The free-hosting,
+tunnel and shortener lists live in `engine/config/signals.json`.
+
+## Detection engine
+
+`POST /api/scan` and the CLI run the same pipeline:
+
+1. **Normalize** whatever was pasted: no scheme, upper case, surrounding punctuation, defanged forms (`hxxp`,
+   `[.]`, `(.)`, `[dot]`), a URL inside a longer message, and Unicode (IDN) hosts, which are converted to punycode.
+2. **URL signals** (work even when the site is offline): official-domain and `.gov.ae` override; brand names in the
+   domain, subdomain or path; the official domain used as a disguise (`tamm.abudhabi.evil-site.com`); look-alikes
+   by character swaps (`sa1ik`), misspellings and homoglyphs from other alphabets; bait words; risky TLDs; IP hosts,
+   `@` tricks, deep subdomains, long URLs, odd ports; free hosting and URL shorteners; Tranco popularity credit.
+3. **Network lookups**, run in parallel within a 10-second budget and cached in SQLite: the HTTP redirect chain
+   (every hop is checked and private network addresses are refused), DNS, RDAP domain age, registrar and abuse
+   contact, the first certificate in crt.sh, and IP to ASN through Team Cymru's DNS service. When a link redirects
+   to another domain, the landing domain is scored too.
+4. **Scoring**: a transparent weighted sum (weights in `engine/config/signals.json`), clamped to 0-100.
+   Every signal becomes a reason in English and Arabic with its weight and evidence. Below 30 is safe, 30-69
+   suspicious, 70 or more fraud. Summaries come from templates, or from the LLM when `ANTHROPIC_API_KEY` and
+   `LLM_MODEL` are set.
+
+```bash
+python -m engine.cli scan --input urls.txt --output results.csv            # txt or csv, one URL per line
+python -m engine.cli evaluate --input data/datasets/labeled.csv --split test
+```
+
+`--mode url` scores from the address alone with no network access; the default `network` mode adds the lookups.
+
+### Evaluation data
+
+```powershell
+New-Item -ItemType Directory -Force data\runtime\feeds | Out-Null
+Invoke-WebRequest https://openphish.com/feed.txt -OutFile data\runtime\feeds\openphish.txt
+Invoke-WebRequest https://raw.githubusercontent.com/Phishing-Database/Phishing.Database/master/phishing-links-ACTIVE.txt -OutFile data\runtime\feeds\phishing-links-ACTIVE.txt
+python scripts/build_dataset.py --openphish data/runtime/feeds/openphish.txt --phishdb data/runtime/feeds/phishing-links-ACTIVE.txt --tranco data/runtime/tranco/top-1m.csv
+python -m engine.cli evaluate --input data/datasets/labeled.csv --split train --sweep
+```
+
+The dataset mixes phishing URLs from OpenPhish and Phishing.Database, generated UAE look-alike URLs, Tranco top
+sites, `.ae` sites from deeper in Tranco, and every official brand domain. It is split 70/30 into train and test
+by registered domain. Weights are tuned on the train split only, and results are reported on test.

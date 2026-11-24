@@ -1,9 +1,19 @@
 import hashlib
+import time
 
 import pytest
 from fastapi.testclient import TestClient
 
 from engine.app import app
+
+
+def wait_for_job(client, job_id):
+    for _ in range(200):
+        job = client.get(f"/api/jobs/{job_id}").json()
+        if job["status"] == "done":
+            return job
+        time.sleep(0.05)
+    raise AssertionError("job did not finish")
 
 
 @pytest.fixture()
@@ -21,14 +31,30 @@ def test_brands(client):
     assert len(client.get("/api/brands").json()) == 16
 
 
-def test_scan_matches_defanged_fixture(client):
+def test_scan_scores_a_defanged_scam_url(client):
     r = client.post("/api/scan", json={"input": "  HXXPS://adpolice-fines-pay[.]top/pay  "})
     assert r.status_code == 200
-    assert r.json()["verdict"] == "fraud"
+    body = r.json()
+    assert body["verdict"] == "fraud" and body["impersonated_brand"] == "adpolice"
+    assert body["normalized_url"] == "https://adpolice-fines-pay.top/pay"
+    assert body["reasons"][0]["en"] and body["reasons"][0]["ar"] and body["summary_ar"]
+    assert client.get(f"/api/scans/{body['id']}").json()["id"] == body["id"]
 
 
-def test_scan_unknown_input_is_not_faked(client):
-    assert client.post("/api/scan", json={"input": "unknown-example.org"}).status_code == 501
+def test_scan_official_domain_is_safe(client):
+    body = client.post("/api/scan", json={"input": "https://www.adcb.com/en/personal"}).json()
+    assert body["verdict"] == "safe" and body["score"] == 0
+    assert body["reasons"][0]["code"] == "OFFICIAL_DOMAIN"
+
+
+def test_scan_rejects_input_without_a_url(client):
+    assert client.post("/api/scan", json={"input": "hello there"}).status_code == 422
+
+
+def test_repeat_scan_keeps_first_seen(client):
+    first = client.post("/api/scan", json={"input": "rta-fines-uae.top"}).json()
+    assert first["first_seen"] < first["scanned_at"]
+    assert "SQ-20261124-0008" in first["related_ids"]
 
 
 def test_scans_list_and_filters(client):
@@ -44,18 +70,20 @@ def test_scan_detail_and_evidence(client):
 
 
 def test_batch_json_and_exports(client):
-    job = client.post("/api/scan/batch", json={"inputs": ["sa1ik-recharge.xyz", "not-in-fixtures.org"]}).json()
-    assert job["total"] == 2 and job["result_ids"] == ["SQ-20261124-0006"]
-    assert client.get(f"/api/jobs/{job['id']}").json()["id"] == job["id"]
+    job = client.post("/api/scan/batch", json={"inputs": ["sa1ik-recharge.xyz", "not a url"]}).json()
+    assert job["total"] == 2
+    job = wait_for_job(client, job["id"])
+    assert len(job["result_ids"]) == 1 and job["failed"] == ["not a url"]
     csv_text = client.get(f"/api/jobs/{job['id']}/export.csv").text
     assert "sa1ik-recharge.xyz" in csv_text
-    assert client.get(f"/api/jobs/{job['id']}/export.json").json()["results"][0]["score"] == 80
+    assert client.get(f"/api/jobs/{job['id']}/export.json").json()["results"][0]["verdict"] == "fraud"
 
 
 def test_batch_file_upload(client):
     files = {"file": ("urls.csv", b"url\nrta-fines-uae.top\ntamm.abudhabi\n", "text/csv")}
     job = client.post("/api/scan/batch", files=files).json()
-    assert job["total"] == 2 and len(job["result_ids"]) == 2
+    assert job["total"] == 2
+    assert len(wait_for_job(client, job["id"])["result_ids"]) == 2
 
 
 def test_phone_check_uses_hash_prefix_only(client):
