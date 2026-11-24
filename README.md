@@ -4,6 +4,8 @@
 
 <p align="center"><b>We go after what scammers publish.</b><br>نلاحق ما ينشره المحتالون.</p>
 
+<p align="center"><b><a href="https://saqr-nu.vercel.app/check">Check a link now: saqr-nu.vercel.app</a></b></p>
+
 <p align="center">
   <img src="docs/saqr-pitch.gif" alt="SAQR in 15 seconds" width="720">
 </p>
@@ -18,8 +20,8 @@ Most people only find out after the money has left their account.
 
 SAQR protects people at the moment they open a link, and helps police shut the scam down:
 
-- **For the public:** a Chrome extension and a phone website that tell you, in Arabic and English, whether a link
-  is safe, suspicious or a scam, and why.
+- **For the public:** a Chrome extension and a [website](https://saqr-nu.vercel.app/check) that tell you, in Arabic and English, whether a
+  link is safe, suspicious or a scam, and why.
 - **For police:** an operations centre that hunts for new scam websites and fake helpline numbers before anyone
   reports them, and prepares the evidence needed to take them down.
 
@@ -40,7 +42,7 @@ The operations centre lists every scam website SAQR has found, with its score an
 citizen, spotted as a look-alike name, or found through a new website certificate. It shows which institutions are
 being targeted, which kinds of scams are most common, and how many were caught before anyone reported them. Each case
 opens into the full evidence, including screenshots, registration records and the reasons in both languages,
-ready to download as a report with a takedown letter.
+ready to download as a report with a takedown letter. [Open the operations centre](https://saqr-nu.vercel.app/).
 
 <p align="center">
   <img src="docs/screens/police-dashboard.png" alt="The SAQR police operations centre" width="760">
@@ -122,6 +124,9 @@ SAQR warns you before you type anything into a scam website.
 
 That's it. SAQR now checks every website you open and only interrupts you when something is wrong.
 
+**Prefer not to install anything?** Open **[saqr-nu.vercel.app](https://saqr-nu.vercel.app/check)**, paste the suspicious link or the
+whole message, and click **Check**.
+
 **Step 2:** switch on **Developer mode** (top right).
 
 <img src="docs/install/step-2-developer-mode.png" alt="The Chrome extensions page with the Developer mode switch highlighted" width="720">
@@ -136,7 +141,8 @@ That's it. SAQR now checks every website you open and only interrupts you when s
 
 ### On a phone
 
-Nothing to install. Open the SAQR website, paste the suspicious link or the whole message, and tap **Check**.
+Nothing to install. Open **[saqr-nu.vercel.app](https://saqr-nu.vercel.app/check)**, paste the suspicious link or the whole message, and
+tap **Check**.
 
 <details>
 <summary><b>For developers: run SAQR from the source code</b></summary>
