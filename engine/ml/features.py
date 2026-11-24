@@ -1,9 +1,10 @@
 """Features for the ML layer, computed the same way at training time and at scan time.
 
-The model judges the registered domain, never the page path: in the labelled data almost every legitimate URL is
-a homepage while phishing URLs have long paths, so path features teach "has a path = phishing" and flag real
-banks' deep links. Path tricks stay covered by the rule signals. The features are the registered domain's shape,
-its registration and DNS records, and the domain-level rule signals.
+Two models share one feature vector. The domain model reads only the first DOMAIN_FEATURE_COUNT features: the
+registered domain's shape, its registration and DNS records, and the domain-level rule signals. The path model
+also reads the address and page path. A path on its own must not condemn a clean domain (legitimate deep links
+look "long" too), so the path model's vote is capped by the domain model's when the domain looks clean; see
+engine/ml/model.py.
 
 Live-page signals are left out (the model is trained in network mode), and so is certificate transparency:
 crt.sh is too slow to query for a whole training set, so the model would only ever see it missing.
@@ -17,10 +18,12 @@ from collections.abc import Iterable
 from datetime import datetime
 
 from engine.brands import SIGNALS
+from engine.layer_a import tokens_of
 from engine.normalize import NormalizedUrl
 from shared.contract import Evidence
 
 NAN = float("nan")
+PATH_BAIT = set(SIGNALS["path_bait_words"])
 PAGE_CODES = {
     "CARD_FORM", "OTP_FIELD", "PASSWORD_FIELD", "EMIRATES_ID_FIELD", "IBAN_FIELD", "CROSS_DOMAIN_FORM",
     "BRAND_IN_CONTENT", "URGENCY_LANGUAGE", "PAYMENT_REQUEST", "VISUAL_SIMILARITY", "FAVICON_MATCH", "CLOAKING",
@@ -68,12 +71,28 @@ NUMERIC_FEATURES: dict[str, tuple[str, str]] = {
     "rule_score": ("Rule engine score (domain signals)", "درجة محرك القواعد (مؤشرات النطاق)"),
 }
 
-FEATURE_NAMES: list[str] = list(NUMERIC_FEATURES) + [f"code_{c.lower()}" for c in CODE_FEATURES]
+PATH_FEATURES: dict[str, tuple[str, str]] = {
+    "url_length": ("Address length", "طول العنوان"),
+    "path_length": ("Page path length", "طول مسار الصفحة"),
+    "path_depth": ("Folders in the page path", "عدد المجلدات في المسار"),
+    "query_params": ("Query parameters", "عدد معاملات الاستعلام"),
+    "subdomain_count": ("Number of subdomains", "عدد النطاقات الفرعية"),
+    "special_chars": ("Special characters (@ ~ % = & _)", "الرموز الخاصة (@ ~ % = & _)"),
+    "path_bait_words": ("Bait words in the path (login, verify, pay...)", "كلمات استدراج في المسار"),
+    "script_page": ("Page is a script file (.php, .asp)", "الصفحة ملف برمجي (‎.php‎، ‎.asp‎)"),
+    "html_file": ("Page is a static .html file", "الصفحة ملف ‎.html‎ ثابت"),
+}
+
+DOMAIN_FEATURE_NAMES: list[str] = list(NUMERIC_FEATURES) + [f"code_{c.lower()}" for c in CODE_FEATURES]
+DOMAIN_FEATURE_COUNT = len(DOMAIN_FEATURE_NAMES)
+FEATURE_NAMES: list[str] = DOMAIN_FEATURE_NAMES + list(PATH_FEATURES)
 
 
 def feature_label(name: str) -> tuple[str, str]:
     if name in NUMERIC_FEATURES:
         return NUMERIC_FEATURES[name]
+    if name in PATH_FEATURES:
+        return PATH_FEATURES[name]
     return CODE_FEATURES[name.removeprefix("code_").upper()]
 
 
@@ -127,4 +146,17 @@ def extract(url: NormalizedUrl, codes: Iterable[str], evidence: Evidence, now: d
         "ns_count": float(len(dns.ns)) if dns else NAN,
         "rule_score": float(rule_score(codes - PATH_CODES)),
     }
-    return [values[name] for name in NUMERIC_FEATURES] + [float(code in codes) for code in CODE_FEATURES]
+    last = url.path.rstrip("/").split("/")[-1].lower()
+    path = {
+        "url_length": float(len(url.url)),
+        "path_length": float(len(url.path.rstrip("/"))),
+        "path_depth": float(len([p for p in url.path.split("/") if p])),
+        "query_params": float(len([p for p in url.query.split("&") if p])),
+        "subdomain_count": float(len([l for l in url.subdomain.split(".") if l and l != "www"])),
+        "special_chars": float(sum(url.url.count(ch) for ch in "@~%=&_")),
+        "path_bait_words": float(sum(t in PATH_BAIT for t in tokens_of(f"{url.path} {url.query}"))),
+        "script_page": float(last.endswith((".php", ".asp", ".aspx", ".cgi"))),
+        "html_file": float(last.endswith((".html", ".htm"))),
+    }
+    return ([values[name] for name in NUMERIC_FEATURES] + [float(code in codes) for code in CODE_FEATURES]
+            + [path[name] for name in PATH_FEATURES])

@@ -30,9 +30,12 @@ from engine import evaluate as ev
 from engine import net
 from engine.brands import official_brand_for_host, tranco_top
 from engine.browser import pool
-from engine.ml.features import FEATURE_NAMES, OVERRIDE_CODES, extract, feature_label, rule_score
-from engine.ml.model import METRICS_FILE, MODEL_DIR, MODEL_FILE, blend_weight
-from engine.normalize import InvalidInput, normalize
+from engine.ml.features import (
+    DOMAIN_FEATURE_COUNT, FEATURE_NAMES, OVERRIDE_CODES, extract, feature_label, rule_score,
+)
+from engine.ml.model import METRICS_FILE, MODEL_DIR, MODEL_FILE, combined_weight
+from engine.layer_a import analyse
+from engine.normalize import InvalidInput, NormalizedUrl, normalize
 from engine.scanner import scan
 from engine.settings import ROOT, RUNTIME_DIR, settings
 from shared.contract import (
@@ -54,7 +57,12 @@ SEED = 2026
 ALGORITHM = "Gradient boosting (scikit-learn HistGradientBoostingClassifier)"
 BLEND_UP = range(10, 105, 5)
 BLEND_DOWN = range(0, 45, 5)
+GATES = (None, 0.2, 0.35, 0.5)
+MIN_PRECISION_FRAUD = 0.99  # on out-of-fold train predictions; false alarms on real banks cost more than misses
+MIN_PRECISION_FLAGGED = 0.98
 LOOKUP_TIMEOUT_S = 30
+NETWORK_CODES = {"DOMAIN_AGE_LT_7D", "DOMAIN_AGE_LT_30D", "DOMAIN_AGE_LT_90D", "DOMAIN_AGE_GT_2Y",
+                 "DOMAIN_NOT_REGISTERED", "NO_DNS", "CROSS_DOMAIN_REDIRECT", "REDIRECTS_TO_OFFICIAL", "OFFLINE"}
 
 
 def say(text: str = "") -> None:
@@ -145,6 +153,15 @@ class Example:
         return bool(self.codes & OVERRIDE_CODES)
 
 
+def current_codes(url: NormalizedUrl, cached: set[str]) -> set[str]:
+    """URL signals recomputed with today's rules (lists and keywords may have changed since the lookup was
+    cached), plus the cached network signals, which only a new lookup could change."""
+    layer = analyse(url)
+    if layer.override:
+        return {layer.override.code}
+    return {s.code for s in layer.signals} | (cached & NETWORK_CODES)
+
+
 def build_examples(rows: list[ev.Row], cache: dict[str, dict]) -> list[Example]:
     examples = []
     top = tranco_top()
@@ -153,7 +170,7 @@ def build_examples(rows: list[ev.Row], cache: dict[str, dict]) -> list[Example]:
         if not record or record.get("invalid"):
             continue
         url = normalize(row.url)
-        codes = set(record["codes"])
+        codes = current_codes(url, set(record["codes"]))
         evidence = Evidence.model_validate(record["evidence"])
         now = datetime.fromisoformat(record["scanned_at"])
         host = urlsplit(url.url).hostname or ""
@@ -173,13 +190,15 @@ def rule_scores(examples: list[Example]) -> np.ndarray:
     return np.array([0 if e.override else rule_score(e.codes) for e in examples])
 
 
-def combined_scores(examples: list[Example], probabilities: np.ndarray, up: int, down: int) -> np.ndarray:
+def combined_scores(examples: list[Example], p_path: np.ndarray, p_domain: np.ndarray, up: int, down: int,
+                    gate: float | None) -> np.ndarray:
     scores = []
-    for e, p in zip(examples, probabilities):
+    for e, pp, pd in zip(examples, p_path, p_domain):
         if e.override:
             scores.append(0)
             continue
-        scores.append(max(0, min(100, rule_score(e.codes) + blend_weight(p, e.codes, up, down))))
+        weight, _ = combined_weight(pp, pd, e.codes, up, down, gate)
+        scores.append(max(0, min(100, rule_score(e.codes) + weight)))
     return np.array(scores)
 
 
@@ -201,22 +220,35 @@ def approach(name: str, labels: np.ndarray, scores: np.ndarray) -> ApproachMetri
                            flagged=threshold_metrics(labels, scores, SUSPICIOUS_MIN))
 
 
-def tune_blend(examples: list[Example], labels: np.ndarray, oof: np.ndarray) -> tuple[int, int]:
-    """Pick the blend that maximises F1 at both thresholds while keeping precision high, on train only."""
-    best: tuple[float, int, int] | None = None
-    fallback: tuple[float, int, int] | None = None
-    for up in BLEND_UP:
-        for down in BLEND_DOWN:
-            scores = combined_scores(examples, oof, up, down)
-            fraud = threshold_metrics(labels, scores, FRAUD_MIN)
-            flagged = threshold_metrics(labels, scores, SUSPICIOUS_MIN)
-            objective = fraud.f1 + flagged.f1
-            if fallback is None or objective > fallback[0]:
-                fallback = (objective, up, down)
-            if fraud.precision >= 0.98 and flagged.precision >= 0.97 and (best is None or objective > best[0]):
-                best = (objective, up, down)
+def tune_blend(examples: list[Example], labels: np.ndarray, oof_path: np.ndarray,
+               oof_domain: np.ndarray) -> tuple[int, int, float | None]:
+    """Pick the blend (points up, points down, domain gate) that maximises F1 at both thresholds while keeping
+    precision at least MIN_PRECISION_FRAUD and MIN_PRECISION_FLAGGED, using out-of-fold predictions on train only."""
+    best: tuple[float, int, int, float | None] | None = None
+    fallback: tuple[float, int, int, float | None] | None = None
+    for gate in GATES:
+        for up in BLEND_UP:
+            for down in BLEND_DOWN:
+                scores = combined_scores(examples, oof_path, oof_domain, up, down, gate)
+                fraud = threshold_metrics(labels, scores, FRAUD_MIN)
+                flagged = threshold_metrics(labels, scores, SUSPICIOUS_MIN)
+                objective = fraud.f1 + flagged.f1
+                if fallback is None or objective > fallback[0]:
+                    fallback = (objective, up, down, gate)
+                if fraud.precision >= MIN_PRECISION_FRAUD and flagged.precision >= MIN_PRECISION_FLAGGED and (
+                        best is None or objective > best[0]):
+                    best = (objective, up, down, gate)
     chosen = best or fallback
-    return chosen[1], chosen[2]
+    return chosen[1], chosen[2], chosen[3]
+
+
+def out_of_fold(X: np.ndarray, y: np.ndarray, groups: np.ndarray, name: str) -> np.ndarray:
+    oof = np.zeros(len(y))
+    for fold, (a, b) in enumerate(GroupKFold(n_splits=5).split(X, y, groups), start=1):
+        oof[b] = new_model().fit(X[a], y[a]).predict_proba(X[b])[:, 1]
+        m = threshold_metrics(y[b], np.round(oof[b] * 100), 50)
+        say(f"    {name} model  fold {fold}/5  precision {m.precision:.3f}  recall {m.recall:.3f}")
+    return oof
 
 
 # ---- main ----
@@ -259,29 +291,27 @@ def main(argv: list[str] | None = None) -> int:
     groups = np.array([e.domain for e in fit_rows])
 
     say("[4/6] Training (5-fold cross-validation on train, grouped by domain)")
-    oof_fit = np.zeros(len(fit_rows))
-    for fold, (a, b) in enumerate(GroupKFold(n_splits=5).split(X_fit, y_fit, groups), start=1):
-        model = new_model().fit(X_fit[a], y_fit[a])
-        oof_fit[b] = model.predict_proba(X_fit[b])[:, 1]
-        fold_scores = np.round(oof_fit[b] * 100)
-        m = threshold_metrics(y_fit[b], fold_scores, 50)
-        say(f"    fold {fold}/5  precision {m.precision:.3f}  recall {m.recall:.3f}")
-    oof_by_url = {e.url: p for e, p in zip(fit_rows, oof_fit)}
-    oof_train = np.array([oof_by_url.get(e.url, 0.0) for e in train])
+    oof_path = out_of_fold(X_fit, y_fit, groups, "path")
+    oof_domain = out_of_fold(X_fit[:, :DOMAIN_FEATURE_COUNT], y_fit, groups, "domain")
+    by_url = {e.url: (pp, pd) for e, pp, pd in zip(fit_rows, oof_path, oof_domain)}
+    oof_train = np.array([by_url.get(e.url, (0.0, 0.0)) for e in train])
     y_train = np.array([e.phishing for e in train])
-    up, down = tune_blend(train, y_train, oof_train)
-    say(f"    blend tuned on train: the model adds up to +{up} points and removes up to -{down}")
+    up, down, gate = tune_blend(train, y_train, oof_train[:, 0], oof_train[:, 1])
+    gate_text = f"; a domain the domain model rates below {gate:.0%} cannot be pushed up by its path" if gate else ""
+    say(f"    blend tuned on train: the model adds up to +{up} points and removes up to -{down}{gate_text}")
     model = new_model().fit(X_fit, y_fit)
+    domain_model = new_model().fit(X_fit[:, :DOMAIN_FEATURE_COUNT], y_fit)
 
     say("[5/6] Evaluating on the TEST split")
     X_test = np.array([e.features for e in test])
     y_test = np.array([e.phishing for e in test])
-    probabilities = model.predict_proba(X_test)[:, 1]
+    p_path = model.predict_proba(X_test)[:, 1]
+    p_domain = domain_model.predict_proba(X_test[:, :DOMAIN_FEATURE_COUNT])[:, 1]
     rules = rule_scores(test)
-    combined = combined_scores(test, probabilities, up, down)
+    combined = combined_scores(test, p_path, p_domain, up, down, gate)
     results = [
         approach("rules", y_test, rules),
-        approach("model", y_test, np.round(probabilities * 100)),
+        approach("model", y_test, np.round(p_path * 100)),
         approach("combined", y_test, combined),
     ]
     official = [i for i, e in enumerate(test) if e.official and not e.phishing]
@@ -327,8 +357,9 @@ def main(argv: list[str] | None = None) -> int:
         top_features=top_features,
     )
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump({"model": model, "feature_names": FEATURE_NAMES, "blend": {"up": up, "down": down},
-                 "sklearn": sklearn.__version__}, MODEL_FILE, compress=3)
+    joblib.dump({"model": model, "domain_model": domain_model, "feature_names": FEATURE_NAMES,
+                 "blend": {"up": up, "down": down, "gate": gate}, "sklearn": sklearn.__version__},
+                MODEL_FILE, compress=3)
     METRICS_FILE.write_text(info.model_dump_json(indent=2) + "\n", encoding="utf-8")
     say(f"    {MODEL_FILE.relative_to(ROOT).as_posix()} and {METRICS_FILE.relative_to(ROOT).as_posix()}")
 

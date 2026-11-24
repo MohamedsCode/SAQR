@@ -11,8 +11,8 @@ from fastapi.testclient import TestClient
 
 from engine import net
 from engine.app import app
-from engine.ml.features import FEATURE_NAMES, extract, feature_label, rule_score
-from engine.ml.model import blend_weight, model_signal
+from engine.ml.features import DOMAIN_FEATURE_COUNT, FEATURE_NAMES, extract, feature_label, rule_score
+from engine.ml.model import blend_weight, combined_weight, model_signal
 from engine.ml.train import Example, combined_scores, threshold_metrics
 from engine.normalize import normalize
 from engine.reasons import Signal
@@ -39,10 +39,14 @@ def test_domain_features():
     assert f["code_risky_tld"] == 1.0 and f["code_free_hosting"] == 0.0
 
 
-def test_features_ignore_the_page_path():
-    """Legitimate deep links must look the same to the model as their homepage."""
-    assert features_of("https://www.example-bank.ae/") == features_of(
-        "https://www.example-bank.ae/en/personal/cards/credit-cards/apply?ref=home", codes={"PATH_BAIT"})
+def test_domain_model_features_ignore_the_page_path():
+    """To the domain model, a legitimate deep link looks exactly like its homepage."""
+    home = extract(normalize("https://www.example-bank.ae/"), set(), Evidence(), NOW)
+    deep = extract(normalize("https://www.example-bank.ae/en/personal/cards/apply.php?ref=home"), {"PATH_BAIT"},
+                   Evidence(), NOW)
+    assert home[:DOMAIN_FEATURE_COUNT] == deep[:DOMAIN_FEATURE_COUNT]
+    f = dict(zip(FEATURE_NAMES, deep))
+    assert f["path_depth"] == 4 and f["query_params"] == 1 and f["script_page"] == 1.0
 
 
 def test_network_features_are_missing_not_zero_when_unknown():
@@ -67,6 +71,13 @@ def test_blend_weight():
     assert blend_weight(0.1, {"TRANCO_TOP"}, 40, 20) < 0
 
 
+def test_path_cannot_push_up_a_domain_the_domain_model_finds_clean():
+    assert combined_weight(0.95, 0.30, set(), 60, 20, gate=0.5) == (blend_weight(0.30, set(), 60, 20), 0.30)
+    assert combined_weight(0.95, 0.70, set(), 60, 20, gate=0.5) == (blend_weight(0.95, set(), 60, 20), 0.95)
+    assert combined_weight(0.95, 0.30, set(), 60, 20, gate=None)[1] == 0.95
+    assert combined_weight(0.10, 0.30, set(), 60, 20, gate=0.5)[1] == 0.10  # the lower vote always wins
+
+
 def test_model_never_runs_on_official_domains():
     assert model_signal(normalize("https://tamm.abudhabi/"), {"OFFICIAL_DOMAIN"}, Evidence(), NOW) is None
 
@@ -83,7 +94,7 @@ def test_combined_scores_keep_official_override_and_clamp():
                        features=[], official=False, allowlisted=False)
 
     scores = combined_scores([example({"OFFICIAL_DOMAIN"}), example({"RISKY_TLD", "IP_HOST"}), example(set())],
-                             np.array([0.99, 1.0, 0.0]), up=90, down=40)
+                             np.array([0.99, 1.0, 0.0]), np.array([0.99, 1.0, 0.0]), up=90, down=40, gate=0.5)
     assert list(scores) == [0, 100, 0]
 
 

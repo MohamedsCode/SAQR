@@ -1,4 +1,9 @@
-"""Load the trained model and turn its phishing probability into a weighted, explainable signal."""
+"""Load the trained models and turn their phishing probability into a weighted, explainable signal.
+
+The path model reads the whole address; the domain model reads only the registered domain and its records.
+When the domain model finds the domain clean (below the tuned `gate`), the path model cannot push the score
+higher than the domain model would: an unusual path alone must not flag a legitimate site.
+"""
 
 from __future__ import annotations
 
@@ -6,7 +11,7 @@ import json
 from collections.abc import Iterable
 from datetime import datetime
 
-from engine.ml.features import FEATURE_NAMES, MODEL_CODE, OVERRIDE_CODES, extract
+from engine.ml.features import DOMAIN_FEATURE_COUNT, FEATURE_NAMES, MODEL_CODE, OVERRIDE_CODES, extract
 from engine.normalize import NormalizedUrl
 from engine.reasons import Signal
 from engine.settings import ROOT
@@ -47,12 +52,26 @@ def blend_weight(probability: float, codes: Iterable[str], up: int, down: int) -
     return weight
 
 
-def predict(url: NormalizedUrl, codes: Iterable[str], evidence: Evidence, now: datetime) -> float | None:
+def combined_weight(p_path: float, p_domain: float, codes: Iterable[str], up: int, down: int,
+                    gate: float | None) -> tuple[int, float]:
+    """(points, the probability those points come from)."""
+    weight, probability = blend_weight(p_path, codes, up, down), p_path
+    if gate is not None and p_domain < gate:
+        domain_weight = blend_weight(p_domain, codes, up, down)
+        if domain_weight < weight:
+            weight, probability = domain_weight, p_domain
+    return weight, probability
+
+
+def predict(url: NormalizedUrl, codes: Iterable[str], evidence: Evidence, now: datetime) -> tuple[float, float] | None:
+    """(path-model probability, domain-model probability), or None when no model is trained."""
     bundle = _bundle()
     if bundle is None:
         return None
     row = extract(url, codes, evidence, now)
-    return float(bundle["model"].predict_proba([row])[0][1])
+    p_path = float(bundle["model"].predict_proba([row])[0][1])
+    p_domain = float(bundle["domain_model"].predict_proba([row[:DOMAIN_FEATURE_COUNT]])[0][1])
+    return p_path, p_domain
 
 
 def model_signal(url: NormalizedUrl, codes: Iterable[str], evidence: Evidence, now: datetime) -> Signal | None:
@@ -60,11 +79,11 @@ def model_signal(url: NormalizedUrl, codes: Iterable[str], evidence: Evidence, n
     codes = set(codes)
     if codes & OVERRIDE_CODES:
         return None
-    probability = predict(url, codes, evidence, now)
-    if probability is None:
+    predicted = predict(url, codes, evidence, now)
+    if predicted is None:
         return None
     blend = _bundle()["blend"]
-    weight = blend_weight(probability, codes, blend["up"], blend["down"])
+    weight, probability = combined_weight(*predicted, codes, blend["up"], blend["down"], blend["gate"])
     return Signal(MODEL_CODE, f"{round(probability * 100)}%", weight_override=weight)
 
 

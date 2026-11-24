@@ -107,3 +107,13 @@ def test_tranco_credit_is_negative_and_never_on_free_hosting(monkeypatch):
     assert "TRANCO_TOP" not in run("https://tamm-pay.netlify.app/")[3]
     assert "TRANCO_TOP" not in run("https://sites.google.com/view/salik-fines")[3]
     assert "TRANCO_TOP" not in run("https://www.google.com/salik/pay")[3]
+
+
+def test_publish_anywhere_platforms_count_as_free_hosting():
+    from engine.brands import free_hosting_match
+
+    assert free_hosting_match("metamask-help.gitbook.io") == "gitbook.io"
+    assert free_hosting_match("secure-login.blogspot.sn") == "blogspot.sn"
+    assert free_hosting_match("verify.ddnss.eu") == "ddnss.eu"
+    assert free_hosting_match("www.gitbook.com") is None
+    assert free_hosting_match("blogspot.com.example.org") is None

@@ -1,9 +1,9 @@
 {
   "available": true,
   "algorithm": "Gradient boosting (scikit-learn HistGradientBoostingClassifier)",
-  "trained_at": "2026-11-24T13:03:14.725232Z",
-  "training_seconds": 260.5,
-  "feature_count": 31,
+  "trained_at": "2026-11-24T13:34:09.662284Z",
+  "training_seconds": 53.3,
+  "feature_count": 40,
   "datasets": [
     {
       "split": "train",
@@ -31,59 +31,59 @@
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.9724,
-        "recall": 0.1839,
-        "f1": 0.3093,
-        "tp": 176,
+        "precision": 0.9731,
+        "recall": 0.1891,
+        "f1": 0.3167,
+        "tp": 181,
         "fp": 5,
         "tn": 1598,
-        "fn": 781
+        "fn": 776
       }
     },
     {
       "approach": "model",
       "fraud": {
         "threshold": 70,
-        "precision": 0.8907,
-        "recall": 0.8004,
-        "f1": 0.8431,
-        "tp": 766,
-        "fp": 94,
-        "tn": 1509,
-        "fn": 191
+        "precision": 0.9554,
+        "recall": 0.9394,
+        "f1": 0.9473,
+        "tp": 899,
+        "fp": 42,
+        "tn": 1561,
+        "fn": 58
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.808,
-        "recall": 0.8882,
-        "f1": 0.8462,
-        "tp": 850,
-        "fp": 202,
-        "tn": 1401,
-        "fn": 107
+        "precision": 0.9297,
+        "recall": 0.9676,
+        "f1": 0.9483,
+        "tp": 926,
+        "fp": 70,
+        "tn": 1533,
+        "fn": 31
       }
     },
     {
       "approach": "combined",
       "fraud": {
         "threshold": 70,
-        "precision": 1.0,
-        "recall": 0.0784,
-        "f1": 0.1453,
-        "tp": 75,
-        "fp": 0,
-        "tn": 1603,
-        "fn": 882
+        "precision": 0.996,
+        "recall": 0.7753,
+        "f1": 0.8719,
+        "tp": 742,
+        "fp": 3,
+        "tn": 1600,
+        "fn": 215
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.9744,
-        "recall": 0.7168,
-        "f1": 0.826,
-        "tp": 686,
-        "fp": 18,
-        "tn": 1585,
-        "fn": 271
+        "precision": 0.9698,
+        "recall": 0.8736,
+        "f1": 0.9192,
+        "tp": 836,
+        "fp": 26,
+        "tn": 1577,
+        "fn": 121
       }
     }
   ],
@@ -91,130 +91,130 @@
     {
       "label": "phishing",
       "verdict": "safe",
-      "count": 271
+      "count": 121
     },
     {
       "label": "phishing",
       "verdict": "suspicious",
-      "count": 611
+      "count": 94
     },
     {
       "label": "phishing",
       "verdict": "fraud",
-      "count": 75
+      "count": 742
     },
     {
       "label": "legit",
       "verdict": "safe",
-      "count": 1585
+      "count": 1577
     },
     {
       "label": "legit",
       "verdict": "suspicious",
-      "count": 18
+      "count": 23
     },
     {
       "label": "legit",
       "verdict": "fraud",
-      "count": 0
+      "count": 3
     }
   ],
   "official_false_positives": 0,
   "official_checked": 82,
   "allowlist_false_positives": 0,
   "allowlist_checked": 929,
-  "model_weight_max": 30,
+  "model_weight_max": 65,
   "model_weight_min": -20,
   "top_features": [
     {
       "feature": "code_tranco_top",
       "en": "Among the world's top 10,000 sites",
       "ar": "ضمن أكثر 10,000 موقع زيارة عالمياً",
-      "importance": 0.0572
+      "importance": 0.0239
+    },
+    {
+      "feature": "subdomain_count",
+      "en": "Number of subdomains",
+      "ar": "عدد النطاقات الفرعية",
+      "importance": 0.0175
     },
     {
       "feature": "tld_ae",
       "en": ".ae domain",
       "ar": "نطاق ‎.ae‎",
-      "importance": 0.0458
-    },
-    {
-      "feature": "ns_count",
-      "en": "Name servers",
-      "ar": "خوادم الأسماء",
-      "importance": 0.0265
+      "importance": 0.0142
     },
     {
       "feature": "rule_score",
       "en": "Rule engine score (domain signals)",
       "ar": "درجة محرك القواعد (مؤشرات النطاق)",
-      "importance": 0.0245
+      "importance": 0.0096
     },
     {
-      "feature": "code_free_hosting",
-      "en": "Free hosting platform",
-      "ar": "منصة استضافة مجانية",
-      "importance": 0.0172
+      "feature": "ns_count",
+      "en": "Name servers",
+      "ar": "خوادم الأسماء",
+      "importance": 0.007
     },
     {
-      "feature": "mx_records",
-      "en": "Mail servers (MX records)",
-      "ar": "خوادم البريد (MX)",
-      "importance": 0.0055
+      "feature": "url_length",
+      "en": "Address length",
+      "ar": "طول العنوان",
+      "importance": 0.0058
+    },
+    {
+      "feature": "path_length",
+      "en": "Page path length",
+      "ar": "طول مسار الصفحة",
+      "importance": 0.0039
     },
     {
       "feature": "dns_resolves",
       "en": "Domain resolves in DNS",
       "ar": "النطاق يعمل في نظام DNS",
-      "importance": 0.0044
+      "importance": 0.0022
     },
     {
-      "feature": "domain_length",
-      "en": "Domain name length",
-      "ar": "طول اسم النطاق",
-      "importance": 0.0038
+      "feature": "mx_records",
+      "en": "Mail servers (MX records)",
+      "ar": "خوادم البريد (MX)",
+      "importance": 0.0018
     },
     {
       "feature": "domain_age_days",
       "en": "Domain age",
       "ar": "عمر النطاق",
-      "importance": 0.0031
+      "importance": 0.0012
     },
     {
-      "feature": "domain_digits",
-      "en": "Digits in the domain name",
-      "ar": "الأرقام في اسم النطاق",
-      "importance": 0.0026
-    },
-    {
-      "feature": "code_bait_in_domain",
-      "en": "Bait words in the domain",
-      "ar": "كلمات استدراج في النطاق",
-      "importance": 0.0017
-    },
-    {
-      "feature": "rdap_found",
-      "en": "Registration record found",
-      "ar": "تم العثور على سجل التسجيل",
-      "importance": 0.0011
-    },
-    {
-      "feature": "code_cross_domain_redirect",
-      "en": "Redirects to another domain",
-      "ar": "يعيد التوجيه إلى نطاق آخر",
-      "importance": 0.0008
-    },
-    {
-      "feature": "code_many_subdomains",
-      "en": "Unusually many subdomains",
-      "ar": "عدد كبير غير معتاد من النطاقات الفرعية",
+      "feature": "path_depth",
+      "en": "Folders in the page path",
+      "ar": "عدد المجلدات في المسار",
       "importance": 0.0007
     },
     {
-      "feature": "domain_hyphens",
-      "en": "Hyphens in the domain name",
-      "ar": "الشرطات في اسم النطاق",
+      "feature": "script_page",
+      "en": "Page is a script file (.php, .asp)",
+      "ar": "الصفحة ملف برمجي (‎.php‎، ‎.asp‎)",
       "importance": 0.0006
+    },
+    {
+      "feature": "path_bait_words",
+      "en": "Bait words in the path (login, verify, pay...)",
+      "ar": "كلمات استدراج في المسار",
+      "importance": 0.0005
+    },
+    {
+      "feature": "tld_com",
+      "en": ".com domain",
+      "ar": "نطاق ‎.com‎",
+      "importance": 0.0005
+    },
+    {
+      "feature": "special_chars",
+      "en": "Special characters (@ ~ % = & _)",
+      "ar": "الرموز الخاصة (@ ~ % = & _)",
+      "importance": 0.0004
     }
   ]
 }

@@ -86,7 +86,13 @@ def _host_in(host: str, domains: list[str]) -> str | None:
 
 
 def free_hosting_match(host: str) -> str | None:
-    return _host_in(host, SIGNALS["free_hosting"]) or _host_in(host, SIGNALS["tunnels"])
+    match = _host_in(host, SIGNALS["free_hosting"]) or _host_in(host, SIGNALS["tunnels"])
+    if match:
+        return match
+    labels = host.split(".")
+    if "blogspot" in labels[1:-1]:  # Blogger's country domains: name.blogspot.sn, name.blogspot.co.uk
+        return ".".join(labels[labels.index("blogspot"):])
+    return None
 
 
 def shortener_match(host: str) -> str | None:
