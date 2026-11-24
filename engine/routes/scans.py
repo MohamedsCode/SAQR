@@ -10,6 +10,9 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import FileResponse, Response
 from starlette.datastructures import UploadFile
 
+from evidence.pdf import build_evidence_pdf
+
+from engine.brands import brands
 from engine.normalize import InvalidInput
 from engine.settings import RUNTIME_DIR
 from engine.store import store
@@ -150,8 +153,17 @@ def screenshot(scan_id: str, kind: str) -> FileResponse:
 
 @router.get("/scans/{scan_id}/evidence.pdf")
 def evidence_pdf(scan_id: str) -> Response:
-    _get_scan(scan_id)
-    raise HTTPException(status_code=501, detail="The PDF evidence pack is not available yet.")
+    """The bilingual evidence pack with its takedown request letter (evidence/pdf.py)."""
+    scan = _get_scan(scan_id)
+    try:
+        pdf = build_evidence_pdf(scan, brands().get(scan.impersonated_brand or ""), runtime_dir=RUNTIME_DIR)
+    except RuntimeError as exc:  # no font with Arabic glyphs on this machine
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    return Response(
+        pdf,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{scan.id}-evidence.pdf"'},
+    )
 
 
 @router.post("/report", response_model=Report)

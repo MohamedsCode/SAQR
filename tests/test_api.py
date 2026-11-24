@@ -138,3 +138,13 @@ def test_check_saves_only_flagged_results(client):
     flagged = client.post("/api/check", json={"input": "https://adpolice-fines-pay.top/pay"}).json()
     assert flagged["verdict"] != "safe"
     assert client.get(f"/api/scans/{flagged['id']}").status_code == 200
+
+
+def test_evidence_pdf(client):
+    response = client.get("/api/scans/SQ-20261124-0005/evidence.pdf")
+    if response.status_code == 503:
+        pytest.skip(response.json()["detail"])  # this machine has no font with Arabic glyphs
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert response.content.startswith(b"%PDF")
+    assert client.get("/api/scans/missing/evidence.pdf").status_code == 404
