@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parent.parent
 BRANDS_FILE = ROOT / "shared" / "brands.json"
 ASSETS_DIR = ROOT / "shared" / "brand_assets"
 VIEWPORT = {"width": 1366, "height": 768}
+BLOCK_MARKERS = ["access denied", "you have been blocked", "performing security verification",
+                 "verify you are human", "just a moment", "attention required", "request unsuccessful",
+                 "coming back soon", "under maintenance", "temporarily unavailable"]
 ICON_EXTENSIONS = {"image/png": "png", "image/x-icon": "ico", "image/vnd.microsoft.icon": "ico",
                    "image/svg+xml": "svg", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
 
@@ -35,6 +38,10 @@ async def capture(browser: Browser, brand: dict) -> None:
             await page.wait_for_load_state("networkidle", timeout=15_000)
         except Exception:
             pass  # busy sites never go idle; the DOM is loaded, which is enough for a screenshot
+        text = (await page.inner_text("body", timeout=5_000)).lower()[:3000]
+        blocked = next((m for m in BLOCK_MARKERS if m in text), None)
+        if blocked:
+            raise RuntimeError(f"got a bot-block or maintenance page (\"{blocked}\"), not the real site")
         screenshot = out_dir / "reference.png"
         await page.screenshot(path=screenshot)
         brand["reference_screenshot_path"] = screenshot.relative_to(ROOT).as_posix()

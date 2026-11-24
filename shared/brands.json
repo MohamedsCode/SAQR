@@ -45,8 +45,8 @@
       "#161038"
     ],
     "reference_url": "https://www.tamm.abudhabi/en",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/tamm/favicon.ico",
+    "reference_screenshot_path": "shared/brand_assets/tamm/reference.png"
   },
   {
     "id": "uaepass",
@@ -93,8 +93,8 @@
       "#705d00"
     ],
     "reference_url": "https://uaepass.ae/",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/uaepass/favicon.ico",
+    "reference_screenshot_path": "shared/brand_assets/uaepass/reference.png"
   },
   {
     "id": "icp",
@@ -226,8 +226,8 @@
       "#a39161"
     ],
     "reference_url": "https://www.adpolice.gov.ae/en",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/adpolice/favicon.png",
+    "reference_screenshot_path": "shared/brand_assets/adpolice/reference.png"
   },
   {
     "id": "dubaipolice",
@@ -290,8 +290,8 @@
       "#005737"
     ],
     "reference_url": "https://www.dubaipolice.gov.ae/app/home",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/dubaipolice/favicon.ico",
+    "reference_screenshot_path": "shared/brand_assets/dubaipolice/reference.png"
   },
   {
     "id": "salik",
@@ -478,8 +478,8 @@
       "#171c8f"
     ],
     "reference_url": "https://www.rta.ae/wps/portal/rta/ae/home",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/rta/favicon.ico",
+    "reference_screenshot_path": "shared/brand_assets/rta/reference.png"
   },
   {
     "id": "emiratespost",
@@ -540,8 +540,8 @@
       "#0059b2"
     ],
     "reference_url": "https://www.emiratespost.ae/",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/emiratespost/favicon.png",
+    "reference_screenshot_path": "shared/brand_assets/emiratespost/reference.png"
   },
   {
     "id": "aramex",
@@ -750,8 +750,8 @@
       "#d50032"
     ],
     "reference_url": "https://www.bankfab.com/en-ae/personal",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/fab/favicon.png",
+    "reference_screenshot_path": "shared/brand_assets/fab/reference.png"
   },
   {
     "id": "adcb",
@@ -818,7 +818,7 @@
     ],
     "colors": [],
     "reference_url": "https://www.adcb.com/en/",
-    "favicon_path": null,
+    "favicon_path": "shared/brand_assets/adcb/favicon.ico",
     "reference_screenshot_path": null
   },
   {
@@ -910,8 +910,8 @@
       "#2765ff"
     ],
     "reference_url": "https://www.emiratesnbd.com/en",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/emiratesnbd/favicon.svg",
+    "reference_screenshot_path": "shared/brand_assets/emiratesnbd/reference.png"
   },
   {
     "id": "adib",
@@ -1028,8 +1028,8 @@
     ],
     "colors": [],
     "reference_url": "https://www.adib.ae/en",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/adib/favicon.png",
+    "reference_screenshot_path": "shared/brand_assets/adib/reference.png"
   },
   {
     "id": "eand",
@@ -1097,8 +1097,8 @@
       "#191329"
     ],
     "reference_url": "https://www.eand.ae/en/index.html",
-    "favicon_path": null,
-    "reference_screenshot_path": null
+    "favicon_path": "shared/brand_assets/eand/favicon.ico",
+    "reference_screenshot_path": "shared/brand_assets/eand/reference.png"
   },
   {
     "id": "du",
@@ -1161,6 +1161,6 @@
     ],
     "reference_url": "https://www.du.ae/personal",
     "favicon_path": null,
-    "reference_screenshot_path": null
+    "reference_screenshot_path": "shared/brand_assets/du/reference.png"
   }
 ]
