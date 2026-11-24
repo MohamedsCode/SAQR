@@ -7,7 +7,7 @@ import pytest
 from pydantic import BaseModel
 
 import shared.contract as contract
-from shared.contract import Brand, MapsListing, ScanResult, verdict_for
+from shared.contract import MapsListing, ScanResult, verdict_for
 
 ROOT = Path(__file__).resolve().parent.parent
 SCANS = json.loads((ROOT / "data/fixtures/sample_scans.json").read_text(encoding="utf-8"))
@@ -35,13 +35,6 @@ def test_verdict_thresholds():
     assert verdict_for(69) == "suspicious"
     assert verdict_for(70) == "fraud"
     assert verdict_for(100) == "fraud"
-
-
-def test_brands_stub():
-    brands = [Brand.model_validate(b) for b in json.loads((ROOT / "shared/brands.json").read_text(encoding="utf-8"))]
-    assert len(brands) == 16
-    assert len({b.id for b in brands}) == len(brands)
-    assert all(b.name_ar for b in brands)
 
 
 def test_maps_fixture_validates():

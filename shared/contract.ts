@@ -130,6 +130,7 @@ export interface Brand {
   keywords_ar: string[];
   transliterations: string[];
   colors: string[];
+  reference_url: string | null;
   favicon_path: string | null;
   reference_screenshot_path: string | null;
 }

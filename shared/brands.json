@@ -1,18 +1,1166 @@
 [
-  { "id": "tamm", "name_en": "TAMM", "name_ar": "تم", "category": "government" },
-  { "id": "uaepass", "name_en": "UAE PASS", "name_ar": "الهوية الرقمية", "category": "government" },
-  { "id": "icp", "name_en": "ICP", "name_ar": "الهيئة الاتحادية للهوية والجنسية والجمارك وأمن المنافذ", "category": "government" },
-  { "id": "adpolice", "name_en": "Abu Dhabi Police", "name_ar": "شرطة أبوظبي", "category": "police" },
-  { "id": "dubaipolice", "name_en": "Dubai Police", "name_ar": "شرطة دبي", "category": "police" },
-  { "id": "salik", "name_en": "Salik", "name_ar": "سالك", "category": "transport" },
-  { "id": "darb", "name_en": "Darb", "name_ar": "درب", "category": "transport" },
-  { "id": "rta", "name_en": "RTA", "name_ar": "هيئة الطرق والمواصلات", "category": "transport" },
-  { "id": "emiratespost", "name_en": "Emirates Post", "name_ar": "بريد الإمارات", "category": "delivery" },
-  { "id": "aramex", "name_en": "Aramex", "name_ar": "أرامكس", "category": "delivery" },
-  { "id": "fab", "name_en": "First Abu Dhabi Bank", "name_ar": "بنك أبوظبي الأول", "category": "bank" },
-  { "id": "adcb", "name_en": "ADCB", "name_ar": "بنك أبوظبي التجاري", "category": "bank" },
-  { "id": "emiratesnbd", "name_en": "Emirates NBD", "name_ar": "بنك الإمارات دبي الوطني", "category": "bank" },
-  { "id": "adib", "name_en": "ADIB", "name_ar": "مصرف أبوظبي الإسلامي", "category": "bank" },
-  { "id": "eand", "name_en": "e&", "name_ar": "إي آند", "category": "telecom" },
-  { "id": "du", "name_en": "du", "name_ar": "دو", "category": "telecom" }
+  {
+    "id": "tamm",
+    "name_en": "TAMM",
+    "name_ar": "تم",
+    "category": "government",
+    "official_domains": [
+      "tamm.abudhabi"
+    ],
+    "official_phones": [
+      {
+        "number": "+971800555",
+        "label": "Abu Dhabi Government Contact Centre (800 555)",
+        "source_url": "https://www.tamm.abudhabi/en/contact-us",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "tamm",
+      "tamm abudhabi",
+      "tammabudhabi",
+      "tamm services",
+      "abu dhabi government",
+      "abudhabi government"
+    ],
+    "keywords_ar": [
+      "تم",
+      "حكومة أبوظبي",
+      "مركز اتصال حكومة أبوظبي"
+    ],
+    "transliterations": [
+      "taam",
+      "taamm",
+      "tamn",
+      "tamm-ad",
+      "tammad",
+      "tamm-abudhabi",
+      "tamm-ae",
+      "abudabi-gov",
+      "abudhabi-gov",
+      "abu-dhabi-gov"
+    ],
+    "colors": [
+      "#faa317",
+      "#161038"
+    ],
+    "reference_url": "https://www.tamm.abudhabi/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "uaepass",
+    "name_en": "UAE PASS",
+    "name_ar": "الهوية الرقمية",
+    "category": "government",
+    "official_domains": [
+      "uaepass.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600561111",
+        "label": "Call centre / support (600 56 1111)",
+        "source_url": "https://uaepass.ae/support",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "uaepass",
+      "uae pass",
+      "uae-pass",
+      "uae digital identity",
+      "national digital identity",
+      "uae digital id"
+    ],
+    "keywords_ar": [
+      "الهوية الرقمية"
+    ],
+    "transliterations": [
+      "uaepas",
+      "uae-pas",
+      "uaepaas",
+      "uaeppass",
+      "uaeepass",
+      "uepass",
+      "uaepss",
+      "uaepasss",
+      "uae-passs",
+      "uaepass-ae",
+      "uaepass-login"
+    ],
+    "colors": [
+      "#006c47",
+      "#705d00"
+    ],
+    "reference_url": "https://uaepass.ae/",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "icp",
+    "name_en": "ICP",
+    "name_ar": "الهيئة الاتحادية للهوية والجنسية والجمارك وأمن المنافذ",
+    "category": "government",
+    "official_domains": [
+      "icp.gov.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600522222",
+        "label": "Call centre (600 522222)",
+        "source_url": "https://icp.gov.ae/en/contact-us/",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "icp",
+      "uae icp",
+      "icpuae",
+      "federal authority for identity citizenship customs and port security",
+      "icp smart services",
+      "emirates id"
+    ],
+    "keywords_ar": [
+      "الهيئة الاتحادية للهوية والجنسية والجمارك وأمن المنافذ",
+      "الهوية والجنسية",
+      "بطاقة الهوية"
+    ],
+    "transliterations": [
+      "icp-uae",
+      "uae-icp",
+      "uaeicp",
+      "icpgov",
+      "icp-gov",
+      "icp-ae",
+      "icpp",
+      "smartservice-icp",
+      "smart-services-icp",
+      "icp-smartservices"
+    ],
+    "colors": [
+      "#92722a"
+    ],
+    "reference_url": "https://icp.gov.ae/en/",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "adpolice",
+    "name_en": "Abu Dhabi Police",
+    "name_ar": "شرطة أبوظبي",
+    "category": "police",
+    "official_domains": [
+      "adpolice.gov.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "999",
+        "label": "Emergency (police)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      },
+      {
+        "number": "+9718003333",
+        "label": "Call centre (800 3333)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      },
+      {
+        "number": "+97124461461",
+        "label": "Operator (02 4461461)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      },
+      {
+        "number": "+9718002626",
+        "label": "Aman service (toll-free 800 2626)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      },
+      {
+        "number": "2828",
+        "label": "Aman service short number",
+        "source_url": "https://www.adpolice.gov.ae/en",
+        "verified": true
+      },
+      {
+        "number": "+9718008999",
+        "label": "E-Recruitment (toll-free)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      },
+      {
+        "number": "+9718005354",
+        "label": "Social Support Centres (toll-free)",
+        "source_url": "https://www.adpolice.gov.ae/en/ContactUs",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "adpolice",
+      "ad police",
+      "abu dhabi police",
+      "abudhabi police",
+      "abudhabipolice",
+      "aman service"
+    ],
+    "keywords_ar": [
+      "شرطة أبوظبي",
+      "القيادة العامة لشرطة أبوظبي",
+      "خدمة أمان"
+    ],
+    "transliterations": [
+      "adpolise",
+      "adpolic",
+      "adpollice",
+      "adpolicee",
+      "adpoilce",
+      "ad-police",
+      "adpolice-ae",
+      "adpolicegov",
+      "abudabi-police",
+      "abu-dhabi-police"
+    ],
+    "colors": [
+      "#c2002f",
+      "#a39161"
+    ],
+    "reference_url": "https://www.adpolice.gov.ae/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "dubaipolice",
+    "name_en": "Dubai Police",
+    "name_ar": "شرطة دبي",
+    "category": "police",
+    "official_domains": [
+      "dubaipolice.gov.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "999",
+        "label": "Emergency",
+        "source_url": "https://sps.dubaipolice.gov.ae/wps/portal/SPS/home/contact",
+        "verified": true
+      },
+      {
+        "number": "901",
+        "label": "Non-emergency enquiries",
+        "source_url": "https://sps.dubaipolice.gov.ae/wps/portal/SPS/home/contact",
+        "verified": true
+      },
+      {
+        "number": "+9718004444",
+        "label": "Al Ameen service (toll-free 800 4444)",
+        "source_url": "https://sps.dubaipolice.gov.ae/wps/portal/SPS/home/contact",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "dubaipolice",
+      "dubai police",
+      "dubai-police",
+      "dxbpolice",
+      "al ameen",
+      "alameen"
+    ],
+    "keywords_ar": [
+      "شرطة دبي",
+      "الأمين"
+    ],
+    "transliterations": [
+      "dubaipolis",
+      "dubaipolise",
+      "dubaipollice",
+      "dubaipolce",
+      "dubaipol1ce",
+      "dubaip0lice",
+      "dubalpolice",
+      "dubai-polis",
+      "dubaipolice-ae",
+      "dubaipolicegov",
+      "dubaipolice-gov",
+      "shurtadubai",
+      "shurta-dubai"
+    ],
+    "colors": [
+      "#008755",
+      "#006c44",
+      "#005737"
+    ],
+    "reference_url": "https://www.dubaipolice.gov.ae/app/home",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "salik",
+    "name_en": "Salik",
+    "name_ar": "سالك",
+    "category": "transport",
+    "official_domains": [
+      "salik.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+97180072545",
+        "label": "Call centre (800 SALIK) — not confirmed: salik.ae blocks automated reads",
+        "source_url": "https://www.salik.ae/en/support/FAQs",
+        "verified": false
+      }
+    ],
+    "keywords_en": [
+      "salik",
+      "salik tag",
+      "salik toll",
+      "salik recharge",
+      "salik fine",
+      "salik account",
+      "800salik"
+    ],
+    "keywords_ar": [
+      "سالك"
+    ],
+    "transliterations": [
+      "sallik",
+      "saalik",
+      "salikk",
+      "salek",
+      "saliq",
+      "salique",
+      "slik",
+      "sa1ik",
+      "sal1k",
+      "5alik",
+      "salik-ae",
+      "saliktag",
+      "salik-pay",
+      "salikdubai"
+    ],
+    "colors": [],
+    "reference_url": "https://www.salik.ae/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "darb",
+    "name_en": "Darb",
+    "name_ar": "درب",
+    "category": "transport",
+    "official_domains": [
+      "admobility.gov.ae",
+      "itc.gov.ae",
+      "qmobility.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+971800555",
+        "label": "ITC / AD Mobility service support call centre (800 555)",
+        "source_url": "https://admobility.gov.ae/en/darb",
+        "verified": true
+      },
+      {
+        "number": "+9718003009",
+        "label": "Q Mobility contact centre (Darb operator)",
+        "source_url": "https://www.qmobility.ae/en/services/darb",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "darb",
+      "darb toll",
+      "darb wallet",
+      "darb app",
+      "darb fines",
+      "integrated transport centre",
+      "admobility",
+      "ad mobility",
+      "qmobility",
+      "q mobility"
+    ],
+    "keywords_ar": [
+      "درب",
+      "التعرفة المرورية",
+      "مركز النقل المتكامل",
+      "أبوظبي للتنقل"
+    ],
+    "transliterations": [
+      "darrb",
+      "darbb",
+      "d4rb",
+      "dar6",
+      "darb-itc",
+      "darbitc",
+      "darb-ad",
+      "darbabudhabi",
+      "darb-toll",
+      "darbtoll",
+      "darb-uae",
+      "qmobilty",
+      "q-mobility",
+      "qmobillity",
+      "admobilty",
+      "ad-mobility",
+      "itc-abudhabi",
+      "itcabudhabi"
+    ],
+    "colors": [],
+    "reference_url": "https://admobility.gov.ae/en/darb",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "rta",
+    "name_en": "RTA",
+    "name_ar": "هيئة الطرق والمواصلات",
+    "category": "transport",
+    "official_domains": [
+      "rta.ae",
+      "nolplus.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+9718009090",
+        "label": "Call centre / helpline (800 9090)",
+        "source_url": "https://www.rta.ae/wps/portal/rta/ae/home/about-rta/contactus",
+        "verified": true
+      },
+      {
+        "number": "+97146051414",
+        "label": "From outside UAE",
+        "source_url": "https://www.rta.ae/wps/portal/rta/ae/home/about-rta/contactus",
+        "verified": true
+      },
+      {
+        "number": "+97142844444",
+        "label": "Head office",
+        "source_url": "https://www.rta.ae/wps/portal/rta/ae/home/about-rta/contactus",
+        "verified": true
+      },
+      {
+        "number": "+971588009090",
+        "label": "WhatsApp",
+        "source_url": "https://www.rta.ae/wps/portal/rta/ae/home/about-rta/contactus",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "rta",
+      "rta dubai",
+      "roads and transport authority",
+      "roads & transport authority",
+      "nol card",
+      "nol plus",
+      "nolplus",
+      "mahboub"
+    ],
+    "keywords_ar": [
+      "هيئة الطرق والمواصلات"
+    ],
+    "transliterations": [
+      "rtadubai",
+      "rta-dubai",
+      "dubairta",
+      "rta-ae",
+      "rtae",
+      "rtaa",
+      "r7a",
+      "rta-gov",
+      "rtagov",
+      "rta-uae",
+      "rtadubal",
+      "nolcard",
+      "nol-card",
+      "nol-plus"
+    ],
+    "colors": [
+      "#ee0000",
+      "#171c8f"
+    ],
+    "reference_url": "https://www.rta.ae/wps/portal/rta/ae/home",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "emiratespost",
+    "name_en": "Emirates Post",
+    "name_ar": "بريد الإمارات",
+    "category": "delivery",
+    "official_domains": [
+      "emiratespost.ae",
+      "emiratespostshop.ae",
+      "epg.ae",
+      "7x.ae",
+      "epgnft.ae",
+      "epgl.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600599999",
+        "label": "Customer care call centre and WhatsApp (600 5 99999)",
+        "source_url": "https://www.emiratespost.ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97142303000",
+        "label": "Head office, Garhoud, Dubai",
+        "source_url": "https://www.emiratespost.ae/contact-us",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "emiratespost",
+      "emirates post",
+      "emirates post group",
+      "emiratespostshop",
+      "emirates post shop"
+    ],
+    "keywords_ar": [
+      "بريد الإمارات",
+      "مجموعة بريد الإمارات"
+    ],
+    "transliterations": [
+      "emiratepost",
+      "emirates-post",
+      "emirates_post",
+      "emiratspost",
+      "emirtespost",
+      "emiratesspost",
+      "emiratespots",
+      "emirates-p0st",
+      "emiratesp0st",
+      "emiratepostuae",
+      "emiratespostuae",
+      "emirates-post-uae",
+      "epguae"
+    ],
+    "colors": [
+      "#0052a3",
+      "#001a33",
+      "#0059b2"
+    ],
+    "reference_url": "https://www.emiratespost.ae/",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "aramex",
+    "name_en": "Aramex",
+    "name_ar": "أرامكس",
+    "category": "delivery",
+    "official_domains": [
+      "aramex.com"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600544000",
+        "label": "UAE customer service — not confirmed: aramex.com blocks automated reads",
+        "source_url": "https://www.aramex.com/ae/en/find-aramex-office",
+        "verified": false
+      }
+    ],
+    "keywords_en": [
+      "aramex",
+      "aramex uae",
+      "aramex express",
+      "aramex shop"
+    ],
+    "keywords_ar": [
+      "أرامكس"
+    ],
+    "transliterations": [
+      "arammex",
+      "aramax",
+      "aramexx",
+      "arramex",
+      "aramix",
+      "aremex",
+      "aram3x",
+      "armex",
+      "aramecs",
+      "aramx",
+      "aramex-uae",
+      "aramexuae"
+    ],
+    "colors": [],
+    "reference_url": "https://www.aramex.com/ae/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "fab",
+    "name_en": "First Abu Dhabi Bank",
+    "name_ar": "بنك أبوظبي الأول",
+    "category": "bank",
+    "official_domains": [
+      "bankfab.com",
+      "securitiesfab.com"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600525500",
+        "label": "Call centre and fraud reporting (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97126811511",
+        "label": "Call centre and fraud reporting (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+9718002200",
+        "label": "FAB Islamic (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996299",
+        "label": "FAB Islamic (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97180040000",
+        "label": "Elite and Private Banking (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124103402",
+        "label": "Elite Banking (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996599",
+        "label": "Private Banking (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600522235",
+        "label": "Commercial Banking (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996700",
+        "label": "Commercial Banking (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600560137",
+        "label": "National Housing Loan (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996111",
+        "label": "National Housing Loan (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600500201",
+        "label": "e-Dirham (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996125",
+        "label": "e-Dirham (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600522298",
+        "label": "Ratibi (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996279",
+        "label": "Ratibi (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600543329",
+        "label": "Payit (UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124996411",
+        "label": "Payit (from outside UAE)",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97124104888",
+        "label": "POS merchant support",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97126920766",
+        "label": "Corporate online banking technical support",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97146079722",
+        "label": "Trade-related queries",
+        "source_url": "https://www.bankfab.com/en-ae/contact-us",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "fab",
+      "bankfab",
+      "first abu dhabi bank",
+      "firstabudhabibank",
+      "fab bank",
+      "fab islamic",
+      "fabislamic"
+    ],
+    "keywords_ar": [
+      "بنك أبوظبي الأول",
+      "بنك أبو ظبي الأول"
+    ],
+    "transliterations": [
+      "bank-fab",
+      "fabbank",
+      "fab-bank",
+      "first-abu-dhabi-bank",
+      "firstabudhabi",
+      "1stabudhabibank",
+      "bnkfab",
+      "bankfaab",
+      "bankf4b",
+      "banckfab",
+      "fab-ae",
+      "fabuae"
+    ],
+    "colors": [
+      "#003da6",
+      "#d50032"
+    ],
+    "reference_url": "https://www.bankfab.com/en-ae/personal",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "adcb",
+    "name_en": "ADCB",
+    "name_ar": "بنك أبوظبي التجاري",
+    "category": "bank",
+    "official_domains": [
+      "adcb.com"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600502030",
+        "label": "Call centre (UAE) / Aspire customers",
+        "source_url": "https://www.adcb.com/en/multimedia/kfs/touchpoints-flex-kfs.pdf",
+        "verified": true
+      },
+      {
+        "number": "+971600508008",
+        "label": "Privilege customers (UAE)",
+        "source_url": "https://www.adcb.com/en/multimedia/kfs/touchpoints-flex-kfs.pdf",
+        "verified": true
+      },
+      {
+        "number": "+971600502004",
+        "label": "Excellency customers (UAE)",
+        "source_url": "https://www.adcb.com/en/multimedia/kfs/touchpoints-flex-kfs.pdf",
+        "verified": true
+      },
+      {
+        "number": "+971600502322",
+        "label": "Private Banking (UAE)",
+        "source_url": "https://www.adcb.com/en/multimedia/kfs/touchpoints-flex-kfs.pdf",
+        "verified": true
+      },
+      {
+        "number": "+97126210090",
+        "label": "From outside UAE — not confirmed: adcb.com pages block automated reads",
+        "source_url": "https://www.adcb.com/en/about-email-fraud",
+        "verified": false
+      }
+    ],
+    "keywords_en": [
+      "adcb",
+      "abu dhabi commercial bank",
+      "abudhabicommercialbank",
+      "adcb islamic",
+      "adcbislamic"
+    ],
+    "keywords_ar": [
+      "بنك أبوظبي التجاري"
+    ],
+    "transliterations": [
+      "adcp",
+      "adbc",
+      "acdb",
+      "adc8",
+      "adcbank",
+      "adcb-bank",
+      "adcb-ae",
+      "adcbuae",
+      "abudhabicommercial",
+      "abu-dhabi-commercial-bank",
+      "abudhabi-commercial"
+    ],
+    "colors": [],
+    "reference_url": "https://www.adcb.com/en/",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "emiratesnbd",
+    "name_en": "Emirates NBD",
+    "name_ar": "بنك الإمارات دبي الوطني",
+    "category": "bank",
+    "official_domains": [
+      "emiratesnbd.com",
+      "liv.me",
+      "emiratesnbdsecurities.com",
+      "emiratesnbdresearch.com",
+      "enbdreit.com",
+      "emiratesnbd.com.sa",
+      "emiratesnbdcapital.com.sa",
+      "emiratesnbd.com.eg",
+      "emiratesnbd.sg",
+      "emiratesnbd.co.uk",
+      "emiratesnbd.bank.in"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600540000",
+        "label": "Call centre, lost/stolen cards and fraud (UAE and from outside UAE)",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971800100",
+        "label": "Priority Banking (UAE)",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97143160333",
+        "label": "Priority Banking (from outside UAE)",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971600540009",
+        "label": "Business Banking",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+971800456",
+        "label": "Private Banking (UAE)",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      },
+      {
+        "number": "+97145446852",
+        "label": "Corporate and Institutional Banking",
+        "source_url": "https://www.emiratesnbd.com/en/help-and-support/contact-us",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "emiratesnbd",
+      "emirates nbd",
+      "enbd",
+      "enbdx",
+      "enbd x",
+      "emirates nbd bank",
+      "liv bank"
+    ],
+    "keywords_ar": [
+      "بنك الإمارات دبي الوطني",
+      "الإمارات دبي الوطني"
+    ],
+    "transliterations": [
+      "emirates-nbd",
+      "emirates_nbd",
+      "emiratenbd",
+      "emiratesnbdbank",
+      "emirates-nbd-bank",
+      "emiratesndb",
+      "emirates-ndb",
+      "emirtesnbd",
+      "emiratsnbd",
+      "emirat3snbd",
+      "3mirate5nbd",
+      "enbd-ae",
+      "enbduae"
+    ],
+    "colors": [
+      "#072447",
+      "#2765ff"
+    ],
+    "reference_url": "https://www.emiratesnbd.com/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "adib",
+    "name_en": "ADIB",
+    "name_ar": "مصرف أبوظبي الإسلامي",
+    "category": "bank",
+    "official_domains": [
+      "adib.ae",
+      "adib.com",
+      "adibdirect.com",
+      "adibsmartdeals.com",
+      "adibsecurities.ae",
+      "adib.eg",
+      "adib.iq",
+      "adib.co.uk",
+      "adib.qa"
+    ],
+    "official_phones": [
+      {
+        "number": "+971600543216",
+        "label": "Call centre and WhatsApp Chat Banking, Personal Banking (UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97126100600",
+        "label": "Personal Banking (from outside UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97126100116",
+        "label": "Report fraud / lost or stolen card, Retail Banking",
+        "source_url": "https://www.adib.ae/en/fraud-security/report-fraud",
+        "verified": true
+      },
+      {
+        "number": "+971600543220",
+        "label": "Business Banking (UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97126578777",
+        "label": "Business Banking (from outside UAE) and fraud reporting",
+        "source_url": "https://www.adib.ae/en/fraud-security/report-fraud",
+        "verified": true
+      },
+      {
+        "number": "+971800200",
+        "label": "Priority Banking (UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97124129000",
+        "label": "Priority Banking (from outside UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97126960333",
+        "label": "ADIB Securities",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97148061212",
+        "label": "ADIMAC",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97148210813",
+        "label": "Collection Unit",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97180069676",
+        "label": "MPM Properties (UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      },
+      {
+        "number": "+97126100252",
+        "label": "MPM Properties (from outside UAE)",
+        "source_url": "https://www.adib.com/en/pages/contact_us.aspx",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "adib",
+      "abu dhabi islamic bank",
+      "abudhabiislamicbank",
+      "adib direct",
+      "adibdirect"
+    ],
+    "keywords_ar": [
+      "مصرف أبوظبي الإسلامي"
+    ],
+    "transliterations": [
+      "adiib",
+      "adlb",
+      "ad1b",
+      "adib-ae",
+      "adibuae",
+      "adibbank",
+      "adib-bank",
+      "adlbbank",
+      "abudhabiislamic",
+      "abu-dhabi-islamic-bank",
+      "abudhabi-islamic"
+    ],
+    "colors": [],
+    "reference_url": "https://www.adib.ae/en",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "eand",
+    "name_en": "e&",
+    "name_ar": "اتصالات",
+    "category": "telecom",
+    "official_domains": [
+      "etisalat.ae",
+      "eand.ae",
+      "eand.com",
+      "eanduniverse.com",
+      "eim.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "101",
+        "label": "Call centre (short code)",
+        "source_url": "https://www.eand.ae/en/onboarding/postpaid/get-support/support.html",
+        "verified": true
+      },
+      {
+        "number": "+971800101",
+        "label": "Toll-free customer care (800 101)",
+        "source_url": "https://www.eand.ae/en/c/support/home/internet/full-home-wifi/subscriptions-cancellations.html",
+        "verified": true
+      },
+      {
+        "number": "+9718003327",
+        "label": "General enquiries voice assistant (800 3327)",
+        "source_url": "https://www.eand.ae/en/c/support/index.html",
+        "verified": true
+      }
+    ],
+    "keywords_en": [
+      "etisalat",
+      "eand",
+      "e&",
+      "e& uae",
+      "etisalat uae",
+      "etisalat by e&",
+      "e& universe"
+    ],
+    "keywords_ar": [
+      "اتصالات",
+      "اتصالات الامارات"
+    ],
+    "transliterations": [
+      "etislat",
+      "etisalaat",
+      "etisallat",
+      "ettisalat",
+      "itisalat",
+      "etsalat",
+      "etisa1at",
+      "etisalat-uae",
+      "etisalatuae",
+      "etisalat-ae",
+      "e-and",
+      "eand-uae",
+      "eanduae",
+      "e-and-uae"
+    ],
+    "colors": [
+      "#e00800",
+      "#191329"
+    ],
+    "reference_url": "https://www.eand.ae/en/index.html",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  },
+  {
+    "id": "du",
+    "name_en": "du",
+    "name_ar": "دو",
+    "category": "telecom",
+    "official_domains": [
+      "du.ae"
+    ],
+    "official_phones": [
+      {
+        "number": "155",
+        "label": "Customer care in UAE (short code)",
+        "source_url": "https://www.du.ae/support/du-contactus",
+        "verified": true
+      },
+      {
+        "number": "+971555678155",
+        "label": "Customer care from overseas",
+        "source_url": "https://www.du.ae/support/du-contactus",
+        "verified": true
+      },
+      {
+        "number": "+971582428268",
+        "label": "WhatsApp customer support (058 2428268)",
+        "source_url": "https://www.du.ae/psim",
+        "verified": true
+      },
+      {
+        "number": "+971800155",
+        "label": "Toll-free customer care — not confirmed on a current du.ae page",
+        "source_url": "https://www.du.ae/personal/support-articledetail?artid=PROD-18737&lang=en-US",
+        "verified": false
+      }
+    ],
+    "keywords_en": [
+      "du",
+      "du telecom",
+      "du uae",
+      "emirates integrated telecommunications",
+      "my du",
+      "du shop"
+    ],
+    "keywords_ar": [
+      "شركة الإمارات للاتصالات المتكاملة"
+    ],
+    "transliterations": [
+      "du-ae",
+      "duae",
+      "du-uae",
+      "dutelecom",
+      "du-telecom",
+      "mydu",
+      "my-du",
+      "du-online",
+      "du-care"
+    ],
+    "colors": [
+      "#00a9ce"
+    ],
+    "reference_url": "https://www.du.ae/personal",
+    "favicon_path": null,
+    "reference_screenshot_path": null
+  }
 ]

@@ -41,3 +41,19 @@ npm run dev             # or: python scripts/run_services.py   (make dev on macO
 - API docs: http://localhost:8000/docs
 
 Run the tests with `npm test` (or `python -m pytest`).
+
+## Brand library and allowlist
+
+`shared/brands.json` covers 16 UAE institutions. Every official domain and helpline number was read from the
+institution's own website, and each number records the `source_url` of the page that publishes it. A number is
+`verified: true` only when it was read on that official page; unconfirmed numbers stay `verified: false` and are
+never used to clear a site or a number. `tests/test_brands.py` enforces that every verified number cites a page
+on that brand's own domain.
+
+```bash
+python scripts/capture_brand_assets.py       # favicons + reference screenshots -> shared/brand_assets/
+python scripts/build_allowlist.py data/runtime/tranco/top-1m.csv   # official domains + Tranco top 10k
+```
+
+`data/allowlist/exclude.txt` lists free-hosting platforms, tunnels and URL shorteners that are never
+allowlisted, however popular they are.

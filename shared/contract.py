@@ -138,6 +138,7 @@ class Brand(BaseModel):
     keywords_ar: list[str] = Field(default_factory=list)
     transliterations: list[str] = Field(default_factory=list)
     colors: list[str] = Field(default_factory=list)
+    reference_url: str | None = None
     favicon_path: str | None = None
     reference_screenshot_path: str | None = None
 
