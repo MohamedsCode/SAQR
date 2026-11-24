@@ -186,7 +186,9 @@
     "html_hash": "Page HTML SHA-256",
     "shot_hash": "Screenshot SHA-256",
     "input": "Original input",
-    "final_url": "Final URL"
+    "final_url": "Final URL",
+    "pdf_loading": "Preparing the evidence pack…",
+    "pdf_unavailable": "The evidence pack could not be generated. It needs the SAQR API running with the evidence module enabled."
   },
   "scan": {
     "kicker": "Investigation",

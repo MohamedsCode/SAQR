@@ -75,6 +75,7 @@ export default function CaseDetail() {
   const { brands, brandName } = useBrands();
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [missing, setMissing] = useState(false);
+  const [pdfState, setPdfState] = useState<"idle" | "loading" | "unavailable">("idle");
 
   useEffect(() => {
     setScan(null);
@@ -103,6 +104,25 @@ export default function CaseDetail() {
   const similarity = ev.visual_similarity;
   const asksFor = [...new Set(ev.forms.flatMap((f) => f.asks_for))];
   const glow = scan.verdict === "fraud" ? "glow-fraud" : scan.verdict === "suspicious" ? "glow-suspicious" : "glow-safe";
+
+  async function downloadPdf() {
+    if (!scan) return;
+    if (!isLive()) {
+      setPdfState("unavailable");
+      return;
+    }
+    setPdfState("loading");
+    try {
+      const response = await fetch(`/api/scans/${encodeURIComponent(scan.id)}/evidence.pdf`);
+      if (!response.ok) throw new Error(String(response.status));
+      const url = URL.createObjectURL(await response.blob());
+      Object.assign(document.createElement("a"), { href: url, download: `${scan.id}-evidence.pdf` }).click();
+      URL.revokeObjectURL(url);
+      setPdfState("idle");
+    } catch {
+      setPdfState("unavailable");
+    }
+  }
 
   function downloadEvidence() {
     if (!scan) return;
@@ -161,13 +181,22 @@ export default function CaseDetail() {
           <div className="flex flex-wrap gap-2 pt-1">
             <button
               type="button"
-              onClick={downloadEvidence}
-              className="inline-flex items-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft"
+              onClick={downloadPdf}
+              disabled={pdfState === "loading"}
+              className="inline-flex items-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft disabled:opacity-60"
             >
               <IconFile size={16} />
+              {pdfState === "loading" ? t("case.pdf_loading") : t("case.download_pdf")}
+            </button>
+            <button
+              type="button"
+              onClick={downloadEvidence}
+              className="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm hover:border-gold/60 hover:text-gold-soft"
+            >
               {t("case.download_json")}
             </button>
           </div>
+          {pdfState === "unavailable" && <p className="text-sm text-suspicious">{t("case.pdf_unavailable")}</p>}
         </div>
         <dl className="w-full min-w-56 text-sm sm:w-auto">
           <Field label={t("case.first_seen")} value={dateTime(scan.first_seen, lang)} />
