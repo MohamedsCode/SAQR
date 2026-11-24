@@ -117,3 +117,12 @@ def test_publish_anywhere_platforms_count_as_free_hosting():
     assert free_hosting_match("verify.ddnss.eu") == "ddnss.eu"
     assert free_hosting_match("www.gitbook.com") is None
     assert free_hosting_match("blogspot.com.example.org") is None
+
+
+def test_a_platforms_own_website_is_not_user_content():
+    from engine.brands import free_hosting_match
+
+    assert free_hosting_match("ddnss.de") is None
+    assert free_hosting_match("www.netlify.app") is None
+    assert free_hosting_match("sites.google.com") == "sites.google.com"
+    assert free_hosting_match("forms.gle") == "forms.gle"

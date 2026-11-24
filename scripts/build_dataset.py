@@ -7,7 +7,7 @@ appears in both halves.
 
 Usage:
   python scripts/build_dataset.py --openphish data/runtime/feeds/openphish.txt \
-      --phishdb data/runtime/feeds/phishing-links-ACTIVE.txt --tranco data/runtime/tranco/top-1m.csv       --legit-links data/runtime/feeds/legit_links.txt
+      --phishdb data/runtime/feeds/phishing-links-ACTIVE.txt --tranco data/runtime/tranco/top-1m.csv       --legit-links data/runtime/feeds/legit_links.txt [more link files] [--extra-phishing N --extra-deeper N]
 """
 
 from __future__ import annotations
@@ -56,8 +56,12 @@ def main() -> None:
     parser.add_argument("--openphish", type=Path)
     parser.add_argument("--phishdb", type=Path)
     parser.add_argument("--tranco", type=Path)
-    parser.add_argument("--legit-links", type=Path)
+    parser.add_argument("--legit-links", type=Path, nargs="*", default=[])
     parser.add_argument("--phishdb-sample", type=int, default=3000)
+    parser.add_argument("--extra-phishing", type=int, default=0,
+                        help="more Phishing.Database URLs, drawn after the main sample so existing rows stay the same")
+    parser.add_argument("--extra-deeper", type=int, default=0,
+                        help="more Tranco sites ranked 10k-100k, drawn after the main sample")
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
     rng = random.Random(SEED)
@@ -65,7 +69,8 @@ def main() -> None:
     rows: list[tuple[str, str, str]] = []
     rows += [(u, "phishing", "openphish") for u in read_lines(args.openphish)]
     phishdb = read_lines(args.phishdb)
-    rows += [(u, "phishing", "phishing_database") for u in rng.sample(phishdb, min(len(phishdb), args.phishdb_sample))]
+    main_sample = rng.sample(phishdb, min(len(phishdb), args.phishdb_sample))
+    rows += [(u, "phishing", "phishing_database") for u in main_sample]
 
     for brand in brands().values():
         for domain in brand.official_domains:
@@ -88,7 +93,15 @@ def main() -> None:
     for domain in rng.sample(uae, min(len(uae), 600)):
         rows.append((f"https://{domain}/", "legit", "tranco_uae"))
 
-    rows += [(u, "legit", "legit_deep_links") for u in read_lines(args.legit_links)]
+    for path in args.legit_links:
+        rows += [(u, "legit", "legit_deep_links") for u in read_lines(path)]
+
+    extra = random.Random(SEED + 1)  # a separate stream, so the rows above never change
+    if args.extra_phishing:
+        pool = sorted(set(phishdb) - set(main_sample))
+        rows += [(u, "phishing", "phishing_database") for u in extra.sample(pool, min(len(pool), args.extra_phishing))]
+    if args.extra_deeper:
+        rows += [(f"https://{d}/", "legit", "tranco_deeper") for d in extra.sample(deeper, min(len(deeper), args.extra_deeper))]
 
     seen: set[str] = set()
     written = {"phishing": 0, "legit": 0}

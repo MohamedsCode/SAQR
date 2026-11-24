@@ -85,8 +85,24 @@ def _host_in(host: str, domains: list[str]) -> str | None:
     return None
 
 
+PATH_HOSTED = {"forms.gle"}  # two-label platforms whose users publish under the path, not a subdomain
+
+
+def _user_content(host: str, platforms: list[str]) -> str | None:
+    """The platform whose users publish on this host: a subdomain of it (scam.netlify.app), or the platform host
+    itself when users publish under its path (sites.google.com/view/..., forms.gle/...). The platform's own
+    website (netlify.app, ddnss.de) is not user content."""
+    host = host.removeprefix("www.")
+    for platform in platforms:
+        if host.endswith("." + platform):
+            return platform
+        if host == platform and (platform.count(".") >= 2 or platform in PATH_HOSTED):
+            return platform
+    return None
+
+
 def free_hosting_match(host: str) -> str | None:
-    match = _host_in(host, SIGNALS["free_hosting"]) or _host_in(host, SIGNALS["tunnels"])
+    match = _user_content(host, SIGNALS["free_hosting"]) or _user_content(host, SIGNALS["tunnels"])
     if match:
         return match
     labels = host.split(".")

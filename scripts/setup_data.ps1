@@ -83,8 +83,15 @@ Invoke-Step 'Build labelled dataset' {
 
 Invoke-Step 'Add legitimate deep links to the dataset' {
     if (-not $script:DatasetArguments) { throw "the dataset step failed" }
+    $links = Join-Path $Feeds 'legit_links.txt'
+    $extraLinks = Join-Path $Feeds 'legit_links_extra.txt'
+    $extra = @('--extra-phishing', '4000', '--extra-deeper', '3000')
     Invoke-Python @('-W', 'ignore', 'scripts\crawl_legit_links.py', '--sites', '3000') | Out-Null
-    Invoke-Python ($script:DatasetArguments + @('--legit-links', (Join-Path $Feeds 'legit_links.txt'))) | Out-Null
+    # Add more phishing and more ordinary legitimate sites, then collect deep links from the sites not crawled yet.
+    Invoke-Python ($script:DatasetArguments + @('--legit-links', $links) + $extra) | Out-Null
+    Invoke-Python @('-W', 'ignore', 'scripts\crawl_legit_links.py', '--sites', '3000', '--output', $extraLinks,
+                    '--skip-sites-in', $links) | Out-Null
+    Invoke-Python ($script:DatasetArguments + @('--legit-links', $links, $extraLinks) + $extra) | Out-Null
 }
 
 Invoke-Step 'Capture brand assets' {

@@ -70,8 +70,10 @@ def say(text: str = "") -> None:
 
 
 def new_model() -> HistGradientBoostingClassifier:
+    # Chosen by 5-fold grouped cross-validation on the train split (average precision), out of 24 settings.
     return HistGradientBoostingClassifier(
-        max_iter=300, learning_rate=0.08, max_leaf_nodes=31, l2_regularization=1.0, random_state=SEED,
+        max_iter=200, learning_rate=0.03, max_leaf_nodes=15, l2_regularization=1.0, min_samples_leaf=20,
+        max_features=0.6, random_state=SEED,
     )
 
 

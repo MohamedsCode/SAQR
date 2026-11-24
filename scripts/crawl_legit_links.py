@@ -86,15 +86,21 @@ def main() -> None:
     parser.add_argument("--dataset", type=Path, default=DATASET)
     parser.add_argument("--sites", type=int, default=2000)
     parser.add_argument("--concurrency", type=int, default=32)
+    parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--skip-sites-in", type=Path, nargs="*", default=[],
+                        help="link files whose sites were already crawled; those sites are skipped")
     args = parser.parse_args()
+    done_sites = {registered(u) for path in args.skip_sites_in
+                  for u in path.read_text(encoding="utf-8").splitlines() if u.strip()}
     with args.dataset.open(encoding="utf-8") as handle:
         homepages = [r["url"] for r in csv.DictReader(handle)
                      if r["label"] == "legit" and r["source"] in HOMEPAGE_SOURCES and urlsplit(r["url"]).path in ("", "/")]
+    homepages = [h for h in homepages if registered(h) not in done_sites]
     homepages = random.Random(SEED).sample(homepages, min(args.sites, len(homepages)))
     links = asyncio.run(crawl(homepages, args.concurrency))
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text("\n".join(sorted(set(links))) + "\n", encoding="utf-8")
-    print(f"{OUTPUT}: {len(set(links))} deep links from {len(homepages)} legitimate sites")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text("\n".join(sorted(set(links))) + "\n", encoding="utf-8")
+    print(f"{args.output}: {len(set(links))} deep links from {len(homepages)} legitimate sites")
 
 
 if __name__ == "__main__":
