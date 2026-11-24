@@ -1,0 +1,8 @@
+{
+  "name": "SAQR demo phone",
+  "short_name": "Phone",
+  "start_url": "/demo/phone",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}

@@ -1,9 +1,10 @@
 import logoMark from "@shared/logo/saqr-mark-white.png";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDataMode } from "../api";
 import { BRAND, localized, productName } from "../brand";
+import { useDemoEvents } from "../lib/demoBus";
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
@@ -31,6 +32,14 @@ function DataModeBadge() {
 export default function Layout({ children }: { children: ReactNode }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+  const navigate = useNavigate();
+
+  useDemoEvents((event) => {
+    if (event.type === "blocked") {
+      const call = event.call_at ? `?call=${encodeURIComponent(event.call_at)}` : "";
+      navigate(`/cases/${encodeURIComponent(event.scan_id)}${call}`);
+    }
+  });
 
   return (
     <div className="grid-bg min-h-screen">

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, useDataMode } from "../api";
+import DemoPanel from "../components/DemoPanel";
 import { IconAlert, IconClock, IconPhone, IconRadar, IconSearch, IconShield } from "../components/Icons";
 import VerdictBadge, { SourceBadge, verdictColor } from "../components/VerdictBadge";
 import { number, relativeTime } from "../lib/format";
@@ -149,6 +150,8 @@ export default function Dashboard() {
       </div>
 
       {failed && <p className="panel p-3 text-fraud">{t("error.load")}</p>}
+
+      <DemoPanel />
 
       {stats && (
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">

@@ -79,6 +79,7 @@ export const api = {
         return found;
       },
     ),
+  demoReset: () => request<{ ok: boolean }>("/demo/reset", { method: "POST" }),
   brands: () => live(() => request<Brand[]>("/brands"), () => sampleBrands),
   scan: (input: string) =>
     live(

@@ -1,7 +1,7 @@
 import type { ScanResult } from "@shared/contract";
 import { type ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { api, downloadJson, isLive, screenshotUrl } from "../api";
 import { localized } from "../brand";
 import {
@@ -21,7 +21,7 @@ import {
 import ScoreGauge from "../components/ScoreGauge";
 import VerdictBadge, { SourceBadge, verdictColor } from "../components/VerdictBadge";
 import { referenceImage } from "../lib/assets";
-import { dateTime, daysSince } from "../lib/format";
+import { dateTime, daysSince, duration } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
 
 function Panel({ title, icon, children, className = "" }: { title: string; icon?: ReactNode; children: ReactNode; className?: string }) {
@@ -68,6 +68,8 @@ function Shot({ label, src, caption, accent }: { label: string; src: string | nu
 
 export default function CaseDetail() {
   const { id = "" } = useParams();
+  const [params] = useSearchParams();
+  const callAt = params.get("call");
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const { brands, brandName } = useBrands();
@@ -114,6 +116,18 @@ export default function CaseDetail() {
         <IconArrowBack size={16} className="rtl:rotate-180" />
         {t("case.back")}
       </Link>
+
+      {callAt && (
+        <section className="panel animate-ring-alert flex flex-wrap items-center gap-3 border-fraud/60 p-4">
+          <IconPhone className="text-fraud" />
+          <span className="font-semibold text-fraud">{t("demo.blocked_banner")}</span>
+          <span className="text-text/90">
+            {Date.parse(scan.first_seen) < Date.parse(callAt)
+              ? t("demo.first_seen_before", { duration: duration(Date.parse(callAt) - Date.parse(scan.first_seen), lang) })
+              : t("demo.first_seen_now")}
+          </span>
+        </section>
+      )}
 
       <section className={`panel animate-fade-up flex flex-wrap items-center gap-8 p-6 ${glow}`}>
         <ScoreGauge score={scan.score} verdict={scan.verdict} />

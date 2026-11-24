@@ -220,5 +220,20 @@
     "no_match": "No brand look-alike",
     "open_case": "Open the full case →",
     "advice": "Do not enter any details on this site."
+  },
+  "demo": {
+    "title": "Live demo",
+    "phone_at": "Phone simulator:",
+    "trigger": "Trigger scam call",
+    "reset": "Reset demo",
+    "state_idle": "Phone idle",
+    "state_ringing": "Ringing",
+    "state_in_call": "Call in progress",
+    "state_sms": "Scam SMS received",
+    "state_blocked": "Blocked by SAQR",
+    "bus_offline": "The demo channel is not available. Start the web app with npm run dev.",
+    "blocked_banner": "SAQR just blocked this link on the victim's phone.",
+    "first_seen_before": "SAQR first saw this site {{duration}} before the call.",
+    "first_seen_now": "Detected at the moment the link was opened."
   }
 }

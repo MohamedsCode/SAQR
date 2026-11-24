@@ -34,6 +34,13 @@ export function daysSince(iso: string | null | undefined, reference: string): nu
   return Math.max(0, day(reference) - day(iso));
 }
 
+export function duration(ms: number, lang: string): string {
+  const minutes = Math.max(1, Math.round(ms / 60_000));
+  const [value, unit]: [number, Intl.NumberFormatOptions["unit"]] =
+    minutes >= 2880 ? [Math.round(minutes / 1440), "day"] : minutes >= 90 ? [Math.round(minutes / 60), "hour"] : [minutes, "minute"];
+  return new Intl.NumberFormat(locale(lang), { style: "unit", unit, unitDisplay: "long" }).format(value);
+}
+
 export function number(value: number, lang: string): string {
   return value.toLocaleString(locale(lang));
 }
