@@ -106,7 +106,7 @@ function Notice({ domain, closing, close, onExitEnd }: {
   domain: string; closing: boolean; close: () => void; onExitEnd: (e: AnimationEvent) => void;
 }) {
   return (
-    <div role="status" aria-live="polite"
+    <div role="status" aria-live="polite" dir="ltr"
          className={`saqr-root fixed end-4 top-4 ${Z_SURFACE} w-[min(420px,calc(100vw-32px))]`}>
       <div onAnimationEnd={onExitEnd}
            className={`rounded-xl border border-black/15 bg-notice-surface p-5 text-notice-ink ${closing ? "saqr-exit" : "saqr-enter"}`}>
@@ -152,7 +152,8 @@ export default function Warning({ outcome, actions, portal, onClosed }: Props) {
         <AlertDialog.Overlay
           className={`fixed inset-0 ${Z_OVERLAY} ${fraud ? "bg-fraud-surface" : "bg-black/30"} ${closing ? "saqr-exit" : ""}`}
         />
-        <div onAnimationEnd={onExitEnd}
+        {/* dir="ltr": the layout is English-left / Arabic-right whatever the page's own direction is */}
+        <div onAnimationEnd={onExitEnd} dir="ltr"
              className={`saqr-root fixed inset-0 ${Z_SURFACE} flex items-center justify-center overflow-y-auto p-4 ${closing ? "saqr-exit" : ""}`}>
           <AlertDialog.Content
             onOpenAutoFocus={(e) => {

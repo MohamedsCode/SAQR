@@ -16,44 +16,63 @@ Most people only find out after the money has left their account.
 
 ## Our solution
 
-SAQR checks a link before you trust it. In a few seconds it tells you, in Arabic or English, whether the site is
-safe, suspicious or a scam, and why. It also hunts for new scam sites and fake helpline numbers before anyone
-reports them, and gives police ready-made evidence to take them down.
+SAQR protects people at the moment they open a link, and helps police shut the scam down:
+
+- **For the public:** a Chrome extension and a phone website that tell you, in Arabic and English, whether a link
+  is safe, suspicious or a scam, and why.
+- **For police:** an operations centre that hunts for new scam websites and fake helpline numbers before anyone
+  reports them, and prepares the evidence needed to take them down.
+
+### What the public sees
+
+When someone opens a scam website, SAQR covers it with a full-page warning before they can type anything. It
+explains in plain Arabic and English what's wrong, here a fake "Abu Dhabi Police" fine page, and offers a
+one-click way back to safety. Websites that only look doubtful get a smaller amber warning instead, and safe
+websites are never interrupted.
+
+<p align="center">
+  <img src="docs/screens/fraud-warning.png" alt="SAQR's full-page warning on a fake Abu Dhabi Police fine website" width="760">
+</p>
+
+### What the police see
+
+The operations centre lists every scam website SAQR has found, with its score and how it was found: reported by a
+citizen, spotted as a look-alike name, or found through a new website certificate. It shows which institutions are
+being targeted, which kinds of scams are most common, and how many were caught before anyone reported them. Each case
+opens into the full evidence, including screenshots, registration records and the reasons in both languages,
+ready to download as a report with a takedown letter.
+
+<p align="center">
+  <img src="docs/screens/police-dashboard.png" alt="The SAQR police operations centre" width="760">
+</p>
 
 ## How it works
 
-- **Reads the link like an investigator:** spots fake names (`sa1ik` instead of `salik`,
-  `tamm.abudhabi.pay-fines.top`), websites created only days ago, free website builders scammers like to use, and
-  links that secretly send you somewhere else.
-- **Opens the page safely** in a separate browser on our server, and looks for forms asking for card numbers,
-  passwords or one-time codes, and for copies of official websites.
-- **An AI model trained on 17,877 real links** catches what the fixed rules miss. On links it had never seen, 97.6%
-  of its warnings were correct and it caught 91.4% of scam links. Official UAE websites are never flagged.
+Every link, whether a citizen checks it or SAQR finds it on its own, goes through the same checks:
+
+1. **The address:** fake brand names (`sa1ik` instead of `salik`, `tamm.abudhabi.pay-fines.top`), free website
+   builders scammers like to use, and link shorteners.
+2. **The registration:** when the website was created, whether it has a security certificate, and where the link
+   really leads.
+3. **The page itself:** opened safely on our server, as a computer and as an iPhone, to look for forms asking for
+   card numbers or one-time codes, and for copies of official websites.
+4. **The AI model** weighs all of this together and catches what fixed rules miss.
+
+Each warning sign comes with a reason in Arabic and English. The official websites of 16 UAE institutions, each
+confirmed on the institution's own site, are always marked safe.
 
 We never listen to calls or read your messages. SAQR only looks at the links you choose to check.
 
-## Under the hood
+## Technical details
 
 ```mermaid
 flowchart LR
     citizen["Citizens: phone page · Chrome extension"] --> server["SAQR server"]
-    police["Police dashboard"] --> server
-    discovery["Scam hunting: fake look-alike names · new website certificates · fake helplines on Maps"] --> checks
+    police["Police operations centre"] --> server
+    discovery["Scam hunting: look-alike names · new website certificates · fake helplines on Maps"] --> checks
     server --> checks["Checks: the address → its registration → the page itself → rules + AI"]
     checks --> evidence["Cases and evidence reports in Arabic and English"]
 ```
-
-**How a link is checked.** Every link gets the same three checks:
-1. **The address:** fake brand names (`sa1ik`, `tamm.abudhabi.evil.top`), free website builders, and link shorteners
-   such as bit.ly.
-2. **The registration:** when the website was created, whether it has a security certificate, and where the link
-   really leads.
-3. **The page itself:** opened twice, as a computer and as an iPhone. It looks for forms asking for card numbers or
-   one-time codes, pages that show security checkers something different from what visitors see, and copies of
-   official websites.
-
-Each warning sign adds points and comes with a reason in Arabic and English. The official websites of 16 UAE
-institutions, each confirmed on the institution's own site, are always marked safe.
 
 **The AI model.** Two models work together. One judges only the website's name and registration; the other also
 reads the rest of the link. The second can't flag a website the first considers clean, so a real bank page such as
@@ -68,18 +87,14 @@ other 30%, which they had never seen:
 
 None of the 937 official or most-visited websites in the test was flagged.
 
-**Hunting scams and building evidence.**
-- Finds new scam websites before anyone reports them, by watching for newly registered look-alike names and newly
-  issued website certificates.
-- Finds fake customer-service numbers listed on Google Maps.
-- Groups scam websites run by the same people (same server, phone number or email).
-- Creates an evidence report for police for each case, with a ready-to-send letter asking the hosting company to
-  take the website down.
+**Hunting scams.** SAQR watches for newly registered look-alike names and newly issued website certificates, finds
+fake customer-service numbers listed on Google Maps, and groups scam websites run by the same people (same server,
+phone number or email).
 
 **Built with.**
 - Python and FastAPI (server), SQLite (database), Playwright (opens pages safely), scikit-learn (AI model),
   ReportLab (evidence reports).
-- React, TypeScript and Tailwind (website), in Arabic and English.
+- React, TypeScript and Tailwind (website and Chrome extension), in Arabic and English.
 - Public data: rdap.org (website registration records), crt.sh (website certificates), Team Cymru (who hosts a
   website), Tranco (list of the most visited websites). Google Maps search through Google Places or SerpAPI is
   optional.
