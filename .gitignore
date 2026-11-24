@@ -25,3 +25,9 @@ CLAUDE.md
 .idea/
 .DS_Store
 Thumbs.db
+
+# Deployment credentials and machine-local configuration
+.vercel/
+.env.local
+.env.*.local
+

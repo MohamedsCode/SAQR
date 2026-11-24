@@ -1,0 +1,1 @@
+15-second version. 450 frames at 30 fps. Run python render.py with Pillow, numpy, ffmpeg and Windows Arial fonts. Combined amber message/domain scene. Original stereo synthesized wing/fly-by sound at logo entrance. Scene frame and export metadata checked; real-time audiovisual playback not reviewed.

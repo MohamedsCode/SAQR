@@ -1,0 +1,1 @@
+Run python render.py with Pillow, numpy, Windows Arial fonts, and ffmpeg on PATH. Editable 300-frame timeline with original synthesized soundtrack. Transparent logo asset generated from the supplied JPEG. Scene frames visually reviewed; metadata verified. Real-time audiovisual playback not reviewed.
