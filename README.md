@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="shared/logo/saqr-logo.png" alt="SAQR صقر" width="150">
+  <img src="shared/logo/saqr-logo-white-bg.png" alt="SAQR صقر" width="170">
 </p>
 
 <p align="center"><b>We go after what scammers publish.</b><br>نلاحق ما ينشره المحتالون.</p>
