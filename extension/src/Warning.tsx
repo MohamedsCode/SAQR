@@ -2,8 +2,8 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import type { Reason } from "@shared/contract";
 import markDark from "@shared/logo/saqr-mark.png";
 import markLight from "@shared/logo/saqr-mark-white.png";
-import { type AnimationEvent, type KeyboardEvent, useRef, useState } from "react";
-import { type Lang, STRINGS } from "./i18n";
+import { type AnimationEvent, type KeyboardEvent, type ReactNode, useRef, useState } from "react";
+import { STRINGS } from "./i18n";
 import type { CheckOutcome } from "./messages";
 
 export interface WarningActions {
@@ -12,17 +12,19 @@ export interface WarningActions {
 }
 
 type Shown = Exclude<CheckOutcome, { kind: "none" }>;
+type Key = keyof (typeof STRINGS)["en"];
 
 interface Props {
   outcome: Shown;
   actions: WarningActions;
   portal: HTMLElement;
-  lang: Lang;
   onClosed: () => void;
 }
 
 const Z_OVERLAY = "z-[2147483646]";
 const Z_SURFACE = "z-[2147483647]";
+const EN = STRINGS.en;
+const AR = STRINGS.ar;
 
 /**
  * Keep Tab inside the warning. Radix's focus trap reads document.activeElement, which inside a Shadow DOM is the
@@ -45,6 +47,28 @@ function evidence(reasons: Reason[]): Reason[] {
   return reasons.filter((r) => r.weight > 0 && r.code !== "ML_MODEL").sort((a, b) => b.weight - a.weight);
 }
 
+/** English and Arabic side by side (English left, Arabic right); stacked on narrow screens. */
+function Pair({ en, ar, className = "" }: { en: ReactNode; ar: ReactNode; className?: string }) {
+  return (
+    <div className={`grid gap-x-8 gap-y-1 sm:grid-cols-2 ${className}`}>
+      <div lang="en" dir="ltr">{en}</div>
+      <div lang="ar" dir="rtl">{ar}</div>
+    </div>
+  );
+}
+
+const pair = (key: Key, className?: string) => <Pair en={EN[key]} ar={AR[key]} className={className} />;
+
+/** A button label in both languages: English, with Arabic underneath. */
+function Both({ k }: { k: Key }) {
+  return (
+    <span className="flex flex-col items-center leading-tight">
+      <span>{EN[k]}</span>
+      <span lang="ar" dir="rtl" className="mt-1 text-[0.92em] font-medium">{AR[k]}</span>
+    </span>
+  );
+}
+
 function ShieldIcon({ className }: { className: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
@@ -56,78 +80,66 @@ function ShieldIcon({ className }: { className: string }) {
   );
 }
 
-function BrandBar({ lang, light, onToggleLang }: { lang: Lang; light: boolean; onToggleLang: () => void }) {
-  const t = STRINGS[lang];
-  const other: Lang = lang === "ar" ? "en" : "ar";
+function BrandBar({ light }: { light: boolean }) {
   return (
     <div className="flex items-center gap-2">
       <img src={light ? markLight : markDark} alt="" width={28} height={28} className="h-7 w-7" />
-      <span className="text-sm font-semibold tracking-wide">{t.product}</span>
-      <button
-        type="button"
-        lang={other}
-        onClick={onToggleLang}
-        aria-label={t.switchLanguageLabel}
-        className={`ms-auto rounded px-1 text-sm underline underline-offset-4 ${light ? "saqr-focus-light" : "saqr-focus-dark"}`}
-      >
-        {t.switchLanguage}
-      </button>
+      <span className="text-sm font-semibold tracking-wide">{EN.product}</span>
+      <span lang="ar" className="text-sm font-semibold">{AR.product}</span>
     </div>
   );
 }
 
-function Domain({ lang, domain, className }: { lang: Lang; domain: string; className: string }) {
+function Site({ domain, className }: { domain: string; className: string }) {
   return (
     <p className={className}>
-      <span>{STRINGS[lang].domainLabel}: </span>
+      <span>{EN.domainLabel}</span>
+      <span aria-hidden="true"> · </span>
+      <span lang="ar">{AR.domainLabel}</span>
+      <span>: </span>
       <bdi dir="ltr" className="font-semibold break-all">{domain}</bdi>
     </p>
   );
 }
 
-function Notice({ domain, lang, setLang, closing, close, onExitEnd }: {
-  domain: string; lang: Lang; setLang: (l: Lang) => void; closing: boolean; close: () => void;
-  onExitEnd: (e: AnimationEvent) => void;
+function Notice({ domain, closing, close, onExitEnd }: {
+  domain: string; closing: boolean; close: () => void; onExitEnd: (e: AnimationEvent) => void;
 }) {
-  const t = STRINGS[lang];
   return (
-    <div dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} role="status" aria-live="polite"
-         className={`saqr-root fixed end-4 top-4 ${Z_SURFACE} w-[min(380px,calc(100vw-32px))]`}>
+    <div role="status" aria-live="polite"
+         className={`saqr-root fixed end-4 top-4 ${Z_SURFACE} w-[min(420px,calc(100vw-32px))]`}>
       <div onAnimationEnd={onExitEnd}
            className={`rounded-xl border border-black/15 bg-notice-surface p-5 text-notice-ink ${closing ? "saqr-exit" : "saqr-enter"}`}>
-        <BrandBar lang={lang} light={false} onToggleLang={() => setLang(lang === "ar" ? "en" : "ar")} />
-        <p className="mt-4 font-semibold">{t.errorTitle}</p>
-        <Domain lang={lang} domain={domain} className="mt-1 text-sm" />
-        <p className="mt-2 text-sm">{t.errorBody}</p>
+        <BrandBar light={false} />
+        <p className="mt-4 font-semibold">{EN.errorTitle}</p>
+        <p lang="ar" dir="rtl" className="font-semibold">{AR.errorTitle}</p>
+        <Site domain={domain} className="mt-2 text-sm" />
+        <p className="mt-2 text-sm">{EN.errorBody}</p>
+        <p lang="ar" dir="rtl" className="mt-1 text-sm">{AR.errorBody}</p>
         <button type="button" onClick={close}
                 className="saqr-focus-dark mt-4 rounded-lg border border-notice-ink px-4 py-2 text-sm font-semibold">
-          {t.dismiss}
+          <Both k="dismiss" />
         </button>
       </div>
     </div>
   );
 }
 
-export default function Warning({ outcome, actions, portal, lang: startLang, onClosed }: Props) {
-  const [lang, setLang] = useState<Lang>(startLang);
+export default function Warning({ outcome, actions, portal, onClosed }: Props) {
   const [closing, setClosing] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const primary = useRef<HTMLButtonElement>(null);
-  const t = STRINGS[lang];
-  const dir = lang === "ar" ? "rtl" : "ltr";
-  const toggleLang = () => setLang(lang === "ar" ? "en" : "ar");
   const onExitEnd = (e: AnimationEvent) => {
     if (closing && e.target === e.currentTarget && e.animationName === "saqr-exit") onClosed();
   };
 
   if (outcome.kind === "error") {
-    return <Notice domain={outcome.domain} lang={lang} setLang={setLang} closing={closing}
-                   close={() => setClosing(true)} onExitEnd={onExitEnd} />;
+    return <Notice domain={outcome.domain} closing={closing} close={() => setClosing(true)} onExitEnd={onExitEnd} />;
   }
 
   const fraud = outcome.kind === "fraud";
   const reasons = evidence(outcome.reasons);
-  const text = (r: Reason) => (lang === "ar" ? r.ar : r.en);
+  const top = reasons[0];
   const leave = () => actions.onLeave();
   const continueAnyway = () => {
     actions.onContinue();
@@ -140,7 +152,7 @@ export default function Warning({ outcome, actions, portal, lang: startLang, onC
         <AlertDialog.Overlay
           className={`fixed inset-0 ${Z_OVERLAY} ${fraud ? "bg-fraud-surface" : "bg-black/30"} ${closing ? "saqr-exit" : ""}`}
         />
-        <div dir={dir} lang={lang} onAnimationEnd={onExitEnd}
+        <div onAnimationEnd={onExitEnd}
              className={`saqr-root fixed inset-0 ${Z_SURFACE} flex items-center justify-center overflow-y-auto p-4 ${closing ? "saqr-exit" : ""}`}>
           <AlertDialog.Content
             onOpenAutoFocus={(e) => {
@@ -150,46 +162,50 @@ export default function Warning({ outcome, actions, portal, lang: startLang, onC
             onEscapeKeyDown={(e) => e.preventDefault()}
             onKeyDown={trapTab}
             className={fraud
-              ? "saqr-enter my-auto w-full max-w-xl py-8 text-white"
-              : "saqr-enter w-full max-w-md rounded-xl bg-amber-surface p-7 text-amber-ink"}
+              ? "saqr-enter my-auto w-full max-w-3xl py-8 text-white"
+              : "saqr-enter w-full max-w-2xl rounded-xl bg-amber-surface p-7 text-amber-ink"}
           >
-            <BrandBar lang={lang} light={fraud} onToggleLang={toggleLang} />
+            <BrandBar light={fraud} />
 
             {fraud ? (
-              <div className="mt-12">
+              <div className="mt-10">
                 <ShieldIcon className="h-12 w-12" />
-                <AlertDialog.Title className="mt-5 text-3xl font-semibold leading-tight">{t.fraudTitle}</AlertDialog.Title>
-                <Domain lang={lang} domain={outcome.domain} className="mt-4 text-lg" />
-                <AlertDialog.Description className="mt-3 text-white/90">{t.fraudBody}</AlertDialog.Description>
-                {reasons[0] && <p className="mt-3 font-medium">{text(reasons[0])}</p>}
+                <AlertDialog.Title asChild>
+                  <div>{pair("fraudTitle", "mt-5 text-3xl font-semibold leading-tight")}</div>
+                </AlertDialog.Title>
+                <Site domain={outcome.domain} className="mt-4 text-lg" />
+                <AlertDialog.Description asChild>
+                  <div>{pair("fraudBody", "mt-3 text-white/90")}</div>
+                </AlertDialog.Description>
+                {top && <Pair en={top.en} ar={top.ar} className="mt-3 font-medium" />}
                 <div className="mt-8 flex flex-wrap gap-3">
                   <AlertDialog.Cancel asChild>
                     <button ref={primary} type="button" onClick={leave}
-                            className="saqr-focus-light rounded-lg bg-white px-5 py-3 font-semibold text-fraud-surface">
-                      {t.backToSafety}
+                            className="saqr-focus-light rounded-lg bg-white px-5 py-2.5 font-semibold text-fraud-surface">
+                      <Both k="backToSafety" />
                     </button>
                   </AlertDialog.Cancel>
                   <button type="button" onClick={() => setDetailsOpen(!detailsOpen)} aria-expanded={detailsOpen}
                           aria-controls="saqr-details"
-                          className="saqr-focus-light rounded-lg border border-white/70 px-5 py-3 font-semibold">
-                    {detailsOpen ? t.hideDetails : t.viewDetails}
+                          className="saqr-focus-light rounded-lg border border-white/70 px-5 py-2.5 font-semibold">
+                    <Both k={detailsOpen ? "hideDetails" : "viewDetails"} />
                   </button>
                 </div>
                 {detailsOpen && (
                   <section id="saqr-details" className="mt-8 border-t border-white/30 pt-6">
-                    <h2 className="font-semibold">{t.detailsTitle}</h2>
-                    <ul className="mt-3 list-disc space-y-2 ps-5 text-white/90">
+                    {pair("detailsTitle", "font-semibold")}
+                    <ul className="mt-3 space-y-3 text-white/90">
                       {reasons.length
-                        ? reasons.slice(0, 6).map((r) => <li key={r.code}>{text(r)}</li>)
-                        : <li>{t.modelOnly}</li>}
+                        ? reasons.slice(0, 6).map((r) => <li key={r.code}><Pair en={r.en} ar={r.ar} /></li>)
+                        : <li>{pair("modelOnly")}</li>}
                     </ul>
                     <AlertDialog.Action asChild>
                       <button type="button" onClick={continueAnyway}
                               className="saqr-focus-light mt-6 rounded px-1 text-sm text-white/80 underline underline-offset-4">
-                        {t.continueAnyway}
+                        {EN.continueAnyway} · <span lang="ar">{AR.continueAnyway}</span>
                       </button>
                     </AlertDialog.Action>
-                    <p className="mt-1 text-xs text-white/70">{t.bypassNote}</p>
+                    {pair("bypassNote", "mt-2 text-xs text-white/70")}
                   </section>
                 )}
               </div>
@@ -197,26 +213,31 @@ export default function Warning({ outcome, actions, portal, lang: startLang, onC
               <div className="mt-6">
                 <div className="flex items-start gap-3">
                   <ShieldIcon className="mt-0.5 h-7 w-7 shrink-0" />
-                  <AlertDialog.Title className="text-xl font-semibold leading-snug">{t.suspiciousTitle}</AlertDialog.Title>
+                  <AlertDialog.Title asChild>
+                    <div className="flex-1">{pair("suspiciousTitle", "text-xl font-semibold leading-snug")}</div>
+                  </AlertDialog.Title>
                 </div>
-                <Domain lang={lang} domain={outcome.domain} className="mt-4" />
-                <AlertDialog.Description className="mt-2 text-sm">{t.suspiciousBody}</AlertDialog.Description>
-                <p className="mt-3 text-sm font-medium">{reasons[0] ? text(reasons[0]) : t.modelOnly}</p>
+                <Site domain={outcome.domain} className="mt-4" />
+                <AlertDialog.Description asChild>
+                  <div>{pair("suspiciousBody", "mt-2 text-sm")}</div>
+                </AlertDialog.Description>
+                {top ? <Pair en={top.en} ar={top.ar} className="mt-3 text-sm font-medium" />
+                     : pair("modelOnly", "mt-3 text-sm font-medium")}
                 <div className="mt-6 flex flex-wrap gap-3">
                   <AlertDialog.Cancel asChild>
                     <button ref={primary} type="button" onClick={leave}
                             className="saqr-focus-dark rounded-lg bg-amber-ink px-5 py-2.5 font-semibold text-white">
-                      {t.leave}
+                      <Both k="leave" />
                     </button>
                   </AlertDialog.Cancel>
                   <AlertDialog.Action asChild>
                     <button type="button" onClick={continueAnyway}
                             className="saqr-focus-dark rounded-lg border border-amber-ink px-5 py-2.5 font-semibold">
-                      {t.continueAnyway}
+                      <Both k="continueAnyway" />
                     </button>
                   </AlertDialog.Action>
                 </div>
-                <p className="mt-3 text-xs">{t.bypassNote}</p>
+                {pair("bypassNote", "mt-3 text-xs")}
               </div>
             )}
           </AlertDialog.Content>

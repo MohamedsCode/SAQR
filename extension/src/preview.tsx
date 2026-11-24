@@ -1,6 +1,5 @@
 // Local preview: `npm run dev`, then open http://localhost:5175. Mounts the real warning with sample engine reasons.
 import type { Reason } from "@shared/contract";
-import type { Lang } from "./i18n";
 import type { CheckOutcome } from "./messages";
 import { mountWarning } from "./mount";
 
@@ -28,18 +27,18 @@ const OUTCOMES: Record<string, Exclude<CheckOutcome, { kind: "none" }>> = {
 const log = document.getElementById("log")!;
 let remove: (() => void) | null = null;
 
-function show(kind: string, lang: Lang) {
+function show(kind: string) {
   remove?.();
   remove = mountWarning(OUTCOMES[kind], {
     onLeave: () => (log.textContent = `${kind}: leave`),
     onContinue: () => (log.textContent = `${kind}: continue anyway (bypassed for 30 minutes)`),
-  }, lang);
-  log.textContent = `${kind} shown (${lang})`;
+  });
+  log.textContent = `${kind} shown`;
 }
 
 for (const button of document.querySelectorAll<HTMLButtonElement>("button[data-show]")) {
-  button.addEventListener("click", () => show(button.dataset.show!, button.dataset.lang as Lang));
+  button.addEventListener("click", () => show(button.dataset.show!));
 }
 
 const params = new URLSearchParams(location.search);
-if (params.get("show")) show(params.get("show")!, (params.get("lang") as Lang) ?? "en");
+if (params.get("show")) show(params.get("show")!);

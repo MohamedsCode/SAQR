@@ -1,12 +1,8 @@
 import { BYPASS_MINUTES } from "./messages";
 
-export type Lang = "en" | "ar";
-
 export const STRINGS = {
   en: {
     product: "SAQR",
-    switchLanguage: "العربية",
-    switchLanguageLabel: "Show this warning in Arabic",
     suspiciousTitle: "This site looks suspicious",
     suspiciousBody: "SAQR found warning signs on this site. Be careful before you enter any personal or payment details.",
     fraudTitle: "This site may be fraudulent",
@@ -26,8 +22,6 @@ export const STRINGS = {
   },
   ar: {
     product: "صقر",
-    switchLanguage: "English",
-    switchLanguageLabel: "عرض هذا التحذير باللغة الإنجليزية",
     suspiciousTitle: "يبدو هذا الموقع مشبوهاً",
     suspiciousBody: "رصد صقر مؤشرات تحذيرية في هذا الموقع. توخَّ الحذر قبل إدخال أي بيانات شخصية أو بيانات دفع.",
     fraudTitle: "قد يكون هذا الموقع احتيالياً",
@@ -46,8 +40,3 @@ export const STRINGS = {
     domainLabel: "الموقع",
   },
 } as const;
-
-export function initialLang(): Lang {
-  const page = document.documentElement.lang.toLowerCase();
-  return page.startsWith("ar") || navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en";
-}
