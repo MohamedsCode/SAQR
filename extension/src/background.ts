@@ -2,10 +2,12 @@
 import { verdictFor, type ScanResult } from "@shared/contract";
 import { BYPASS_MINUTES, type CheckOutcome, type ExtensionMessage } from "./messages";
 
-const API = "http://localhost:8000/api";
+// The live SAQR server. For local development build with VITE_SAQR_API=http://localhost:8000/api.
+const API: string = import.meta.env.VITE_SAQR_API ?? "https://saqr-nu.vercel.app/api";
 const RESULT_CACHE_MINUTES = 10;
 const ERROR_REPEAT_MINUTES = 10;
-const NOT_CHECKED = new Set(["localhost", "127.0.0.1", "[::1]"]); // the API and dashboard; *.localhost demo pages are checked
+// SAQR's own site and local servers; *.localhost demo pages are still checked.
+const NOT_CHECKED = new Set(["saqr-nu.vercel.app", "localhost", "127.0.0.1", "[::1]"]);
 
 async function sessionGet<T>(key: string): Promise<T | undefined> {
   const stored = await chrome.storage.session.get(key);

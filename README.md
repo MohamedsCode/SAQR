@@ -78,16 +78,19 @@ flowchart LR
 
 **The AI model.** Two models work together. One judges only the website's name and registration; the other also
 reads the rest of the link. The second can't flag a website the first considers clean, so a real bank page such as
-`bank.ae/en/cards` is never flagged just for having a long address. We trained them on 70% of 17,877 labelled links
-(scam links from public scam lists, and real links from a list of the most visited websites) and tested them on the
-other 30%, which they had never seen:
+`bank.ae/en/cards` is never flagged just for having a long address.
+We trained them on 70% of 17,877 labelled links (scam links from public scam lists, and real links from a list of
+the most visited websites), then tested them on the other 30%, which they had never seen.
 
-| | Warnings that were correct | Scam links caught |
-| --- | --- | --- |
-| Fixed rules only | 95.9% | 17.3% |
-| **Rules + AI (SAQR)** | **97.6%** | **91.4%** |
+**Out of 2,143 scam links in the test:**
 
-None of the 937 official or most-visited websites in the test was flagged.
+| | Scam links caught |
+| --- | --- |
+| Simple rules alone | 17% (371 links) |
+| **SAQR with its AI** | **91% (1,958 links)** |
+
+When SAQR warns you, it is right 98 times out of 100, and none of the 937 official or popular websites in the test
+was flagged.
 
 **Hunting scams.** SAQR watches for newly registered look-alike names and newly issued website certificates, finds
 fake customer-service numbers listed on Google Maps, and groups scam websites run by the same people (same server,
