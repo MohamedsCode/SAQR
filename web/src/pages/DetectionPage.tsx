@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, useDataMode } from "../api";
-import { PageHeader, SectionTitle, selectClass } from "../components/ui";
+import { PageHeader, SectionTitle, primaryButton, selectClass } from "../components/ui";
 import VerdictBadge, { SourceBadge } from "../components/VerdictBadge";
 import { hostOf } from "../lib/display";
 import { dateTime } from "../lib/format";
@@ -52,9 +52,9 @@ export default function DetectionPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader page="detection" criteria={["early"]} />
+      <PageHeader page="detection" />
 
-      <section className="panel flex flex-wrap items-center gap-3 p-4">
+      <section className="flex flex-wrap items-center gap-3">
         <span className="text-sm font-semibold">{t("detection.run_for")}</span>
         <select value={brand} onChange={(e) => setBrand(e.target.value)} className={selectClass}>
           {Object.values(brands).map((b) => (
@@ -67,7 +67,7 @@ export default function DetectionPage() {
           type="button"
           onClick={start}
           disabled={mode !== "live" || (run !== null && run.status === "running")}
-          className="rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft disabled:opacity-50"
+          className={primaryButton}
         >
           {run?.status === "running" ? t("detection.running") : t("detection.run")}
         </button>
@@ -81,24 +81,24 @@ export default function DetectionPage() {
       </section>
 
       {lag.length > 0 && (
-        <section className="panel p-5">
+        <section className="section">
           <SectionTitle>{t("detection.lag_title")}</SectionTitle>
           <div style={{ height: Math.max(140, lag.length * 34) }} dir="ltr">
             <ResponsiveContainer>
               <BarChart data={lag} layout="vertical" margin={{ left: 8, right: 24 }}>
-                <XAxis type="number" unit="h" stroke="#8797b0" fontSize={11} />
-                <YAxis type="category" dataKey="host" width={230} stroke="#8797b0" fontSize={11} />
-                <Tooltip contentStyle={{ background: "#0b1422", border: "1px solid #1b2a40", borderRadius: 10 }} formatter={(v) => `${v} h`} />
-                <Bar dataKey="hours" name={t("detection.lag")} fill="#2bb673" radius={[0, 6, 6, 0]} />
+                <XAxis type="number" unit="h" stroke="#6b7280" fontSize={11} />
+                <YAxis type="category" dataKey="host" width={230} stroke="#6b7280" fontSize={11} />
+                <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10 }} formatter={(v) => `${v} h`} />
+                <Bar dataKey="hours" name={t("detection.lag")} fill="#17644f" radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </section>
       )}
 
-      <section className="panel overflow-x-auto p-5">
+      <section className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="text-xs uppercase tracking-wider text-muted">
+          <thead className="border-b border-line text-sm text-muted">
             <tr className="border-b border-line">
               {["domain", "brand", "source", "registered", "first_seen", "score", "verdict"].map((key) => (
                 <th key={key} className="px-3 py-2.5 text-start font-medium">
@@ -109,7 +109,7 @@ export default function DetectionPage() {
           </thead>
           <tbody>
             {found.map((scan) => (
-              <tr key={scan.id} onClick={() => navigate(`/cases/${scan.id}`)} className="cursor-pointer border-b border-line/60 hover:bg-white/[0.03]">
+              <tr key={scan.id} onClick={() => navigate(`/cases/${scan.id}`)} className="cursor-pointer border-b border-line/60 hover:bg-black/[0.03]">
                 <td className="px-3 py-3 font-mono" dir="ltr">
                   {hostOf(scan)}
                 </td>

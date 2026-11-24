@@ -34,9 +34,9 @@ export default function CasesPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader page="cases" criteria={["explain"]} />
-      {failed && <p className="panel p-3 text-fraud">{t("error.load")}</p>}
-      <section className="panel p-5">
+      <PageHeader page="cases" />
+      {failed && <p className="text-fraud">{t("error.load")}</p>}
+      <section>
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <label className="relative min-w-56 flex-1">
             <IconSearch className="pointer-events-none absolute inset-y-0 start-3 my-auto text-muted" size={16} />
@@ -70,7 +70,7 @@ export default function CasesPage() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-xs uppercase tracking-wider text-muted">
+            <thead className="text-xs text-muted">
               <tr className="border-b border-line">
                 {["col_domain", "col_brand", "col_score", "col_verdict", "col_source", "col_first_seen"].map((key) => (
                   <th key={key} className="px-3 py-2.5 text-start font-medium">
@@ -81,7 +81,7 @@ export default function CasesPage() {
             </thead>
             <tbody>
               {filtered.map((scan) => (
-                <tr key={scan.id} onClick={() => navigate(`/cases/${scan.id}`)} className="cursor-pointer border-b border-line/60 transition hover:bg-white/[0.03]">
+                <tr key={scan.id} onClick={() => navigate(`/cases/${scan.id}`)} className="cursor-pointer border-b border-line/60 transition hover:bg-black/[0.03]">
                   <td className="px-3 py-3 font-mono" dir="ltr">
                     {hostOf(scan)}
                   </td>

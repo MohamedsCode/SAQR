@@ -9,16 +9,16 @@ import { localized } from "../brand";
 import { dateTime, number } from "../lib/format";
 
 const RETRAIN_ENABLED = import.meta.env.VITE_ALLOW_RETRAIN === "1";
-const APPROACH_COLORS: Record<ApproachMetrics["approach"], string> = { rules: "#8797b0", model: "#7c8cff", combined: "#d4a63c" };
+const APPROACH_COLORS: Record<ApproachMetrics["approach"], string> = { rules: "#6b7280", model: "#60a5fa", combined: "#17644f" };
 const VERDICTS: Verdict[] = ["safe", "suspicious", "fraud"];
-const tooltipStyle = { background: "#0b1422", border: "1px solid #1b2a40", borderRadius: 10 };
+const tooltipStyle = { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10 };
 
 const pct = (value: number) => `${(value * 100).toFixed(1)}%`;
 
-function Card({ label, value, hint, tone = "text-gold-soft" }: { label: string; value: string; hint?: string; tone?: string }) {
+function Card({ label, value, hint, tone = "text-text" }: { label: string; value: string; hint?: string; tone?: string }) {
   return (
-    <div className="panel animate-fade-up p-4">
-      <div className={`text-3xl font-bold tabular-nums ${tone}`}>{value}</div>
+    <div className="px-1">
+      <div className={`text-4xl font-semibold tabular-nums ${tone}`}>{value}</div>
       <div className="mt-1 text-sm">{label}</div>
       {hint && <div className="mt-0.5 text-xs text-muted">{hint}</div>}
     </div>
@@ -27,8 +27,8 @@ function Card({ label, value, hint, tone = "text-gold-soft" }: { label: string; 
 
 function Section({ title, children, className = "", tour }: { title: string; children: ReactNode; className?: string; tour?: string }) {
   return (
-    <section data-tour={tour} className={`panel p-5 ${className}`}>
-      <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-gold-soft">{title}</h2>
+    <section data-tour={tour} className={className}>
+      <h2 className="mb-4 text-lg font-semibold">{title}</h2>
       {children}
     </section>
   );
@@ -95,7 +95,7 @@ export default function ModelPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <PageHeader page="model" criteria={["accuracy"]} />
+          <PageHeader page="model" />
           <p className="mt-3 text-sm text-muted">
             {info.algorithm} · {t("model.features", { count: info.feature_count })} · {t("model.last_trained")}{" "}
             {dateTime(info.trained_at, lang)}
@@ -107,7 +107,7 @@ export default function ModelPage() {
             type="button"
             onClick={retrain}
             disabled={training === "running" || mode !== "live"}
-            className="rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft disabled:opacity-50"
+            className="rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-white hover:bg-gold/90 disabled:opacity-50"
           >
             {training === "running" ? t("model.training") : t("model.retrain")}
           </button>
@@ -127,7 +127,7 @@ export default function ModelPage() {
         ))}
       </div>
 
-      <section data-tour="model-cards" className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+      <section data-tour="model-cards" className="grid grid-cols-2 gap-y-6 border-y border-line py-6 lg:grid-cols-5">
         <Card label={t("model.precision")} value={pct(current.precision)} hint={t("model.test_split")} />
         <Card label={t("model.recall")} value={pct(current.recall)} hint={t("model.test_split")} />
         <Card label={t("model.f1")} value={pct(current.f1)} hint={t("model.test_split")} />
@@ -153,10 +153,10 @@ export default function ModelPage() {
           <div className="h-72" dir="ltr">
             <ResponsiveContainer>
               <BarChart data={comparison} margin={{ left: -10 }}>
-                <CartesianGrid stroke="#1b2a40" vertical={false} />
-                <XAxis dataKey="metric" stroke="#8797b0" fontSize={12} />
-                <YAxis domain={[0, 100]} unit="%" stroke="#8797b0" fontSize={11} />
-                <Tooltip cursor={{ fill: "rgba(255,255,255,0.04)" }} contentStyle={tooltipStyle} formatter={(v) => `${v}%`} />
+                <CartesianGrid stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="metric" stroke="#6b7280" fontSize={12} />
+                <YAxis domain={[0, 100]} unit="%" stroke="#6b7280" fontSize={11} />
+                <Tooltip cursor={{ fill: "rgba(0,0,0,0.04)" }} contentStyle={tooltipStyle} formatter={(v) => `${v}%`} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 {info.metrics.map((m) => (
                   <Bar key={m.approach} dataKey={m.approach} name={t(`model.approach_${m.approach}`)} fill={APPROACH_COLORS[m.approach]} radius={[4, 4, 0, 0]} />
@@ -170,13 +170,13 @@ export default function ModelPage() {
           <div className="grid grid-cols-[auto_repeat(3,1fr)] gap-2 text-center text-sm">
             <span />
             {VERDICTS.map((v) => (
-              <span key={v} className="pb-1 text-xs uppercase tracking-wider text-muted">
+              <span key={v} className="pb-1 text-xs text-muted">
                 {t("model.predicted")} {t(`verdict.${v}`)}
               </span>
             ))}
             {(["phishing", "legit"] as const).map((label) => (
               <div key={label} className="contents">
-                <span className="flex items-center pe-2 text-start text-xs uppercase tracking-wider text-muted">{t(`model.actual_${label}`)}</span>
+                <span className="flex items-center pe-2 text-start text-xs text-muted">{t(`model.actual_${label}`)}</span>
                 {VERDICTS.map((verdict) => {
                   const count = cell(label, verdict);
                   const correct = (label === "phishing") === (verdict !== "safe");
@@ -209,7 +209,7 @@ export default function ModelPage() {
               </span>
               <span className="h-2.5 overflow-hidden rounded-full bg-line">
                 <span
-                  className="block h-full rounded-full bg-gradient-to-r from-gold/70 to-gold"
+                  className="block h-full rounded-full bg-gold"
                   style={{ width: `${(feature.importance / featureMax) * 100}%` }}
                 />
               </span>

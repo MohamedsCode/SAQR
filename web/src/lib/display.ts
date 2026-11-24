@@ -38,7 +38,13 @@ function skitCases(): string[] {
 /** Demo-page cases appear only when the live skit created them or a full scan captured them. */
 export function visibleCases(scans: ScanResult[]): ScanResult[] {
   const skit = new Set(skitCases());
-  return scans.filter(
+  const newest = new Map<string, ScanResult>();
+  for (const s of scans) {
+    const key = s.normalized_url.replace(/\/$/, "").toLowerCase();
+    const seen = newest.get(key);
+    if (!seen || Date.parse(s.scanned_at) > Date.parse(seen.scanned_at)) newest.set(key, s);
+  }
+  return [...newest.values()].filter(
     (s) => !isDemoCase(s) || skit.has(s.id) || Boolean(s.evidence.screenshot_desktop || s.evidence.screenshot_mobile),
   );
 }

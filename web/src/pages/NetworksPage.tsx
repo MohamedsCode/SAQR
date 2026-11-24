@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { api, downloadJson } from "../api";
-import { PageHeader, selectClass } from "../components/ui";
+import { PageHeader, primaryButton, selectClass } from "../components/ui";
 import { clean, hostOf } from "../lib/display";
 import { useCases } from "../lib/useCases";
 
@@ -97,59 +97,55 @@ export default function NetworksPage() {
       container: container.current,
       elements,
       wheelSensitivity: 0.2,
-      minZoom: 0.4,
-      maxZoom: 1.1,
+      minZoom: 0.3,
+      maxZoom: 2,
       style: [
         {
           selector: "node",
           style: {
             label: "data(display)",
-            color: "#e9eef6",
-            "font-size": 10,
+            color: "#111827",
+            "font-size": 12,
             "text-valign": "bottom",
-            "text-margin-y": 6,
-            "text-outline-color": "#050a13",
-            "text-outline-width": 2,
+            "text-margin-y": 7,
+            "text-outline-color": "#ffffff",
+            "text-outline-width": 3,
             opacity: 0,
           },
         },
         {
           selector: "node.domain",
-          style: { width: 30, height: 30, "background-color": "#f2a93b", "border-width": 2, "border-color": "#050a13", "font-size": 11, "font-weight": "bold" },
+          style: { width: 46, height: 46, "background-color": "#b45309", "border-width": 3, "border-color": "#ffffff", "font-size": 14, "font-weight": "bold" },
         },
         {
           selector: "node.fraud",
-          style: { "background-color": "#ff4d5e", "underlay-color": "#ff4d5e", "underlay-opacity": 0.35, "underlay-padding": 9, "underlay-shape": "ellipse" },
+          style: { "background-color": "#b42318", "underlay-color": "#b42318", "underlay-opacity": 0.12, "underlay-padding": 10, "underlay-shape": "ellipse" },
         },
-        { selector: "node.seed", style: { width: 44, height: 44, "border-color": "#d4a63c", "border-width": 4 } },
+        { selector: "node.seed", style: { width: 60, height: 60, "border-color": "#17644f", "border-width": 5 } },
         {
-          selector: "node.brand",
-          style: { shape: "round-rectangle", width: 24, height: 16, "background-color": "#d4a63c", color: "#f1d58b", "font-size": 9 },
-        },
-        {
-          selector: "node[type != 'domain'][type != 'brand']",
-          style: { shape: "diamond", width: 13, height: 13, "background-color": "#8797b0", color: "#8797b0", "font-size": 8 },
+          selector: "node[type != 'domain']",
+          style: { shape: "diamond", width: 18, height: 18, "background-color": "#9ca3af", color: "#4b5563", "font-size": 11 },
         },
         {
           selector: "edge",
           style: {
-            width: 1.6,
-            "line-color": "#3a4b66",
+            width: 2,
+            "line-color": "#cbd5e1",
             "curve-style": "bezier",
             label: "data(label)",
-            "font-size": 8,
-            color: "#c9a24a",
+            "font-size": 11,
+            color: "#17644f",
             "text-rotation": "autorotate",
-            "text-background-color": "#0b1422",
+            "text-background-color": "#ffffff",
             "text-background-opacity": 1,
-            "text-background-padding": "2px",
+            "text-background-padding": "3px",
             opacity: 0,
           },
         },
-        { selector: "edge[type = 'impersonates']", style: { "line-style": "dashed", "line-color": "#6b5a2a" } },
       ],
       layout: { name: "cose", animate: false, nodeRepulsion: () => 120000, idealEdgeLength: () => 150, nodeOverlap: 40, gravity: 0.15, randomize: true, padding: 60 },
     });
+    cy.fit(undefined, 70);
     cyRef.current = cy;
     cy.on("tap", "node.domain", (event) => {
       const scanId = event.target.data("scan_id");
@@ -218,7 +214,7 @@ export default function NetworksPage() {
     <div className="space-y-6">
       <PageHeader
         page="networks"
-        criteria={["uae", "explain"]}
+       
         aside={
           <select value={seed ?? ""} onChange={(e) => navigate(`/networks/${e.target.value}`)} className={selectClass}>
             {flagged.map((s) => (
@@ -229,17 +225,17 @@ export default function NetworksPage() {
           </select>
         }
       />
-      {error && <p className="panel p-3 text-fraud">{t("networks.error")}</p>}
+      {error && <p className="text-fraud">{t("networks.error")}</p>}
       <section className="panel relative overflow-hidden p-0">
-        <div ref={container} className="h-[560px] w-full" dir="ltr" />
+        <div ref={container} className="h-[600px] w-full" dir="ltr" />
         <div className="pointer-events-none absolute start-4 top-4 flex flex-wrap gap-3 text-[11px] text-muted">
-          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-fraud shadow-[0_0_8px_#ff4d5e]" />{t("verdict.fraud")}</span>
+          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-fraud" />{t("verdict.fraud")}</span>
           <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-suspicious" />{t("verdict.suspicious")}</span>
-          <span className="flex items-center gap-1.5"><span className="size-2 rotate-45 bg-muted" />{t("networks.indicator")}</span>
+          <span className="flex items-center gap-1.5"><span className="size-2 rotate-45 bg-gray-400" />{t("networks.indicator")}</span>
         </div>
       </section>
       {grown && domainCount > 0 && (
-        <section className="panel glow-gold flex flex-wrap items-center justify-between gap-4 p-5">
+        <section className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
           <p className="flex flex-wrap items-center gap-3 text-2xl font-bold">
             <span className="animate-fade-up">{t("networks.caption_report")}</span>
             <span className="animate-fade-up text-gold" style={{ animationDelay: "300ms" }}>→</span>
@@ -247,7 +243,7 @@ export default function NetworksPage() {
             <span className="animate-fade-up text-gold" style={{ animationDelay: "800ms" }}>→</span>
             <span className="animate-fade-up text-safe" style={{ animationDelay: "1000ms" }}>{t("networks.caption_takedown")}</span>
           </p>
-          <button type="button" onClick={exportPackage} className="rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft">
+          <button type="button" onClick={exportPackage} className={primaryButton}>
             {t("networks.export")}
           </button>
         </section>

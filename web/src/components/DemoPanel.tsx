@@ -52,7 +52,7 @@ export default function DemoMenu() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm ring-1 ${active ? "text-fraud ring-fraud/50" : "text-muted ring-line hover:text-text"}`}
+        className={`flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm ${active ? "font-semibold text-fraud" : "text-muted hover:text-gold"}`}
       >
         <span className={`size-2 rounded-full ${active ? "animate-pulse-dot bg-fraud" : "bg-muted/60"}`} />
         {t("demo.menu")}
@@ -63,7 +63,7 @@ export default function DemoMenu() {
           <button
             type="button"
             onClick={() => emitDemo({ type: "trigger" })}
-            className="w-full rounded-lg bg-fraud px-3 py-2 text-sm font-semibold text-white hover:bg-fraud/85"
+            className="w-full rounded-lg bg-gold px-3 py-2 text-sm font-semibold text-white hover:bg-gold/90"
           >
             {t("demo.trigger")}
           </button>
@@ -71,7 +71,7 @@ export default function DemoMenu() {
             type="button"
             onClick={reset}
             disabled={busy}
-            className="w-full rounded-lg border border-line px-3 py-2 text-sm hover:border-gold/60 disabled:opacity-50"
+            className="w-full rounded-lg border border-line bg-white px-3 py-2 text-sm hover:border-gold disabled:opacity-50"
           >
             {t("demo.reset")}
           </button>

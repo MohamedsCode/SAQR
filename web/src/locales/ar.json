@@ -64,7 +64,8 @@
     "days_two": "يومان",
     "days_few": "{{count}} أيام",
     "days_many": "{{count}} يوماً",
-    "days_other": "{{count}} يوم"
+    "days_other": "{{count}} يوم",
+    "all_cases": "كل الحالات"
   },
   "verdict": {
     "safe": "آمن",
@@ -220,7 +221,9 @@
     "final_url": "الرابط النهائي",
     "pdf_loading": "جارٍ تجهيز ملف الأدلة…",
     "pdf_unavailable": "تعذّر إنشاء ملف الأدلة. يتطلب ذلك تشغيل واجهة صقر مع تفعيل وحدة الأدلة.",
-    "expand": "توسيع الحملة"
+    "expand": "توسيع الحملة",
+    "trusts": "لماذا يثق صقر به",
+    "match": "تطابق {{percent}}%"
   },
   "scan": {
     "kicker": "تحقيق",
@@ -260,8 +263,19 @@
     "no_sensitive": "لا توجد حقول حساسة",
     "visual_match": "تطابق {{percent}}% مع {{brand}}",
     "no_match": "لا يشبه أي جهة رسمية",
-    "open_case": "← فتح الحالة كاملة",
-    "advice": "لا تُدخل أي بيانات في هذا الموقع."
+    "open_case": "فتح الحالة كاملة ←",
+    "advice": "لا تُدخل أي بيانات في هذا الموقع.",
+    "checks": "الفحوص",
+    "step_model": "النموذج الذكي",
+    "model_probability": "احتمال احتيال {{value}}",
+    "imitates_in_address": "يقلّد {{brand}} في عنوانه",
+    "address_only": "قُيّم من العنوان فقط — الفحوص المباشرة (التسجيل وDNS وزيارة الصفحة) معطلة على هذا الجهاز.",
+    "offline_note": "الموقع غير متصل — قُيّم من {{used}}.",
+    "used_address": "العنوان",
+    "used_registration": "سجل التسجيل",
+    "used_model": "النموذج الذكي",
+    "list_join": "، ",
+    "not_run": "لم يُنفّذ: {{list}}"
   },
   "demo": {
     "title": "العرض المباشر",

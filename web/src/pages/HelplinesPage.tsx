@@ -2,7 +2,7 @@ import type { MapsSweep, PhoneStatus } from "@shared/contract";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api, useDataMode } from "../api";
-import { PageHeader } from "../components/ui";
+import { PageHeader, primaryButton } from "../components/ui";
 import { dateTime } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
 
@@ -10,7 +10,7 @@ const STATUS_STYLE: Record<PhoneStatus, string> = {
   official: "bg-safe/15 text-safe ring-safe/40",
   fake_listing: "bg-fraud/15 text-fraud ring-fraud/50",
   reported_scam: "bg-fraud/15 text-fraud ring-fraud/50",
-  unknown: "bg-white/5 text-muted ring-line",
+  unknown: "bg-black/5 text-muted ring-line",
 };
 
 const pretty = (e164: string) => e164.replace(/^\+971(\d{1,2})(\d{3})(\d{4})$/, "+971 $1 $2 $3");
@@ -49,13 +49,13 @@ export default function HelplinesPage() {
     <div className="space-y-6">
       <PageHeader
         page="helplines"
-        criteria={["early", "uae"]}
+       
         aside={
           <button
             type="button"
             onClick={run}
             disabled={busy || mode !== "live"}
-            className="rounded-lg bg-gold px-4 py-2 text-sm font-semibold text-bg hover:bg-gold-soft disabled:opacity-50"
+            className={primaryButton}
           >
             {busy ? t("helplines.running") : t("helplines.run")}
           </button>
@@ -63,23 +63,23 @@ export default function HelplinesPage() {
       />
 
       {sweep && (
-        <section className="grid grid-cols-3 gap-4">
+        <section className="grid grid-cols-3 border-y border-line py-6">
           {(
             [
               ["fake", "text-fraud"],
               ["official", "text-safe"],
-              ["unknown", "text-muted"],
+              ["unknown", "text-text"],
             ] as const
           ).map(([key, tone]) => (
-            <div key={key} className="panel p-4">
-              <div className={`text-3xl font-bold tabular-nums ${tone}`}>{counts[key]}</div>
+            <div key={key} className="px-1">
+              <div className={`text-4xl font-semibold tabular-nums ${tone}`}>{counts[key]}</div>
               <div className="mt-1 text-sm text-muted">{t(`helplines.count_${key}`)}</div>
             </div>
           ))}
         </section>
       )}
 
-      <section className="panel overflow-x-auto p-5">
+      <section className="overflow-x-auto">
         <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted">
           {sweep && <span>{t("helplines.ran_at", { time: dateTime(sweep.ran_at, lang) })}</span>}
           {sweep?.simulated && (
@@ -89,7 +89,7 @@ export default function HelplinesPage() {
           )}
         </div>
         <table className="w-full text-sm">
-          <thead className="text-xs uppercase tracking-wider text-muted">
+          <thead className="text-xs text-muted">
             <tr className="border-b border-line">
               {["listing", "brand", "found", "official", "status"].map((key) => (
                 <th key={key} className="px-3 py-2.5 text-start font-medium">

@@ -19,16 +19,7 @@ export default function ScoreGauge({ score, verdict, size = 220 }: { score: numb
   return (
     <div className="relative" style={{ width: size, height: size * 0.62 }} dir="ltr">
       <svg viewBox="0 0 200 124" className="size-full overflow-visible">
-        <defs>
-          <filter id="gauge-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#1b2a40" strokeWidth="14" strokeLinecap="round" />
+        <path d="M20 110 A80 80 0 0 1 180 110" fill="none" stroke="#e5e7eb" strokeWidth="12" strokeLinecap="round" />
         {[30, 70].map((mark) => {
           const angle = Math.PI * (1 - mark / 100);
           return (
@@ -38,7 +29,7 @@ export default function ScoreGauge({ score, verdict, size = 220 }: { score: numb
               y1={110 - 66 * Math.sin(angle)}
               x2={100 + 94 * Math.cos(angle)}
               y2={110 - 94 * Math.sin(angle)}
-              stroke="#8797b0"
+              stroke="#6b7280"
               strokeOpacity="0.5"
               strokeWidth="1.5"
             />
@@ -48,11 +39,10 @@ export default function ScoreGauge({ score, verdict, size = 220 }: { score: numb
           d="M20 110 A80 80 0 0 1 180 110"
           fill="none"
           stroke={color}
-          strokeWidth="14"
+          strokeWidth="12"
           strokeLinecap="round"
           strokeDasharray={ARC}
           strokeDashoffset={ARC * (1 - shown / 100)}
-          filter="url(#gauge-glow)"
           style={{ transition: "stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1)" }}
         />
       </svg>
@@ -60,7 +50,7 @@ export default function ScoreGauge({ score, verdict, size = 220 }: { score: numb
         <div className="text-5xl font-bold tabular-nums" style={{ color }}>
           {score}
         </div>
-        <div className="text-xs uppercase tracking-[0.2em] text-muted">{t("case.risk_score")}</div>
+        <div className="text-xs text-muted">{t("case.risk_score")}</div>
       </div>
     </div>
   );

@@ -6,23 +6,21 @@ import { api } from "../api";
 import { BRAND, localized } from "../brand";
 
 // The tour walks judges through the product; each step points at an element marked data-tour="<target>".
-type Criterion = "accuracy" | "early" | "explain" | "uae" | "feasibility";
 interface Step {
   id: string;
   route: string | "case";
   target?: string;
-  criteria: Criterion[];
 }
 
 const STEPS: Step[] = [
-  { id: "welcome", route: "/", criteria: [] },
-  { id: "feed", route: "/", target: "feed", criteria: ["early", "uae"] },
-  { id: "case", route: "case", target: "case-header", criteria: ["accuracy"] },
-  { id: "reasons", route: "case", target: "reasons", criteria: ["explain", "uae"] },
-  { id: "visual", route: "case", target: "visual", criteria: ["accuracy", "uae"] },
-  { id: "evidence", route: "case", target: "evidence", criteria: ["explain", "feasibility"] },
-  { id: "model", route: "/model", target: "model-cards", criteria: ["accuracy"] },
-  { id: "demo", route: "/", target: "demo", criteria: ["feasibility", "early"] },
+  { id: "welcome", route: "/" },
+  { id: "feed", route: "/", target: "feed" },
+  { id: "case", route: "case", target: "case-header" },
+  { id: "reasons", route: "case", target: "reasons" },
+  { id: "visual", route: "case", target: "visual" },
+  { id: "evidence", route: "case", target: "evidence" },
+  { id: "model", route: "/model", target: "model-cards" },
+  { id: "demo", route: "/", target: "demo" },
 ];
 
 const PAD = 10;
@@ -208,13 +206,13 @@ function TourOverlay({
 
       {centered ? (
         <div className="absolute inset-0 grid place-items-center p-6">
-          <div className="panel glow-gold animate-fade-up w-full max-w-xl p-8 text-center">
+          <div className="panel animate-fade-up w-full max-w-xl p-8 text-center">
             {step.id === "welcome" && (
               <div className="relative mx-auto mb-5 grid size-44 place-items-center">
                 <span className="tour-radar absolute inset-0 rounded-full border border-gold/60" />
                 <span className="tour-radar absolute inset-0 rounded-full border border-gold/60" style={{ animationDelay: "0.8s" }} />
                 <span className="tour-radar absolute inset-0 rounded-full border border-gold/60" style={{ animationDelay: "1.6s" }} />
-                <img src={logo} alt="" className="tour-float relative h-36 rounded-2xl bg-white p-3 shadow-[0_0_40px_rgba(212,166,60,0.5)]" />
+                <img src={logo} alt="" className=" relative h-36 rounded-2xl bg-white p-3" />
               </div>
             )}
             <h2 className="text-3xl font-bold">{t(`tour.steps.${step.id}.title`)}</h2>
@@ -236,13 +234,6 @@ function TourOverlay({
       ) : (
         box && (
           <div className="panel animate-fade-up absolute p-5 shadow-2xl" style={cardStyle} key={step.id}>
-            <div className="mb-2 flex flex-wrap gap-1.5">
-              {step.criteria.map((criterion, i) => (
-                <span key={criterion} style={{ animationDelay: `${150 + i * 120}ms` }} className="tour-pop rounded-full bg-gold/15 px-2.5 py-0.5 text-[11px] font-semibold text-gold-soft ring-1 ring-gold/40">
-                  {t(`tour.criteria.${criterion}`)}
-                </span>
-              ))}
-            </div>
             <h3 className="text-lg font-bold">{t(`tour.steps.${step.id}.title`)}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-text/85">{t(`tour.steps.${step.id}.body`)}</p>
             <Controls index={index} last={last} onNext={onNext} onBack={onBack} onClose={onClose} autoplay={autoplay} onToggleAutoplay={onToggleAutoplay} />
@@ -306,7 +297,7 @@ function Controls({
           {t("tour.back")}
         </button>
       )}
-      <button type="button" onClick={onNext} className="rounded-lg bg-gold px-4 py-1.5 text-sm font-semibold text-bg hover:bg-gold-soft" autoFocus>
+      <button type="button" onClick={onNext} className="rounded-lg bg-gold px-4 py-1.5 text-sm font-semibold text-white hover:bg-gold/90" autoFocus>
         {last ? t("tour.finish") : index === 0 ? t("tour.start") : t("tour.next")}
       </button>
     </div>

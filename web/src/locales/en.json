@@ -52,7 +52,8 @@
     "hours_one": "{{count}} hour",
     "hours_other": "{{count}} hours",
     "days_one": "{{count}} day",
-    "days_other": "{{count}} days"
+    "days_other": "{{count}} days",
+    "all_cases": "All cases"
   },
   "verdict": {
     "safe": "Safe",
@@ -204,7 +205,9 @@
     "final_url": "Final URL",
     "pdf_loading": "Preparing the evidence pack…",
     "pdf_unavailable": "The evidence pack could not be generated. It needs the SAQR API running with the evidence module enabled.",
-    "expand": "Expand campaign"
+    "expand": "Expand campaign",
+    "trusts": "Why SAQR trusts it",
+    "match": "{{percent}}% match"
   },
   "scan": {
     "kicker": "Investigation",
@@ -237,7 +240,18 @@
     "visual_match": "{{percent}}% match with {{brand}}",
     "no_match": "No brand look-alike",
     "open_case": "Open the full case →",
-    "advice": "Do not enter any details on this site."
+    "advice": "Do not enter any details on this site.",
+    "checks": "Checks",
+    "step_model": "AI model",
+    "model_probability": "{{value}} phishing probability",
+    "imitates_in_address": "Imitates {{brand}} in its address",
+    "address_only": "Scored from the address only — live checks (registration, DNS, page visit) are switched off on this machine.",
+    "offline_note": "Site is offline — scored from {{used}}.",
+    "used_address": "the address",
+    "used_registration": "registration history",
+    "used_model": "the AI model",
+    "list_join": ", ",
+    "not_run": "Not run: {{list}}"
   },
   "demo": {
     "title": "Live demo",
