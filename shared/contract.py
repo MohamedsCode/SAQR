@@ -198,12 +198,23 @@ class DiscoveryRunRequest(BaseModel):
     brand_id: str
 
 
+class GraphExpandRequest(BaseModel):
+    scan_id: str
+
+
 class DiscoveryRun(BaseModel):
+    """A look-alike + certificate discovery run for a brand, or a campaign expansion from a seed scan.
+    found_ids lists the scans that came out suspicious or fraud; candidates_total counts the candidates to check."""
+
     id: str
-    brand_id: str
+    kind: Literal["discovery", "expansion"] = "discovery"
+    brand_id: str | None
+    seed_id: str | None = None
     started_at: datetime
+    finished_at: datetime | None = None
     status: Literal["running", "done"]
     simulated: bool
+    candidates_total: int = 0
     candidates_checked: int
     found_ids: list[str] = Field(default_factory=list)
 
@@ -252,3 +263,71 @@ class Stats(BaseModel):
     fake_helplines: int
     avg_hours_to_detect: float | None
     by_source: dict[str, int]
+
+
+# ---- AI model (training results and retraining) ----
+
+
+class ThresholdMetrics(BaseModel):
+    threshold: int
+    precision: float
+    recall: float
+    f1: float
+    tp: int
+    fp: int
+    tn: int
+    fn: int
+
+
+class ApproachMetrics(BaseModel):
+    approach: Literal["rules", "model", "combined"]
+    fraud: ThresholdMetrics
+    flagged: ThresholdMetrics
+
+
+class ConfusionCell(BaseModel):
+    label: Literal["phishing", "legit"]
+    verdict: Verdict
+    count: int
+
+
+class FeatureImportance(BaseModel):
+    feature: str
+    en: str
+    ar: str
+    importance: float
+
+
+class DatasetSplit(BaseModel):
+    split: Literal["train", "test"]
+    phishing: int
+    legit: int
+
+
+class ModelInfo(BaseModel):
+    """Test-split results of the last training run. official_* counts official and .gov.ae URLs;
+    allowlist_* also counts Tranco top-10k sites."""
+
+    available: bool
+    algorithm: str | None = None
+    trained_at: datetime | None = None
+    training_seconds: float | None = None
+    feature_count: int = 0
+    datasets: list[DatasetSplit] = Field(default_factory=list)
+    metrics: list[ApproachMetrics] = Field(default_factory=list)
+    confusion: list[ConfusionCell] = Field(default_factory=list)
+    official_false_positives: int = 0
+    official_checked: int = 0
+    allowlist_false_positives: int = 0
+    allowlist_checked: int = 0
+    model_weight_max: int = 0
+    model_weight_min: int = 0
+    top_features: list[FeatureImportance] = Field(default_factory=list)
+
+
+class TrainingRun(BaseModel):
+    id: str
+    status: Literal["running", "done", "failed"]
+    started_at: datetime
+    finished_at: datetime | None = None
+    lines: list[str] = Field(default_factory=list)

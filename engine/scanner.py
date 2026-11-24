@@ -13,6 +13,7 @@ from typing import Literal
 from engine import browser, llm, net
 from engine.brands import brands
 from engine.layer_a import LayerAResult, analyse
+from engine.ml.model import model_signal
 from engine.normalize import InvalidInput, NormalizedUrl, normalize
 from engine.page_analysis import Capture, PageFindings, analyse_captures
 from engine.reasons import Signal
@@ -206,13 +207,19 @@ def _apply_page(findings: PageFindings, primary: Capture, collected: _Collected,
 
 
 async def scan(text: str, discovered_by: DiscoveredBy = "user", mode: Mode | None = None,
-               first_seen: datetime | None = None) -> ScanResult:
-    """Scan one input. Raises engine.normalize.InvalidInput when the input holds no URL."""
+               first_seen: datetime | None = None, use_model: bool = True,
+               timeout_s: float | None = None) -> ScanResult:
+    """Scan one input. Raises engine.normalize.InvalidInput when the input holds no URL.
+
+    The ML layer needs network evidence, so it runs in network and full mode only. Training turns it off
+    (use_model=False) to collect the rule signals the model learns from, and gives lookups more time
+    (timeout_s) so registration data is as complete as in a single live scan.
+    """
     mode = mode or default_mode()
     now = datetime.now(timezone.utc)
     case_id = new_case_id(now)
     loop = asyncio.get_running_loop()
-    deadline = loop.time() + settings.scan_timeout_s
+    deadline = loop.time() + (timeout_s or settings.scan_timeout_s)
     url = normalize(text)
     collected = _Collected(analyse(url))
     evidence = Evidence()
@@ -238,6 +245,8 @@ async def scan(text: str, discovered_by: DiscoveredBy = "user", mode: Mode | Non
             _save_artifacts(case_id, desktop, mobile, primary, evidence)
         _apply_page(findings, primary, collected, evidence)
 
+    if use_model and mode != "url" and not collected.override:
+        collected.add(model_signal(url, [s.code for s in collected.signals], evidence, now))
     score, verdict, reasons = score_signals(collected.signals, collected.override)
     brand_id = collected.brand_id if verdict != "safe" or collected.override else None
     shown_status = status if mode != "url" else "unknown"

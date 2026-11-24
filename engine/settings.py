@@ -41,6 +41,7 @@ class Settings:
     network_enabled: bool
     browser_enabled: bool
     seed_fixtures: bool
+    discovery_watch_minutes: float
 
 
 def load_settings() -> Settings:
@@ -58,6 +59,7 @@ def load_settings() -> Settings:
         network_enabled=_flag("NETWORK_ENABLED", True),
         browser_enabled=_flag("BROWSER_ENABLED", True),
         seed_fixtures=_flag("SEED_FIXTURES", False),
+        discovery_watch_minutes=float(os.getenv("DISCOVERY_WATCH_MINUTES", "0")),
     )
 
 

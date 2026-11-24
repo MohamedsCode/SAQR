@@ -189,12 +189,22 @@ export interface DiscoveryRunRequest {
   brand_id: string;
 }
 
+export interface GraphExpandRequest {
+  scan_id: string;
+}
+
+// A look-alike + certificate discovery run for a brand, or a campaign expansion from a seed scan.
+// found_ids lists the scans that came out suspicious or fraud; candidates_total counts the candidates to check.
 export interface DiscoveryRun {
   id: string;
-  brand_id: string;
+  kind: "discovery" | "expansion";
+  brand_id: string | null;
+  seed_id: string | null;
   started_at: string;
+  finished_at: string | null;
   status: "running" | "done";
   simulated: boolean;
+  candidates_total: number;
   candidates_checked: number;
   found_ids: string[];
 }
@@ -243,4 +253,70 @@ export interface Stats {
   fake_helplines: number;
   avg_hours_to_detect: number | null;
   by_source: Record<string, number>;
+}
+
+// ---- AI model (training results and retraining) ----
+
+export interface ThresholdMetrics {
+  threshold: number;
+  precision: number;
+  recall: number;
+  f1: number;
+  tp: number;
+  fp: number;
+  tn: number;
+  fn: number;
+}
+
+export interface ApproachMetrics {
+  approach: "rules" | "model" | "combined";
+  fraud: ThresholdMetrics;
+  flagged: ThresholdMetrics;
+}
+
+export interface ConfusionCell {
+  label: "phishing" | "legit";
+  verdict: Verdict;
+  count: number;
+}
+
+export interface FeatureImportance {
+  feature: string;
+  en: string;
+  ar: string;
+  importance: number;
+}
+
+export interface DatasetSplit {
+  split: "train" | "test";
+  phishing: number;
+  legit: number;
+}
+
+// Test-split results of the last training run. official_* counts official and .gov.ae URLs;
+// allowlist_* also counts Tranco top-10k sites.
+export interface ModelInfo {
+  available: boolean;
+  algorithm: string | null;
+  trained_at: string | null;
+  training_seconds: number | null;
+  feature_count: number;
+  datasets: DatasetSplit[];
+  metrics: ApproachMetrics[];
+  confusion: ConfusionCell[];
+  official_false_positives: number;
+  official_checked: number;
+  allowlist_false_positives: number;
+  allowlist_checked: number;
+  model_weight_max: number;
+  model_weight_min: number;
+  top_features: FeatureImportance[];
+}
+
+export interface TrainingRun {
+  id: string;
+  status: "running" | "done" | "failed";
+  started_at: string;
+  finished_at: string | null;
+  lines: string[];
 }

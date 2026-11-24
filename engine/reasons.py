@@ -196,6 +196,10 @@ TEXT: dict[str, tuple[str, str]] = {
         "Site is offline; scored on its address and registration data only.",
         "الموقع غير متاح؛ تم التقييم بناءً على العنوان وبيانات التسجيل فقط.",
     ),
+    "ML_MODEL": (
+        "AI model: {evidence} phishing probability, learned from thousands of labelled URLs.",
+        "نموذج الذكاء الاصطناعي: احتمال الاحتيال {evidence}، بناءً على آلاف الروابط المصنّفة.",
+    ),
 }
 
 
@@ -204,9 +208,12 @@ class Signal:
     code: str
     evidence: str | None = None
     brand_id: str | None = None
+    weight_override: int | None = None
 
     @property
     def weight(self) -> int:
+        if self.weight_override is not None:
+            return self.weight_override
         return SIGNALS["weights"].get(self.code, 0)
 
     def reason(self) -> Reason:
@@ -215,6 +222,7 @@ class Signal:
         names = {
             "brand_en": brand.name_en if brand else "the brand",
             "brand_ar": brand.name_ar if brand else "العلامة التجارية",
+            "evidence": self.evidence or "",
         }
         return Reason(code=self.code, en=en.format(**names), ar=ar.format(**names), weight=self.weight,
                       evidence=self.evidence)

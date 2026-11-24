@@ -6,8 +6,10 @@ import asyncio
 import hashlib
 import json
 import uuid
+from collections.abc import Coroutine
 from datetime import datetime, timezone
 
+from discovery.helplines import fixture_sweep
 from engine import db
 from engine.brands import brands
 from engine.normalize import InvalidInput, normalize
@@ -17,7 +19,6 @@ from shared.contract import (
     DiscoveredBy,
     DiscoveryRun,
     Job,
-    MapsListing,
     MapsSweep,
     PhoneMatch,
     PhoneStatus,
@@ -53,7 +54,7 @@ class Store:
         self.jobs: dict[str, Job] = {}
         self.reports: list[Report] = []
         self.discovery_runs: list[DiscoveryRun] = []
-        self.maps_sweep = self.fixture_sweep()
+        self.maps_sweep: MapsSweep = fixture_sweep()
         self._tasks: set[asyncio.Task] = set()
 
     @property
@@ -74,34 +75,37 @@ class Store:
         for item in raw:
             self.save(ScanResult.model_validate(item))
 
-    def fixture_sweep(self) -> MapsSweep:
-        now = utcnow()
-        raw = json.loads((FIXTURES_DIR / "maps_results.json").read_text(encoding="utf-8"))
-        listings = [
-            MapsListing.model_validate({**item, "source": "fixture", "simulated": True, "seen_at": now})
-            for item in raw
-        ]
-        return MapsSweep(simulated=True, ran_at=now, listings=listings)
-
     def save(self, result: ScanResult) -> None:
         self.scans[result.id] = result
         db.save_scan(result)
 
-    async def scan_and_store(self, text: str, discovered_by: DiscoveredBy = "user") -> ScanResult:
+    def spawn(self, coro: Coroutine) -> asyncio.Task:
+        """Run a background task that demo reset can cancel."""
+        task = asyncio.get_running_loop().create_task(coro)
+        self._tasks.add(task)
+        task.add_done_callback(self._tasks.discard)
+        return task
+
+    async def scan_and_store(self, text: str, discovered_by: DiscoveredBy = "user",
+                             related_to: str | None = None) -> ScanResult:
+        """Scan and save. related_to links the new case to the case it was discovered from, both ways."""
         result = await scan(text, discovered_by=discovered_by)
         earlier = [s for s in self.scans.values() if s.registered_domain == result.registered_domain]
         if earlier:
             result.first_seen = min([result.first_seen, *(s.first_seen for s in earlier)])
             result.related_ids = sorted({*result.related_ids, *(s.id for s in earlier)})[-20:]
+        seed = self.scans.get(related_to) if related_to else None
+        if seed:
+            result.related_ids = sorted({*result.related_ids, seed.id})
+            seed.related_ids = sorted({*seed.related_ids, result.id})
+            self.save(seed)
         self.save(result)
         return result
 
     def start_job(self, inputs: list[str]) -> Job:
         job = Job(id=uuid.uuid4().hex[:12], status="queued", created_at=utcnow(), total=len(inputs), done=0)
         self.jobs[job.id] = job
-        task = asyncio.get_running_loop().create_task(self._run_job(job, inputs))
-        self._tasks.add(task)
-        task.add_done_callback(self._tasks.discard)
+        self.spawn(self._run_job(job, inputs))
         return job
 
     async def _run_job(self, job: Job, inputs: list[str]) -> None:

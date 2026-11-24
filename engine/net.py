@@ -24,7 +24,7 @@ DESKTOP_UA = (
 )
 HTTP_TIMEOUT = httpx.Timeout(6.0, connect=4.0)
 MAX_REDIRECTS = 10
-_rdap_limit = asyncio.Semaphore(4)
+_rdap_limit = asyncio.Semaphore(8)
 _crtsh_limit = asyncio.Semaphore(2)
 
 
@@ -56,6 +56,10 @@ async def rdap(domain: str) -> tuple[Rdap | None, bool]:
             response = await client.get(f"https://rdap.org/domain/{domain}",
                                         headers={"Accept": "application/rdap+json"})
     except httpx.HTTPError:
+        return None, True
+    if response.status_code == 404 and response.url.host == "rdap.org":
+        # rdap.org answers 404 itself when the TLD has no RDAP server (.ae, .de, .io...): unknown, not unregistered
+        cache_set(key, {"rdap": None, "exists": True}, timedelta(days=1))
         return None, True
     if response.status_code == 404:
         cache_set(key, {"rdap": None, "exists": False}, timedelta(hours=6))
@@ -107,6 +111,15 @@ async def _resolve(name: str, rtype: str) -> list[str] | None:
     if server in _resolver.nameservers and _resolver.nameservers[0] != server:
         _resolver.nameservers = [server] + [n for n in _resolver.nameservers if n != server]
     return sorted(r.to_text().strip('"').rstrip(".").lower() for r in answer)
+
+
+async def domain_exists(domain: str) -> bool:
+    """True when the registered domain has name servers, i.e. someone has registered and delegated it."""
+    try:
+        name = domain.encode("idna").decode("ascii")
+    except UnicodeError:
+        return False
+    return bool(await _resolve(name, "NS"))
 
 
 async def _addresses(host: str) -> list[str] | None:
