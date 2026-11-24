@@ -22,7 +22,7 @@ function prune(graph: Graph) {
   for (const e of edges) degree.set(String(e.target), (degree.get(String(e.target)) ?? 0) + 1);
   const keep = new Set(
     nodes
-      .filter((n) => n.type === "domain" || (n.type === "brand" ? true : !n.ubiquitous && (degree.get(String(n.id)) ?? 0) >= 2))
+      .filter((n) => n.type === "domain" || (n.type !== "brand" && !n.ubiquitous && (degree.get(String(n.id)) ?? 0) >= 2))
       .map((n) => String(n.id)),
   );
   return {
