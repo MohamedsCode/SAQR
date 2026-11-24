@@ -52,7 +52,7 @@ DATASET = ROOT / "data" / "datasets" / "labeled.csv"
 CACHE = RUNTIME_DIR / "ml" / "lookups.jsonl"
 SEED = 2026
 ALGORITHM = "Gradient boosting (scikit-learn HistGradientBoostingClassifier)"
-BLEND_UP = range(10, 65, 5)
+BLEND_UP = range(10, 105, 5)
 BLEND_DOWN = range(0, 45, 5)
 LOOKUP_TIMEOUT_S = 30
 

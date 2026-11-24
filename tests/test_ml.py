@@ -32,13 +32,17 @@ def test_every_feature_has_bilingual_label():
         assert en and ar
 
 
-def test_url_features():
+def test_domain_features():
     f = features_of("https://login.sa1ik-pay.top/verify/otp?id=1&x=2", codes={"RISKY_TLD"})
-    assert f["subdomain_count"] == 1
-    assert f["path_depth"] == 2 and f["query_params"] == 2
-    assert f["host_digits"] == 1 and f["host_hyphens"] == 1
-    assert f["path_bait_words"] >= 2
+    assert f["domain_length"] == len("sa1ik-pay")
+    assert f["domain_digits"] == 1 and f["domain_hyphens"] == 1
     assert f["code_risky_tld"] == 1.0 and f["code_free_hosting"] == 0.0
+
+
+def test_features_ignore_the_page_path():
+    """Legitimate deep links must look the same to the model as their homepage."""
+    assert features_of("https://www.example-bank.ae/") == features_of(
+        "https://www.example-bank.ae/en/personal/cards/credit-cards/apply?ref=home", codes={"PATH_BAIT"})
 
 
 def test_network_features_are_missing_not_zero_when_unknown():
