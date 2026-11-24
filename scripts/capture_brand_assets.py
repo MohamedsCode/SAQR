@@ -55,7 +55,12 @@ async def capture(browser: Browser, brand: dict) -> None:
             brand["favicon_path"] = favicon.relative_to(ROOT).as_posix()
         print(f"ok    {brand['id']:13} {page.url}")
     except Exception as exc:
-        print(f"FAIL  {brand['id']:13} {brand['reference_url']}: {exc}")
+        manual = out_dir / "reference.png"
+        if manual.is_file():
+            brand["reference_screenshot_path"] = manual.relative_to(ROOT).as_posix()
+            print(f"kept  {brand['id']:13} existing {manual.relative_to(ROOT).as_posix()} (live capture failed)")
+        else:
+            print(f"FAIL  {brand['id']:13} {brand['reference_url']}: {exc}")
     finally:
         await context.close()
 

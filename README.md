@@ -102,6 +102,9 @@ lookups, and `full` (the API default) also visits the page. `BROWSER_ENABLED=fal
 
 ### Evaluation data
 
+On Windows, `powershell -ExecutionPolicy Bypass -File scripts\setup_data.ps1` runs every download and build step
+below (plus the brand-asset capture) and prints a summary of what succeeded. The individual commands:
+
 ```powershell
 New-Item -ItemType Directory -Force data\runtime\feeds | Out-Null
 Invoke-WebRequest https://openphish.com/feed.txt -OutFile data\runtime\feeds\openphish.txt
