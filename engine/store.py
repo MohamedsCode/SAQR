@@ -87,9 +87,12 @@ class Store:
         return task
 
     async def scan_and_store(self, text: str, discovered_by: DiscoveredBy = "user",
-                             related_to: str | None = None) -> ScanResult:
-        """Scan and save. related_to links the new case to the case it was discovered from, both ways."""
+                             related_to: str | None = None, keep_safe: bool = True) -> ScanResult:
+        """Scan and save. related_to links the new case to the case it was discovered from, both ways.
+        keep_safe=False saves only suspicious and fraud results (browser-extension checks)."""
         result = await scan(text, discovered_by=discovered_by)
+        if not keep_safe and result.verdict == "safe":
+            return result
         earlier = [s for s in self.scans.values() if s.registered_domain == result.registered_domain]
         if earlier:
             result.first_seen = min([result.first_seen, *(s.first_seen for s in earlier)])

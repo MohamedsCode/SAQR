@@ -78,6 +78,13 @@ Invoke-Step 'Build labelled dataset' {
     if (Test-Path $TrancoCsv) { $arguments += @('--tranco', $TrancoCsv) }
     if ($arguments.Count -eq 1) { throw "no feed or Tranco files available" }
     Invoke-Python $arguments | Out-Null
+    $script:DatasetArguments = $arguments
+}
+
+Invoke-Step 'Add legitimate deep links to the dataset' {
+    if (-not $script:DatasetArguments) { throw "the dataset step failed" }
+    Invoke-Python @('-W', 'ignore', 'scripts\crawl_legit_links.py', '--sites', '3000') | Out-Null
+    Invoke-Python ($script:DatasetArguments + @('--legit-links', (Join-Path $Feeds 'legit_links.txt'))) | Out-Null
 }
 
 Invoke-Step 'Capture brand assets' {

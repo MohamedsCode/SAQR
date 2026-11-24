@@ -52,6 +52,15 @@ async def scan(request: ScanRequest) -> ScanResult:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
+@router.post("/check", response_model=ScanResult)
+async def check(request: ScanRequest) -> ScanResult:
+    """Scan a page the browser extension is showing. Unlike /scan, safe results are not saved as cases."""
+    try:
+        return await store.scan_and_store(request.input, keep_safe=False)
+    except InvalidInput as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
 @router.post("/scan/batch", response_model=Job)
 async def scan_batch(request: Request) -> Job:
     content_type = request.headers.get("content-type", "")

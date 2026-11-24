@@ -128,3 +128,13 @@ def test_stats(client):
     assert stats["scans"] == 8 and stats["fraud_found"] == 4 and stats["fake_helplines"] == 2
     client.post("/api/report", json={"input": "https://sa1ik-recharge.xyz", "type": "url"})
     assert client.get("/api/stats").json()["found_before_report"] == stats["found_before_report"] - 1
+
+
+def test_check_saves_only_flagged_results(client):
+    before = len(client.get("/api/scans").json())
+    safe = client.post("/api/check", json={"input": "https://tamm.abudhabi/services"}).json()
+    assert safe["verdict"] == "safe"
+    assert len(client.get("/api/scans").json()) == before
+    flagged = client.post("/api/check", json={"input": "https://adpolice-fines-pay.top/pay"}).json()
+    assert flagged["verdict"] != "safe"
+    assert client.get(f"/api/scans/{flagged['id']}").status_code == 200

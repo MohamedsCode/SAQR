@@ -1,19 +1,19 @@
 {
   "available": true,
   "algorithm": "Gradient boosting (scikit-learn HistGradientBoostingClassifier)",
-  "trained_at": "2026-11-24T12:53:49.974821Z",
-  "training_seconds": 12.5,
+  "trained_at": "2026-11-24T13:03:14.725232Z",
+  "training_seconds": 260.5,
   "feature_count": 31,
   "datasets": [
     {
       "split": "train",
       "phishing": 2624,
-      "legit": 2184
+      "legit": 3953
     },
     {
       "split": "test",
       "phishing": 957,
-      "legit": 899
+      "legit": 1603
     }
   ],
   "metrics": [
@@ -26,17 +26,17 @@
         "f1": 0.0469,
         "tp": 23,
         "fp": 0,
-        "tn": 899,
+        "tn": 1603,
         "fn": 934
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.9832,
+        "precision": 0.9724,
         "recall": 0.1839,
-        "f1": 0.3099,
+        "f1": 0.3093,
         "tp": 176,
-        "fp": 3,
-        "tn": 896,
+        "fp": 5,
+        "tn": 1598,
         "fn": 781
       }
     },
@@ -44,23 +44,23 @@
       "approach": "model",
       "fraud": {
         "threshold": 70,
-        "precision": 0.9139,
-        "recall": 0.8433,
-        "f1": 0.8772,
-        "tp": 807,
-        "fp": 76,
-        "tn": 823,
-        "fn": 150
+        "precision": 0.8907,
+        "recall": 0.8004,
+        "f1": 0.8431,
+        "tp": 766,
+        "fp": 94,
+        "tn": 1509,
+        "fn": 191
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.8605,
-        "recall": 0.9154,
-        "f1": 0.8871,
-        "tp": 876,
-        "fp": 142,
-        "tn": 757,
-        "fn": 81
+        "precision": 0.808,
+        "recall": 0.8882,
+        "f1": 0.8462,
+        "tp": 850,
+        "fp": 202,
+        "tn": 1401,
+        "fn": 107
       }
     },
     {
@@ -68,22 +68,22 @@
       "fraud": {
         "threshold": 70,
         "precision": 1.0,
-        "recall": 0.1317,
-        "f1": 0.2327,
-        "tp": 126,
+        "recall": 0.0784,
+        "f1": 0.1453,
+        "tp": 75,
         "fp": 0,
-        "tn": 899,
-        "fn": 831
+        "tn": 1603,
+        "fn": 882
       },
       "flagged": {
         "threshold": 30,
-        "precision": 0.9613,
-        "recall": 0.7524,
-        "f1": 0.8441,
-        "tp": 720,
-        "fp": 29,
-        "tn": 870,
-        "fn": 237
+        "precision": 0.9744,
+        "recall": 0.7168,
+        "f1": 0.826,
+        "tp": 686,
+        "fp": 18,
+        "tn": 1585,
+        "fn": 271
       }
     }
   ],
@@ -91,27 +91,27 @@
     {
       "label": "phishing",
       "verdict": "safe",
-      "count": 237
+      "count": 271
     },
     {
       "label": "phishing",
       "verdict": "suspicious",
-      "count": 594
+      "count": 611
     },
     {
       "label": "phishing",
       "verdict": "fraud",
-      "count": 126
+      "count": 75
     },
     {
       "label": "legit",
       "verdict": "safe",
-      "count": 870
+      "count": 1585
     },
     {
       "label": "legit",
       "verdict": "suspicious",
-      "count": 29
+      "count": 18
     },
     {
       "label": "legit",
@@ -120,101 +120,101 @@
     }
   ],
   "official_false_positives": 0,
-  "official_checked": 48,
+  "official_checked": 82,
   "allowlist_false_positives": 0,
-  "allowlist_checked": 564,
-  "model_weight_max": 35,
+  "allowlist_checked": 929,
+  "model_weight_max": 30,
   "model_weight_min": -20,
   "top_features": [
     {
       "feature": "code_tranco_top",
       "en": "Among the world's top 10,000 sites",
       "ar": "ضمن أكثر 10,000 موقع زيارة عالمياً",
-      "importance": 0.0706
+      "importance": 0.0572
     },
     {
       "feature": "tld_ae",
       "en": ".ae domain",
       "ar": "نطاق ‎.ae‎",
-      "importance": 0.0347
+      "importance": 0.0458
     },
     {
       "feature": "ns_count",
       "en": "Name servers",
       "ar": "خوادم الأسماء",
-      "importance": 0.0329
+      "importance": 0.0265
     },
     {
       "feature": "rule_score",
       "en": "Rule engine score (domain signals)",
       "ar": "درجة محرك القواعد (مؤشرات النطاق)",
-      "importance": 0.0263
+      "importance": 0.0245
     },
     {
       "feature": "code_free_hosting",
       "en": "Free hosting platform",
       "ar": "منصة استضافة مجانية",
-      "importance": 0.0239
+      "importance": 0.0172
     },
     {
       "feature": "mx_records",
       "en": "Mail servers (MX records)",
       "ar": "خوادم البريد (MX)",
-      "importance": 0.0081
+      "importance": 0.0055
     },
     {
       "feature": "dns_resolves",
       "en": "Domain resolves in DNS",
       "ar": "النطاق يعمل في نظام DNS",
-      "importance": 0.0026
+      "importance": 0.0044
     },
     {
       "feature": "domain_length",
       "en": "Domain name length",
       "ar": "طول اسم النطاق",
-      "importance": 0.0025
-    },
-    {
-      "feature": "code_bait_in_domain",
-      "en": "Bait words in the domain",
-      "ar": "كلمات استدراج في النطاق",
-      "importance": 0.0016
-    },
-    {
-      "feature": "domain_digits",
-      "en": "Digits in the domain name",
-      "ar": "الأرقام في اسم النطاق",
-      "importance": 0.0015
-    },
-    {
-      "feature": "domain_entropy",
-      "en": "Randomness of the domain name",
-      "ar": "عشوائية اسم النطاق",
-      "importance": 0.0012
-    },
-    {
-      "feature": "rdap_found",
-      "en": "Registration record found",
-      "ar": "تم العثور على سجل التسجيل",
-      "importance": 0.0012
-    },
-    {
-      "feature": "domain_hyphens",
-      "en": "Hyphens in the domain name",
-      "ar": "الشرطات في اسم النطاق",
-      "importance": 0.0012
-    },
-    {
-      "feature": "code_cross_domain_redirect",
-      "en": "Redirects to another domain",
-      "ar": "يعيد التوجيه إلى نطاق آخر",
-      "importance": 0.0009
+      "importance": 0.0038
     },
     {
       "feature": "domain_age_days",
       "en": "Domain age",
       "ar": "عمر النطاق",
+      "importance": 0.0031
+    },
+    {
+      "feature": "domain_digits",
+      "en": "Digits in the domain name",
+      "ar": "الأرقام في اسم النطاق",
+      "importance": 0.0026
+    },
+    {
+      "feature": "code_bait_in_domain",
+      "en": "Bait words in the domain",
+      "ar": "كلمات استدراج في النطاق",
+      "importance": 0.0017
+    },
+    {
+      "feature": "rdap_found",
+      "en": "Registration record found",
+      "ar": "تم العثور على سجل التسجيل",
+      "importance": 0.0011
+    },
+    {
+      "feature": "code_cross_domain_redirect",
+      "en": "Redirects to another domain",
+      "ar": "يعيد التوجيه إلى نطاق آخر",
+      "importance": 0.0008
+    },
+    {
+      "feature": "code_many_subdomains",
+      "en": "Unusually many subdomains",
+      "ar": "عدد كبير غير معتاد من النطاقات الفرعية",
       "importance": 0.0007
+    },
+    {
+      "feature": "domain_hyphens",
+      "en": "Hyphens in the domain name",
+      "ar": "الشرطات في اسم النطاق",
+      "importance": 0.0006
     }
   ]
 }

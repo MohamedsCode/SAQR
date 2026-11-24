@@ -2,12 +2,12 @@
 
 Phishing: the OpenPhish free feed, a sample of Phishing.Database's active links, and generated UAE look-alikes.
 Legitimate: Tranco top sites (homepages and common login/payment paths), UAE .ae sites from deeper in Tranco,
-and every official brand domain. Rows are split 70/30 into train/test by registered domain, so a domain never
+every official brand domain, and real deep links collected from those sites by scripts/crawl_legit_links.py. Rows are split 70/30 into train/test by registered domain, so a domain never
 appears in both halves.
 
 Usage:
   python scripts/build_dataset.py --openphish data/runtime/feeds/openphish.txt \
-      --phishdb data/runtime/feeds/phishing-links-ACTIVE.txt --tranco data/runtime/tranco/top-1m.csv
+      --phishdb data/runtime/feeds/phishing-links-ACTIVE.txt --tranco data/runtime/tranco/top-1m.csv       --legit-links data/runtime/feeds/legit_links.txt
 """
 
 from __future__ import annotations
@@ -56,6 +56,7 @@ def main() -> None:
     parser.add_argument("--openphish", type=Path)
     parser.add_argument("--phishdb", type=Path)
     parser.add_argument("--tranco", type=Path)
+    parser.add_argument("--legit-links", type=Path)
     parser.add_argument("--phishdb-sample", type=int, default=3000)
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
@@ -86,6 +87,8 @@ def main() -> None:
     uae = [d for d in tranco[top_n:] if d.endswith(".ae")]
     for domain in rng.sample(uae, min(len(uae), 600)):
         rows.append((f"https://{domain}/", "legit", "tranco_uae"))
+
+    rows += [(u, "legit", "legit_deep_links") for u in read_lines(args.legit_links)]
 
     seen: set[str] = set()
     written = {"phishing": 0, "legit": 0}
