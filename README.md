@@ -95,22 +95,24 @@ from it is sent, never the number itself.
 
 ## Install
 
-### On a computer: SAQR for Chrome
+### On a computer (Chrome)
 
-Warns you before you type anything into a scam site.
+SAQR warns you before you type anything into a scam website.
 
-1. **[Download SAQR-Chrome.zip](https://github.com/hankhali/Saqr/releases/latest/download/SAQR-Chrome.zip)** and
-   extract it.
-2. In Chrome, open `chrome://extensions` and turn on **Developer mode** (top right).
-3. Click **Load unpacked** and choose the extracted `SAQR-Chrome` folder.
+1. **[Download SAQR](https://github.com/hankhali/Saqr/releases/latest/download/SAQR-Chrome.zip)**, then open the
+   downloaded file and click **Extract all**.
+2. In Chrome, type **chrome://extensions** in the address bar, press Enter, and switch on **Developer mode** in the
+   top right corner.
+3. Click **Load unpacked** and choose the **SAQR-Chrome** folder you just extracted.
 
-Done. SAQR checks every site you open, and only interrupts you when something is wrong.
+That's it. SAQR now checks every website you open and only interrupts you when something is wrong.
 
-### On a phone: no install needed
+### On a phone
 
-Open the SAQR website, paste the suspicious link or the whole message, and tap **Check**.
+Nothing to install. Open the SAQR website, paste the suspicious link or the whole message, and tap **Check**.
 
-### Run it yourself
+<details>
+<summary><b>For developers: run SAQR from the source code</b></summary>
 
 You need Python 3.12 and Node.js 20 or newer.
 
@@ -134,3 +136,5 @@ python -m engine.ml.train                                    # retrain the AI mo
 
 For the live demo, set `ALLOW_LOCALHOST_DEMO=true` in `.env`, then start the sample scam page with
 `python -m http.server 8081 --directory demo`. It opens at `http://adpolice-fines-pay.localhost:8081/pay`.
+
+</details>
