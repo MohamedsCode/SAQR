@@ -6,8 +6,9 @@ import csv
 import io
 import json
 
-from fastapi import APIRouter, HTTPException, Request, UploadFile
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import Response
+from starlette.datastructures import UploadFile
 
 from engine.store import store
 from shared.contract import BatchRequest, Job, Report, ReportRequest, ScanRequest, ScanResult
