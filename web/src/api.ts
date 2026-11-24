@@ -1,4 +1,4 @@
-import type { Brand, ScanResult, Stats } from "@shared/contract";
+import type { Brand, ModelInfo, ScanResult, Stats, TrainingRun } from "@shared/contract";
 import { useSyncExternalStore } from "react";
 import { findSampleScan, normalizeScan, sampleBrands, sampleScans, sampleStats } from "./data/fixtures";
 
@@ -79,6 +79,8 @@ export const api = {
         return found;
       },
     ),
+  model: () => detectMode().then(() => request<ModelInfo>("/model")),
+  retrain: () => request<TrainingRun>("/model/retrain", { method: "POST" }),
   demoReset: () => request<{ ok: boolean }>("/demo/reset", { method: "POST" }),
   brands: () => live(() => request<Brand[]>("/brands"), () => sampleBrands),
   scan: (input: string) =>

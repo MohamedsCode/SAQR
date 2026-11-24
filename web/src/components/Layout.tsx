@@ -64,6 +64,9 @@ export default function Layout({ children }: { children: ReactNode }) {
             <NavLink to="/scan" className={navClass}>
               {t("nav.scan")}
             </NavLink>
+            <NavLink to="/model" className={navClass}>
+              {t("nav.model")}
+            </NavLink>
             <NavLink to="/check" className={navClass}>
               {t("nav.citizen_view")}
             </NavLink>
