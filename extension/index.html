@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAQR warning preview</title>
+    <style>
+      body { margin: 0; font-family: Georgia, serif; color: #222; background: #fafaf7; }
+      .bar { position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px;
+             background: #eee; border-bottom: 1px solid #ccc; font: 14px system-ui, sans-serif; }
+      .bar button { padding: 6px 12px; }
+      .page { max-width: 720px; margin: 32px auto; padding: 0 16px; line-height: 1.7; }
+      #log { font: 12px ui-monospace, monospace; color: #555; }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <button data-show="suspicious" data-lang="en">Suspicious (EN)</button>
+      <button data-show="fraud" data-lang="en">Fraud (EN)</button>
+      <button data-show="error" data-lang="en">Could not check (EN)</button>
+      <button data-show="suspicious" data-lang="ar">مشبوه (AR)</button>
+      <button data-show="fraud" data-lang="ar">احتيال (AR)</button>
+      <span id="log" aria-live="polite"></span>
+    </div>
+    <main class="page">
+      <h1>Example page behind the warning</h1>
+      <p>This stands in for the website the visitor opened. The page's own styles, such as this serif font, must not
+        change how the warning looks.</p>
+      <form><label>Card number <input name="card" /></label> <button type="button">Pay</button></form>
+    </main>
+    <script type="module" src="/src/preview.tsx"></script>
+  </body>
+</html>

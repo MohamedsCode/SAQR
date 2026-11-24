@@ -107,6 +107,18 @@ SAQR warns you before you type anything into a scam website.
 
 That's it. SAQR now checks every website you open and only interrupts you when something is wrong.
 
+**Step 2:** switch on **Developer mode** (top right).
+
+<img src="docs/install/step-2-developer-mode.png" alt="The Chrome extensions page with the Developer mode switch highlighted" width="720">
+
+**Step 3:** click **Load unpacked**, then choose the **SAQR-Chrome** folder.
+
+<img src="docs/install/step-3-load-unpacked.png" alt="The Load unpacked button highlighted" width="720">
+
+**Done:** SAQR appears in your list of extensions.
+
+<img src="docs/install/step-4-installed.png" alt="SAQR listed on the Chrome extensions page" width="720">
+
 ### On a phone
 
 Nothing to install. Open the SAQR website, paste the suspicious link or the whole message, and tap **Check**.

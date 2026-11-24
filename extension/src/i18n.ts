@@ -1,0 +1,53 @@
+import { BYPASS_MINUTES } from "./messages";
+
+export type Lang = "en" | "ar";
+
+export const STRINGS = {
+  en: {
+    product: "SAQR",
+    switchLanguage: "العربية",
+    switchLanguageLabel: "Show this warning in Arabic",
+    suspiciousTitle: "This site looks suspicious",
+    suspiciousBody: "SAQR found warning signs on this site. Be careful before you enter any personal or payment details.",
+    fraudTitle: "This site may be fraudulent",
+    fraudBody: "SAQR found strong signs that this site is a scam. Do not enter card details, passwords or one-time codes.",
+    leave: "Leave site",
+    backToSafety: "Go back to safety",
+    continueAnyway: "Continue anyway",
+    viewDetails: "View details",
+    hideDetails: "Hide details",
+    detailsTitle: "Why SAQR flagged this site",
+    bypassNote: `SAQR will not warn you about this site again for ${BYPASS_MINUTES} minutes.`,
+    modelOnly: "SAQR's model found patterns that are common on phishing sites.",
+    errorTitle: "Could not check this site",
+    errorBody: "SAQR could not reach its checking service, so this site has not been checked. Take care before entering personal or payment details.",
+    dismiss: "Dismiss",
+    domainLabel: "Site",
+  },
+  ar: {
+    product: "صقر",
+    switchLanguage: "English",
+    switchLanguageLabel: "عرض هذا التحذير باللغة الإنجليزية",
+    suspiciousTitle: "يبدو هذا الموقع مشبوهاً",
+    suspiciousBody: "رصد صقر مؤشرات تحذيرية في هذا الموقع. توخَّ الحذر قبل إدخال أي بيانات شخصية أو بيانات دفع.",
+    fraudTitle: "قد يكون هذا الموقع احتيالياً",
+    fraudBody: "رصد صقر مؤشرات قوية على أن هذا الموقع احتيالي. لا تُدخل بيانات بطاقتك أو كلمات المرور أو رموز التحقق.",
+    leave: "مغادرة الموقع",
+    backToSafety: "العودة إلى الأمان",
+    continueAnyway: "المتابعة على أي حال",
+    viewDetails: "عرض التفاصيل",
+    hideDetails: "إخفاء التفاصيل",
+    detailsTitle: "لماذا نبّه صقر إلى هذا الموقع",
+    bypassNote: `لن يحذّرك صقر من هذا الموقع مجدداً لمدة ${BYPASS_MINUTES} دقيقة.`,
+    modelOnly: "رصد نموذج صقر أنماطاً شائعة في مواقع التصيّد الاحتيالي.",
+    errorTitle: "تعذّر فحص هذا الموقع",
+    errorBody: "تعذّر على صقر الوصول إلى خدمة الفحص، لذلك لم يتم فحص هذا الموقع. توخَّ الحذر قبل إدخال بيانات شخصية أو بيانات دفع.",
+    dismiss: "إغلاق",
+    domainLabel: "الموقع",
+  },
+} as const;
+
+export function initialLang(): Lang {
+  const page = document.documentElement.lang.toLowerCase();
+  return page.startsWith("ar") || navigator.language.toLowerCase().startsWith("ar") ? "ar" : "en";
+}

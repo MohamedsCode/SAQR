@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-amber-surface: #f5b544;
+  --color-amber-ink: #1c1a17;
+  --color-fraud-surface: #8f1d1d;
+  --color-notice-surface: #ffffff;
+  --color-notice-ink: #1f2933;
+  --font-sans: "Segoe UI", "Noto Sans Arabic", "Noto Sans", Tahoma, system-ui, sans-serif;
+}
+
+/* Keep the host page's inherited styles (font, colour, direction, size) out of the warning. */
+:host {
+  all: initial;
+}
+
+/* Tailwind registers these with @property, which shadow roots ignore; give them their defaults here. */
+:host,
+*,
+::before,
+::after {
+  --tw-border-style: solid;
+  --tw-outline-style: solid;
+}
+
+.saqr-root {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.saqr-enter {
+  animation: saqr-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.saqr-exit {
+  animation: saqr-exit 120ms ease-out both;
+}
+
+@keyframes saqr-enter {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes saqr-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes saqr-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saqr-enter {
+    animation: saqr-fade 100ms linear both;
+  }
+}
+
+/* Visible keyboard focus on every surface: dark ring on amber and white, white ring on red. */
+.saqr-focus-dark:focus-visible {
+  outline: 3px solid var(--color-amber-ink);
+  outline-offset: 3px;
+}
+
+.saqr-focus-light:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
