@@ -122,7 +122,8 @@
     "error_no_link_title": "No link found",
     "error_no_link": "We couldn't find a link in that text. Paste the full link or the whole message.",
     "error_unavailable_title": "We couldn't check this link right now",
-    "error_unavailable": "Try again in a minute. Until then, don't enter any personal details on it."
+    "error_unavailable": "Try again in a minute. Until then, don't enter any personal details on it.",
+    "police_dashboard": "Police dashboard"
   },
   "mode": {
     "live": "Live engine",

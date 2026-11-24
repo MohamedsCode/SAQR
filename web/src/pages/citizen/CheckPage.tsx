@@ -2,11 +2,11 @@ import type { Brand, Reason, ScanResult, Verdict } from "@shared/contract";
 import mark from "@shared/logo/saqr-mark.png";
 import { type FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { BRAND, localized, productName } from "../../brand";
 import { CheckError, checkLink, fetchBrands, reportLink } from "./api";
 import "./check.css";
-import { AlertIcon, ClipboardIcon, CloseIcon, GlobeIcon, VerdictIcon } from "./icons";
+import { AlertIcon, ClipboardIcon, CloseIcon, DashboardIcon, GlobeIcon, VerdictIcon } from "./icons";
 
 type Phase =
   | { kind: "idle" }
@@ -188,6 +188,11 @@ export default function CheckPage() {
   return (
     <div className="chk-page" data-verdict={verdict}>
       <header className="chk-pad flex h-16 items-center gap-3 sm:h-20">
+        {/* Demo shortcut to the police dashboard (temporary, for the judges) */}
+        <Link to="/" className="chk-focus chk-muted flex min-h-11 items-center gap-2 rounded-lg px-3 hover:bg-[#0b1e33]/5 hover:text-[#0b1e33]">
+          <DashboardIcon className="h-5 w-5" />
+          <span className="text-[15px] sm:text-base">{t("check.police_dashboard")}</span>
+        </Link>
         {engaged && (
           <button type="button" onClick={checkAnother}
                   className="chk-enter chk-focus flex min-h-11 items-center gap-2.5 rounded">

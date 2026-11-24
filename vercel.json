@@ -4,14 +4,8 @@
   "installCommand": "npm ci --prefix web",
   "buildCommand": "npm run build",
   "outputDirectory": "web/dist",
-  "redirects": [
-    { "source": "/", "destination": "/check", "permanent": false }
-  ],
   "rewrites": [
-    { "source": "/check", "destination": "/index.html" },
-    { "source": "/api/health", "destination": "https://celebrity-pierce-tourist-background.trycloudflare.com/api/health" },
-    { "source": "/api/brands", "destination": "https://celebrity-pierce-tourist-background.trycloudflare.com/api/brands" },
-    { "source": "/api/check", "destination": "https://celebrity-pierce-tourist-background.trycloudflare.com/api/check" },
-    { "source": "/api/report", "destination": "https://celebrity-pierce-tourist-background.trycloudflare.com/api/report" }
+    { "source": "/api/:path*", "destination": "https://celebrity-pierce-tourist-background.trycloudflare.com/api/:path*" },
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ]
 }
