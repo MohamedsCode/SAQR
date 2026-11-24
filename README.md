@@ -38,11 +38,12 @@ websites are never interrupted.
 
 ### What the police see
 
-The operations centre lists every scam website SAQR has found, with its score and how it was found: reported by a
-citizen, spotted as a look-alike name, or found through a new website certificate. It shows which institutions are
-being targeted, which kinds of scams are most common, and how many were caught before anyone reported them. Each case
-opens into the full evidence, including screenshots, registration records and the reasons in both languages,
-ready to download as a report with a takedown letter.
+The operations centre opens on an overview of every scam website SAQR has found, newest first, with its verdict
+and how it was found: reported by a citizen, spotted as a look-alike name, or found through a new website
+certificate. It shows which institutions are being targeted and how many scams were caught before anyone reported
+them. The side menu leads to early detections, fake helpline numbers, all cases, networks of related scam websites,
+and the AI's accuracy. Each case opens into the full evidence, including screenshots, registration records and the
+reasons in both languages, ready to download as a report with a takedown letter.
 
 <p align="center">
   <img src="docs/screens/police-dashboard.png" alt="The SAQR police operations centre" width="760">
