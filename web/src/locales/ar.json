@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "operations": "مركز العمليات",
+    "citizen": "افحص رابطاً"
+  },
+  "lang_toggle": "English",
+  "ops": {
+    "title": "مركز عمليات الشرطة",
+    "kpi_scans": "عمليات الفحص",
+    "kpi_fraud": "مواقع احتيال مكتشفة",
+    "kpi_before_report": "اكتُشفت قبل أي بلاغ",
+    "kpi_fake_helplines": "أرقام خدمة وهمية",
+    "kpi_time_to_detect": "متوسط ساعات الاكتشاف",
+    "cases": "القضايا",
+    "col_domain": "النطاق",
+    "col_brand": "ينتحل صفة",
+    "col_score": "الدرجة",
+    "col_verdict": "الحكم",
+    "col_source": "مصدر الاكتشاف",
+    "col_first_seen": "أول رصد",
+    "status_offline": "غير متاح"
+  },
+  "citizen": {
+    "title": "هل هذا الرابط آمن؟",
+    "placeholder": "الصق رابطاً أو رسالة تحتوي على رابط",
+    "check": "افحص",
+    "checking": "جارٍ الفحص…",
+    "top_reasons": "الأسباب"
+  },
+  "verdict": {
+    "safe": "آمن",
+    "suspicious": "مشبوه",
+    "fraud": "احتيال"
+  },
+  "source": {
+    "user": "مواطن",
+    "lookalike": "فحص النطاقات المشابهة",
+    "crtsh": "سجل الشهادات",
+    "maps_sweep": "مسح الخرائط",
+    "search_sweep": "مسح البحث",
+    "graph_expansion": "شبكة الحملة",
+    "batch": "دفعة"
+  },
+  "error": {
+    "load": "تعذّر تحميل البيانات من الخادم.",
+    "scan": "تعذّر فحص هذا الرابط حالياً."
+  }
+}

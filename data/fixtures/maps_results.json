@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ML-0001",
+    "brand_id": "adpolice",
+    "query": "Abu Dhabi Police traffic fines customer service number",
+    "name": "Abu Dhabi Police Fines Payment Help Desk",
+    "address": "Al Khalidiya, Abu Dhabi",
+    "url": "https://adpolice-fines-pay.top/",
+    "phones": ["+971525550142"],
+    "phone_status": "fake_listing"
+  },
+  {
+    "id": "ML-0002",
+    "brand_id": "emiratespost",
+    "query": "رقم خدمة عملاء بريد الإمارات",
+    "name": "Emirates Post Parcel Re-delivery Office",
+    "address": "Deira, Dubai",
+    "url": "https://emiratespost-redelivery.cyou/",
+    "phones": ["+971525550178"],
+    "phone_status": "fake_listing"
+  },
+  {
+    "id": "ML-0003",
+    "brand_id": "salik",
+    "query": "Salik helpline Abu Dhabi",
+    "name": "Mussafah Car Wash and Tag Services",
+    "address": "Mussafah, Abu Dhabi",
+    "url": null,
+    "phones": ["+971525550190"],
+    "phone_status": "unknown"
+  }
+]

@@ -1,0 +1,25 @@
+# Local assistant files
+CLAUDE.md
+.claude/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+web/dist/
+
+# Secrets and local config
+.env
+
+# Runtime data (database, screenshots, evidence packs, downloaded feeds)
+data/runtime/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

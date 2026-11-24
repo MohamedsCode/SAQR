@@ -1,0 +1,484 @@
+[
+  {
+    "id": "NB-20261124-0001",
+    "input": "tamm.abudhabi",
+    "normalized_url": "https://tamm.abudhabi/",
+    "final_url": "https://www.tamm.abudhabi/",
+    "registered_domain": "tamm.abudhabi",
+    "scanned_at": "2026-11-24T06:02:11Z",
+    "status": "live",
+    "score": 0,
+    "verdict": "safe",
+    "impersonated_brand": null,
+    "category": null,
+    "reasons": [
+      {
+        "code": "ALLOWLIST_OFFICIAL",
+        "en": "Verified official domain of TAMM.",
+        "ar": "نطاق رسمي موثّق لمنصة تم.",
+        "weight": 0,
+        "evidence": "Registered domain tamm.abudhabi matches the official domain list."
+      }
+    ],
+    "summary_en": "This is the official TAMM website. No risk signals apply.",
+    "summary_ar": "هذا هو الموقع الرسمي لمنصة تم. لا توجد مؤشرات خطر.",
+    "evidence": {
+      "redirect_chain": ["https://tamm.abudhabi/", "https://www.tamm.abudhabi/"]
+    },
+    "discovered_by": "user",
+    "first_seen": "2026-11-24T06:02:11Z",
+    "related_ids": []
+  },
+  {
+    "id": "NB-20261124-0002",
+    "input": " ADCB.com/personal ",
+    "normalized_url": "https://adcb.com/personal",
+    "final_url": "https://www.adcb.com/en/personal",
+    "registered_domain": "adcb.com",
+    "scanned_at": "2026-11-24T06:04:37Z",
+    "status": "live",
+    "score": 0,
+    "verdict": "safe",
+    "impersonated_brand": null,
+    "category": null,
+    "reasons": [
+      {
+        "code": "ALLOWLIST_OFFICIAL",
+        "en": "Verified official domain of ADCB.",
+        "ar": "نطاق رسمي موثّق لبنك أبوظبي التجاري.",
+        "weight": 0,
+        "evidence": "Registered domain adcb.com matches the official domain list."
+      }
+    ],
+    "summary_en": "This is the official ADCB website. No risk signals apply.",
+    "summary_ar": "هذا هو الموقع الرسمي لبنك أبوظبي التجاري. لا توجد مؤشرات خطر.",
+    "evidence": {
+      "redirect_chain": ["https://adcb.com/personal", "https://www.adcb.com/en/personal"]
+    },
+    "discovered_by": "user",
+    "first_seen": "2026-11-24T06:04:37Z",
+    "related_ids": []
+  },
+  {
+    "id": "NB-20261124-0003",
+    "input": "https://uae-parcel-track.site/",
+    "normalized_url": "https://uae-parcel-track.site/",
+    "final_url": "https://uae-parcel-track.site/",
+    "registered_domain": "uae-parcel-track.site",
+    "scanned_at": "2026-11-24T05:41:09Z",
+    "status": "live",
+    "score": 45,
+    "verdict": "suspicious",
+    "impersonated_brand": null,
+    "category": "parcel_redelivery",
+    "reasons": [
+      {
+        "code": "DOMAIN_AGE_LT_30D",
+        "en": "Domain was registered less than 30 days ago.",
+        "ar": "تم تسجيل النطاق منذ أقل من 30 يوماً.",
+        "weight": 20,
+        "evidence": "RDAP creation date 2026-11-09 (15 days old)."
+      },
+      {
+        "code": "RISKY_TLD",
+        "en": "Uses a top-level domain that is often abused for scams.",
+        "ar": "يستخدم امتداد نطاق يُستغل كثيراً في الاحتيال.",
+        "weight": 15,
+        "evidence": ".site"
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Domain contains bait words used in delivery scams.",
+        "ar": "يحتوي النطاق على كلمات طُعم تُستخدم في احتيال التوصيل.",
+        "weight": 10,
+        "evidence": "uae, parcel, track"
+      }
+    ],
+    "summary_en": "Suspicious: a two-week-old domain on a high-risk extension using parcel-tracking bait words. It does not name a specific brand and has no payment form yet.",
+    "summary_ar": "مشبوه: نطاق عمره أسبوعان على امتداد عالي الخطورة ويستخدم كلمات طُعم لتتبع الطرود. لا يذكر علامة تجارية محددة ولا يحتوي على نموذج دفع حتى الآن.",
+    "evidence": {
+      "redirect_chain": ["https://uae-parcel-track.site/"],
+      "html_sha256": "83b23851c37fe725bb123117451572b47ac7680e118fb8d275d3b835509ad35d",
+      "rdap": {
+        "registrar": "Demo Registrar B (fixture)",
+        "created": "2026-11-09T10:15:00Z",
+        "expires": "2027-11-09T10:15:00Z",
+        "abuse_email": "abuse@registrar-b.example",
+        "nameservers": ["ns1.parkdns.example", "ns2.parkdns.example"]
+      },
+      "dns": { "a": ["198.51.100.77"], "mx": [], "ns": ["ns1.parkdns.example", "ns2.parkdns.example"] },
+      "hosting": { "ip": "198.51.100.77", "asn": 64501, "org": "Demo Cloud AS (fixture)", "country": "US" }
+    },
+    "discovered_by": "crtsh",
+    "first_seen": "2026-11-24T05:41:09Z",
+    "related_ids": []
+  },
+  {
+    "id": "NB-20261124-0004",
+    "input": "https://tamm-services-portal.netlify.app/",
+    "normalized_url": "https://tamm-services-portal.netlify.app/",
+    "final_url": "https://tamm-services-portal.netlify.app/",
+    "registered_domain": "netlify.app",
+    "scanned_at": "2026-11-24T06:20:52Z",
+    "status": "live",
+    "score": 55,
+    "verdict": "suspicious",
+    "impersonated_brand": "tamm",
+    "category": "government_services",
+    "reasons": [
+      {
+        "code": "BRAND_KEYWORD_IN_SUBDOMAIN",
+        "en": "Subdomain uses the brand name TAMM on a site that is not TAMM's.",
+        "ar": "يستخدم النطاق الفرعي اسم تم على موقع لا يتبع لها.",
+        "weight": 30,
+        "evidence": "tamm-services-portal"
+      },
+      {
+        "code": "FREE_HOSTING",
+        "en": "Hosted on a free hosting platform often used for throwaway scam pages.",
+        "ar": "مستضاف على منصة استضافة مجانية تُستخدم كثيراً لصفحات احتيال مؤقتة.",
+        "weight": 15,
+        "evidence": "netlify.app"
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Address contains bait words used to look official.",
+        "ar": "يحتوي العنوان على كلمات طُعم لإيهام الزائر بأنه رسمي.",
+        "weight": 10,
+        "evidence": "services, portal"
+      }
+    ],
+    "summary_en": "Suspicious: a free-hosting page named after TAMM. The page does not ask for personal or payment data yet, so it is not confirmed as fraud.",
+    "summary_ar": "مشبوه: صفحة على استضافة مجانية تحمل اسم تم. لا تطلب الصفحة بيانات شخصية أو بيانات دفع حتى الآن، لذلك لم يتأكد أنها احتيال.",
+    "evidence": {
+      "redirect_chain": ["https://tamm-services-portal.netlify.app/"],
+      "dns": { "a": ["192.0.2.10"], "mx": [], "ns": [] },
+      "hosting": { "ip": "192.0.2.10", "asn": 64502, "org": "Demo CDN AS (fixture)", "country": "US" }
+    },
+    "discovered_by": "user",
+    "first_seen": "2026-11-24T06:20:52Z",
+    "related_ids": []
+  },
+  {
+    "id": "NB-20261124-0005",
+    "input": "hxxps://adpolice-fines-pay[.]top/pay?ref=SMS",
+    "normalized_url": "https://adpolice-fines-pay.top/pay?ref=SMS",
+    "final_url": "https://adpolice-fines-pay.top/pay?ref=SMS",
+    "registered_domain": "adpolice-fines-pay.top",
+    "scanned_at": "2026-11-24T04:12:30Z",
+    "status": "live",
+    "score": 100,
+    "verdict": "fraud",
+    "impersonated_brand": "adpolice",
+    "category": "traffic_fine",
+    "reasons": [
+      {
+        "code": "BRAND_KEYWORD_IN_DOMAIN",
+        "en": "Domain uses the name of Abu Dhabi Police but is not an official domain.",
+        "ar": "يستخدم النطاق اسم شرطة أبوظبي لكنه ليس نطاقاً رسمياً.",
+        "weight": 30,
+        "evidence": "adpolice"
+      },
+      {
+        "code": "DOMAIN_AGE_LT_7D",
+        "en": "Domain was registered less than 7 days ago.",
+        "ar": "تم تسجيل النطاق منذ أقل من 7 أيام.",
+        "weight": 25,
+        "evidence": "RDAP creation date 2026-11-21 (3 days old)."
+      },
+      {
+        "code": "CARD_FORM",
+        "en": "Page asks for full card details.",
+        "ar": "تطلب الصفحة بيانات البطاقة كاملة.",
+        "weight": 25,
+        "evidence": "Fields: رقم البطاقة, تاريخ الانتهاء, CVV"
+      },
+      {
+        "code": "VISUAL_SIMILARITY",
+        "en": "Page looks like the official Abu Dhabi Police site.",
+        "ar": "تشبه الصفحة الموقع الرسمي لشرطة أبوظبي.",
+        "weight": 20,
+        "evidence": "87.5% screenshot similarity to the reference page."
+      },
+      {
+        "code": "OTP_FIELD",
+        "en": "Page asks for a one-time password (OTP).",
+        "ar": "تطلب الصفحة رمز التحقق لمرة واحدة.",
+        "weight": 15,
+        "evidence": "Field: رمز التحقق"
+      },
+      {
+        "code": "CLOAKING",
+        "en": "Site shows different content to desktop and mobile visitors.",
+        "ar": "يعرض الموقع محتوى مختلفاً لزوار الحاسوب والهاتف.",
+        "weight": 15,
+        "evidence": "Desktop visit ended on google.com; iPhone visit with ar-AE locale showed the payment page."
+      },
+      {
+        "code": "RISKY_TLD",
+        "en": "Uses a top-level domain that is often abused for scams.",
+        "ar": "يستخدم امتداد نطاق يُستغل كثيراً في الاحتيال.",
+        "weight": 15,
+        "evidence": ".top"
+      },
+      {
+        "code": "CROSS_DOMAIN_FORM",
+        "en": "Form sends the entered data to a different domain.",
+        "ar": "يرسل النموذج البيانات المدخلة إلى نطاق مختلف.",
+        "weight": 15,
+        "evidence": "collect-api.demo-sink.example"
+      },
+      {
+        "code": "URGENCY_LANGUAGE",
+        "en": "Page pressures the visitor to pay immediately.",
+        "ar": "تضغط الصفحة على الزائر للدفع فوراً.",
+        "weight": 10,
+        "evidence": "\"ادفع خلال 24 ساعة لتجنب مضاعفة المخالفة\""
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Address contains fine-payment bait words.",
+        "ar": "يحتوي العنوان على كلمات طُعم لدفع المخالفات.",
+        "weight": 10,
+        "evidence": "fines, pay"
+      }
+    ],
+    "summary_en": "Fraud: a 3-day-old site posing as Abu Dhabi Police that asks for card details and an OTP to pay a traffic fine. It hides the payment page from desktop visitors.",
+    "summary_ar": "احتيال: موقع عمره 3 أيام ينتحل صفة شرطة أبوظبي ويطلب بيانات البطاقة ورمز التحقق لدفع مخالفة مرورية، ويخفي صفحة الدفع عن زوار الحاسوب.",
+    "evidence": {
+      "redirect_chain": ["https://adpolice-fines-pay.top/pay?ref=SMS"],
+      "html_sha256": "a1e1b4b2d88047676266027b42a2355508ead06a6ca7ace30ec269d7e9b1d053",
+      "screenshot_sha256": "1b046aeeaf89d0db302be007f2c23b8f666b2cfdc43a5d5377fbe41aca1fa636",
+      "rdap": {
+        "registrar": "Demo Registrar A (fixture)",
+        "created": "2026-11-21T22:40:00Z",
+        "expires": "2027-11-21T22:40:00Z",
+        "abuse_email": "abuse@registrar-a.example",
+        "nameservers": ["ns1.bulkdns.example", "ns2.bulkdns.example"]
+      },
+      "dns": { "a": ["203.0.113.24"], "mx": [], "ns": ["ns1.bulkdns.example", "ns2.bulkdns.example"] },
+      "hosting": { "ip": "203.0.113.24", "asn": 64500, "org": "Demo Hosting AS (fixture)", "country": "NL" },
+      "tls": { "issuer": "Let's Encrypt", "not_before": "2026-11-22T01:05:00Z", "first_seen_crtsh": "2026-11-22T01:07:00Z" },
+      "favicon_phash": "a3b213cbc7f8f2ce",
+      "visual_similarity": { "brand_id": "adpolice", "percent": 87.5 },
+      "cloaking": { "detected": true, "details": "Desktop Chrome was redirected to https://www.google.com/; iPhone Safari with ar-AE locale and Asia/Dubai timezone received the payment page." },
+      "phones_found": ["+971525550142"],
+      "emails_found": [],
+      "forms": [
+        {
+          "action": "https://collect-api.demo-sink.example/submit",
+          "fields": ["رقم البطاقة", "تاريخ الانتهاء", "CVV", "رمز التحقق"],
+          "asks_for": ["card_number", "card_expiry", "cvv", "otp"]
+        }
+      ]
+    },
+    "discovered_by": "crtsh",
+    "first_seen": "2026-11-22T01:20:00Z",
+    "related_ids": ["NB-20261124-0008"]
+  },
+  {
+    "id": "NB-20261124-0006",
+    "input": "sa1ik-recharge.xyz",
+    "normalized_url": "https://sa1ik-recharge.xyz/",
+    "final_url": "https://sa1ik-recharge.xyz/",
+    "registered_domain": "sa1ik-recharge.xyz",
+    "scanned_at": "2026-11-24T03:55:18Z",
+    "status": "live",
+    "score": 80,
+    "verdict": "fraud",
+    "impersonated_brand": "salik",
+    "category": "toll_topup",
+    "reasons": [
+      {
+        "code": "LOOKALIKE_CHAR_SWAP",
+        "en": "Domain imitates Salik by swapping a letter for a digit.",
+        "ar": "يقلّد النطاق اسم سالك باستبدال حرف برقم.",
+        "weight": 35,
+        "evidence": "sa1ik → salik (l replaced by 1)"
+      },
+      {
+        "code": "DOMAIN_AGE_LT_30D",
+        "en": "Domain was registered less than 30 days ago.",
+        "ar": "تم تسجيل النطاق منذ أقل من 30 يوماً.",
+        "weight": 20,
+        "evidence": "RDAP creation date 2026-11-12 (12 days old)."
+      },
+      {
+        "code": "RISKY_TLD",
+        "en": "Uses a top-level domain that is often abused for scams.",
+        "ar": "يستخدم امتداد نطاق يُستغل كثيراً في الاحتيال.",
+        "weight": 15,
+        "evidence": ".xyz"
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Address contains top-up bait words.",
+        "ar": "يحتوي العنوان على كلمات طُعم لإعادة الشحن.",
+        "weight": 10,
+        "evidence": "recharge"
+      }
+    ],
+    "summary_en": "Fraud: a 12-day-old look-alike of Salik that replaces the letter l with the digit 1 to sell toll top-ups.",
+    "summary_ar": "احتيال: نطاق مقلّد لسالك عمره 12 يوماً يستبدل الحرف l بالرقم 1 لبيع شحن رصيد التعرفة.",
+    "evidence": {
+      "redirect_chain": ["https://sa1ik-recharge.xyz/"],
+      "html_sha256": "fb59bb1d0f753277e60e95c574471bf9b679896bc4ea0884f2e4200f448e2694",
+      "rdap": {
+        "registrar": "Demo Registrar B (fixture)",
+        "created": "2026-11-12T08:00:00Z",
+        "expires": "2027-11-12T08:00:00Z",
+        "abuse_email": "abuse@registrar-b.example",
+        "nameservers": ["ns1.parkdns.example", "ns2.parkdns.example"]
+      },
+      "dns": { "a": ["198.51.100.90"], "mx": [], "ns": ["ns1.parkdns.example", "ns2.parkdns.example"] },
+      "hosting": { "ip": "198.51.100.90", "asn": 64501, "org": "Demo Cloud AS (fixture)", "country": "US" },
+      "tls": { "issuer": "Let's Encrypt", "not_before": "2026-11-12T09:10:00Z", "first_seen_crtsh": "2026-11-12T09:12:00Z" }
+    },
+    "discovered_by": "lookalike",
+    "first_seen": "2026-11-12T11:30:00Z",
+    "related_ids": []
+  },
+  {
+    "id": "NB-20261124-0007",
+    "input": "emiratespost-redelivery.cyou/track",
+    "normalized_url": "https://emiratespost-redelivery.cyou/track",
+    "final_url": "https://emiratespost-redelivery.cyou/track/fee",
+    "registered_domain": "emiratespost-redelivery.cyou",
+    "scanned_at": "2026-11-24T05:03:44Z",
+    "status": "live",
+    "score": 90,
+    "verdict": "fraud",
+    "impersonated_brand": "emiratespost",
+    "category": "parcel_redelivery",
+    "reasons": [
+      {
+        "code": "BRAND_KEYWORD_IN_DOMAIN",
+        "en": "Domain uses the name of Emirates Post but is not an official domain.",
+        "ar": "يستخدم النطاق اسم بريد الإمارات لكنه ليس نطاقاً رسمياً.",
+        "weight": 30,
+        "evidence": "emiratespost"
+      },
+      {
+        "code": "CARD_FORM",
+        "en": "Page asks for full card details.",
+        "ar": "تطلب الصفحة بيانات البطاقة كاملة.",
+        "weight": 25,
+        "evidence": "Fields: Card number, Expiry, CVV"
+      },
+      {
+        "code": "RISKY_TLD",
+        "en": "Uses a top-level domain that is often abused for scams.",
+        "ar": "يستخدم امتداد نطاق يُستغل كثيراً في الاحتيال.",
+        "weight": 15,
+        "evidence": ".cyou"
+      },
+      {
+        "code": "URGENCY_LANGUAGE",
+        "en": "Page pressures the visitor to pay immediately.",
+        "ar": "تضغط الصفحة على الزائر للدفع فوراً.",
+        "weight": 10,
+        "evidence": "\"Your parcel will be returned in 12 hours\""
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Address contains delivery bait words.",
+        "ar": "يحتوي العنوان على كلمات طُعم للتوصيل.",
+        "weight": 10,
+        "evidence": "redelivery, track"
+      }
+    ],
+    "summary_en": "Fraud: a site posing as Emirates Post that charges a fake re-delivery fee and asks for full card details.",
+    "summary_ar": "احتيال: موقع ينتحل صفة بريد الإمارات ويفرض رسوم إعادة توصيل وهمية ويطلب بيانات البطاقة كاملة.",
+    "evidence": {
+      "redirect_chain": [
+        "https://emiratespost-redelivery.cyou/track",
+        "https://emiratespost-redelivery.cyou/track/fee"
+      ],
+      "html_sha256": "bc461dfb40850e2a8fcc06e6e9592e7175da47f90988fad931ca8ccfc031f248",
+      "screenshot_sha256": "badf4555350f8b4ac1692f68fbbf9e88f4143de07c47d7fcc32c7d3368a80182",
+      "dns": { "a": ["203.0.113.51"], "mx": [], "ns": ["ns1.bulkdns.example", "ns2.bulkdns.example"] },
+      "hosting": { "ip": "203.0.113.51", "asn": 64500, "org": "Demo Hosting AS (fixture)", "country": "NL" },
+      "tls": { "issuer": "Let's Encrypt", "not_before": "2026-11-23T18:22:00Z", "first_seen_crtsh": "2026-11-23T18:25:00Z" },
+      "favicon_phash": "252f10c83610ebca",
+      "visual_similarity": { "brand_id": "emiratespost", "percent": 64.0 },
+      "phones_found": ["+971525550178"],
+      "emails_found": ["support@emiratespost-redelivery.cyou"],
+      "forms": [
+        {
+          "action": "/track/fee/submit",
+          "fields": ["Card number", "Expiry", "CVV", "Name on card"],
+          "asks_for": ["card_number", "card_expiry", "cvv"]
+        }
+      ]
+    },
+    "discovered_by": "crtsh",
+    "first_seen": "2026-11-23T18:40:00Z",
+    "related_ids": ["NB-20261124-0005", "NB-20261124-0008"]
+  },
+  {
+    "id": "NB-20261124-0008",
+    "input": "rta-fines-uae.top",
+    "normalized_url": "https://rta-fines-uae.top/",
+    "final_url": null,
+    "registered_domain": "rta-fines-uae.top",
+    "scanned_at": "2026-11-24T06:31:02Z",
+    "status": "offline",
+    "score": 80,
+    "verdict": "fraud",
+    "impersonated_brand": "rta",
+    "category": "traffic_fine",
+    "reasons": [
+      {
+        "code": "BRAND_KEYWORD_IN_DOMAIN",
+        "en": "Domain uses the name of RTA but is not an official domain.",
+        "ar": "يستخدم النطاق اسم هيئة الطرق والمواصلات لكنه ليس نطاقاً رسمياً.",
+        "weight": 30,
+        "evidence": "rta"
+      },
+      {
+        "code": "DOMAIN_AGE_LT_7D",
+        "en": "Domain was registered less than 7 days ago.",
+        "ar": "تم تسجيل النطاق منذ أقل من 7 أيام.",
+        "weight": 25,
+        "evidence": "RDAP creation date 2026-11-20 (4 days old)."
+      },
+      {
+        "code": "RISKY_TLD",
+        "en": "Uses a top-level domain that is often abused for scams.",
+        "ar": "يستخدم امتداد نطاق يُستغل كثيراً في الاحتيال.",
+        "weight": 15,
+        "evidence": ".top"
+      },
+      {
+        "code": "BAIT_WORD",
+        "en": "Address contains fine-payment bait words.",
+        "ar": "يحتوي العنوان على كلمات طُعم لدفع المخالفات.",
+        "weight": 10,
+        "evidence": "fines, uae"
+      },
+      {
+        "code": "OFFLINE",
+        "en": "Site is offline; scored on address and registration signals only.",
+        "ar": "الموقع غير متاح؛ تم التقييم بناءً على العنوان وبيانات التسجيل فقط.",
+        "weight": 0,
+        "evidence": "Connection refused on ports 80 and 443."
+      }
+    ],
+    "summary_en": "Fraud: a 4-day-old domain named after RTA with traffic-fine bait words. The site is already offline, so this verdict uses address and registration data only.",
+    "summary_ar": "احتيال: نطاق عمره 4 أيام يحمل اسم هيئة الطرق والمواصلات مع كلمات طُعم للمخالفات المرورية. الموقع متوقف بالفعل، لذلك يعتمد هذا الحكم على العنوان وبيانات التسجيل فقط.",
+    "evidence": {
+      "redirect_chain": [],
+      "rdap": {
+        "registrar": "Demo Registrar A (fixture)",
+        "created": "2026-11-20T19:02:00Z",
+        "expires": "2027-11-20T19:02:00Z",
+        "abuse_email": "abuse@registrar-a.example",
+        "nameservers": ["ns1.bulkdns.example", "ns2.bulkdns.example"]
+      },
+      "dns": { "a": [], "mx": [], "ns": ["ns1.bulkdns.example", "ns2.bulkdns.example"] }
+    },
+    "discovered_by": "batch",
+    "first_seen": "2026-11-24T06:31:02Z",
+    "related_ids": ["NB-20261124-0005"]
+  }
+]

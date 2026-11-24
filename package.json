@@ -1,0 +1,9 @@
+{
+  "name": "nabeeh",
+  "private": true,
+  "scripts": {
+    "dev": "python scripts/run_services.py",
+    "test": "python -m pytest -q",
+    "build": "npm --prefix web run build"
+  }
+}

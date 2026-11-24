@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "operations": "Operations centre",
+    "citizen": "Check a link"
+  },
+  "lang_toggle": "العربية",
+  "ops": {
+    "title": "Police Operations Centre",
+    "kpi_scans": "Scans",
+    "kpi_fraud": "Fraud found",
+    "kpi_before_report": "Found before any report",
+    "kpi_fake_helplines": "Fake helplines",
+    "kpi_time_to_detect": "Avg. hours to detect",
+    "cases": "Cases",
+    "col_domain": "Domain",
+    "col_brand": "Impersonates",
+    "col_score": "Score",
+    "col_verdict": "Verdict",
+    "col_source": "Found by",
+    "col_first_seen": "First seen",
+    "status_offline": "offline"
+  },
+  "citizen": {
+    "title": "Is this link safe?",
+    "placeholder": "Paste a link or a message that contains one",
+    "check": "Check",
+    "checking": "Checking…",
+    "top_reasons": "Why"
+  },
+  "verdict": {
+    "safe": "Safe",
+    "suspicious": "Suspicious",
+    "fraud": "Fraud"
+  },
+  "source": {
+    "user": "Citizen",
+    "lookalike": "Look-alike scan",
+    "crtsh": "Certificate log",
+    "maps_sweep": "Maps sweep",
+    "search_sweep": "Search sweep",
+    "graph_expansion": "Campaign graph",
+    "batch": "Batch"
+  },
+  "error": {
+    "load": "Could not load data from the API.",
+    "scan": "This link could not be checked right now."
+  }
+}
