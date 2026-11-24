@@ -38,14 +38,14 @@ def test_scans_list_and_filters(client):
 
 
 def test_scan_detail_and_evidence(client):
-    assert client.get("/api/scans/NB-20261124-0005").json()["impersonated_brand"] == "adpolice"
-    assert client.get("/api/scans/NB-20261124-0005/evidence.json").status_code == 200
+    assert client.get("/api/scans/SQ-20261124-0005").json()["impersonated_brand"] == "adpolice"
+    assert client.get("/api/scans/SQ-20261124-0005/evidence.json").status_code == 200
     assert client.get("/api/scans/missing").status_code == 404
 
 
 def test_batch_json_and_exports(client):
     job = client.post("/api/scan/batch", json={"inputs": ["sa1ik-recharge.xyz", "not-in-fixtures.org"]}).json()
-    assert job["total"] == 2 and job["result_ids"] == ["NB-20261124-0006"]
+    assert job["total"] == 2 and job["result_ids"] == ["SQ-20261124-0006"]
     assert client.get(f"/api/jobs/{job['id']}").json()["id"] == job["id"]
     csv_text = client.get(f"/api/jobs/{job['id']}/export.csv").text
     assert "sa1ik-recharge.xyz" in csv_text
@@ -72,7 +72,7 @@ def test_report(client):
 
 def test_discovery(client):
     run = client.post("/api/discovery/run", json={"brand_id": "salik"}).json()
-    assert run["simulated"] and run["found_ids"] == ["NB-20261124-0006"]
+    assert run["simulated"] and run["found_ids"] == ["SQ-20261124-0006"]
     assert len(client.get("/api/discovery/runs").json()) == 1
     assert client.post("/api/discovery/run", json={"brand_id": "nope"}).status_code == 404
 
@@ -89,7 +89,7 @@ def test_graph_clusters_shared_infrastructure(client):
     assert {"adpolice-fines-pay.top", "emiratespost-redelivery.cyou", "rta-fines-uae.top"} in campaigns
     issuer = next(n for n in graph["nodes"] if n["data"]["id"] == "issuer:let's encrypt")
     assert issuer["data"]["ubiquitous"] is True
-    seeded = client.get("/api/graph", params={"seed": "NB-20261124-0006"}).json()
+    seeded = client.get("/api/graph", params={"seed": "SQ-20261124-0006"}).json()
     assert {n["data"]["label"] for n in seeded["nodes"] if n["data"]["type"] == "domain"} == {
         "sa1ik-recharge.xyz", "uae-parcel-track.site",
     }

@@ -1,6 +1,6 @@
 [
   {
-    "id": "NB-20261124-0001",
+    "id": "SQ-20261124-0001",
     "input": "tamm.abudhabi",
     "normalized_url": "https://tamm.abudhabi/",
     "final_url": "https://www.tamm.abudhabi/",
@@ -30,7 +30,7 @@
     "related_ids": []
   },
   {
-    "id": "NB-20261124-0002",
+    "id": "SQ-20261124-0002",
     "input": " ADCB.com/personal ",
     "normalized_url": "https://adcb.com/personal",
     "final_url": "https://www.adcb.com/en/personal",
@@ -60,7 +60,7 @@
     "related_ids": []
   },
   {
-    "id": "NB-20261124-0003",
+    "id": "SQ-20261124-0003",
     "input": "https://uae-parcel-track.site/",
     "normalized_url": "https://uae-parcel-track.site/",
     "final_url": "https://uae-parcel-track.site/",
@@ -114,7 +114,7 @@
     "related_ids": []
   },
   {
-    "id": "NB-20261124-0004",
+    "id": "SQ-20261124-0004",
     "input": "https://tamm-services-portal.netlify.app/",
     "normalized_url": "https://tamm-services-portal.netlify.app/",
     "final_url": "https://tamm-services-portal.netlify.app/",
@@ -160,7 +160,7 @@
     "related_ids": []
   },
   {
-    "id": "NB-20261124-0005",
+    "id": "SQ-20261124-0005",
     "input": "hxxps://adpolice-fines-pay[.]top/pay?ref=SMS",
     "normalized_url": "https://adpolice-fines-pay.top/pay?ref=SMS",
     "final_url": "https://adpolice-fines-pay.top/pay?ref=SMS",
@@ -274,10 +274,10 @@
     },
     "discovered_by": "crtsh",
     "first_seen": "2026-11-22T01:20:00Z",
-    "related_ids": ["NB-20261124-0008"]
+    "related_ids": ["SQ-20261124-0008"]
   },
   {
-    "id": "NB-20261124-0006",
+    "id": "SQ-20261124-0006",
     "input": "sa1ik-recharge.xyz",
     "normalized_url": "https://sa1ik-recharge.xyz/",
     "final_url": "https://sa1ik-recharge.xyz/",
@@ -339,7 +339,7 @@
     "related_ids": []
   },
   {
-    "id": "NB-20261124-0007",
+    "id": "SQ-20261124-0007",
     "input": "emiratespost-redelivery.cyou/track",
     "normalized_url": "https://emiratespost-redelivery.cyou/track",
     "final_url": "https://emiratespost-redelivery.cyou/track/fee",
@@ -413,10 +413,10 @@
     },
     "discovered_by": "crtsh",
     "first_seen": "2026-11-23T18:40:00Z",
-    "related_ids": ["NB-20261124-0005", "NB-20261124-0008"]
+    "related_ids": ["SQ-20261124-0005", "SQ-20261124-0008"]
   },
   {
-    "id": "NB-20261124-0008",
+    "id": "SQ-20261124-0008",
     "input": "rta-fines-uae.top",
     "normalized_url": "https://rta-fines-uae.top/",
     "final_url": null,
@@ -479,6 +479,6 @@
     },
     "discovered_by": "batch",
     "first_seen": "2026-11-24T06:31:02Z",
-    "related_ids": ["NB-20261124-0005"]
+    "related_ids": ["SQ-20261124-0005"]
   }
 ]

@@ -1,7 +1,3 @@
-# Local assistant files
-CLAUDE.md
-.claude/
-
 # Python
 .venv/
 __pycache__/
@@ -18,8 +14,10 @@ web/dist/
 # Runtime data (database, screenshots, evidence packs, downloaded feeds)
 data/runtime/
 
-# OS / editor
-.DS_Store
-Thumbs.db
+# Local editor settings
+CLAUDE.md
+.claude/
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db

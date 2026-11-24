@@ -44,10 +44,10 @@ def load_settings() -> Settings:
     _load_dotenv(ROOT / ".env")
     return Settings(
         anthropic_api_key=os.getenv("ANTHROPIC_API_KEY", ""),
-        llm_model=os.getenv("LLM_MODEL", "claude-sonnet-5-5"),
+        llm_model=os.getenv("LLM_MODEL", ""),
         google_places_api_key=os.getenv("GOOGLE_PLACES_API_KEY", ""),
         serpapi_key=os.getenv("SERPAPI_KEY", ""),
-        database_url=os.getenv("DATABASE_URL", f"sqlite:///{(RUNTIME_DIR / 'nabeeh.db').as_posix()}"),
+        database_url=os.getenv("DATABASE_URL", f"sqlite:///{(RUNTIME_DIR / 'saqr.db').as_posix()}"),
         scan_timeout_s=float(os.getenv("SCAN_TIMEOUT_S", "10")),
         page_concurrency=int(os.getenv("PAGE_CONCURRENCY", "8")),
         allow_localhost_demo=_flag("ALLOW_LOCALHOST_DEMO", False),

@@ -1,5 +1,5 @@
 {
-  "name": "nabeeh",
+  "name": "saqr",
   "private": true,
   "scripts": {
     "dev": "python scripts/run_services.py",

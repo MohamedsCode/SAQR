@@ -1,8 +1,8 @@
-# NABEEH (نبيه)
+# SAQR (صقر)
 
 **We go after what scammers publish.**
 
-NABEEH discovers, scores, explains and documents fraudulent websites, look-alike domains and fake helpline
+SAQR discovers, scores, explains and documents fraudulent websites, look-alike domains and fake helpline
 numbers that impersonate UAE institutions, and produces police-ready evidence. It only analyses public URLs,
 public listings and numbers that users choose to check. It never listens to calls or reads private messages.
 
@@ -24,11 +24,11 @@ The product name and tagline live in `shared/brand_config.json`.
 
 ## Run locally
 
-Requirements: Python 3.11+, Node.js 20+.
+Requirements: Python 3.12, Node.js 20+.
 
 ```bash
-python -m venv .venv
-# Windows: .\.venv\Scripts\Activate.ps1    macOS/Linux: source .venv/bin/activate
+py -3.12 -m venv .venv            # macOS/Linux: python3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1      # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
 cd web && npm install && cd ..
