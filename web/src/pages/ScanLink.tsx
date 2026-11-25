@@ -127,7 +127,7 @@ export default function ScanLink() {
     <div className="mx-auto max-w-3xl space-y-8">
       <PageHeader page="scan" />
 
-      <form onSubmit={onSubmit} className="flex items-center gap-2 rounded-xl border border-line bg-white p-2 focus-within:border-gold">
+      <form onSubmit={onSubmit} className="card flex items-center gap-2 p-2 transition focus-within:border-gold/50 focus-within:shadow-[0_0_0_4px_rgb(23_100_79/0.08)]">
         <IconSearch className="ms-2 shrink-0 text-muted" size={20} />
         <input
           value={input}
@@ -158,7 +158,7 @@ export default function ScanLink() {
       {error && <p className="text-suspicious">{t(error === "not_sample" ? "scan.not_sample" : error === "no_url" ? "scan.no_url" : "error.scan")}</p>}
 
       {running && (
-        <ol className="divide-y divide-line border-y border-line">
+        <ol className="card divide-y divide-line px-5">
           {LIVE_STEPS.map((step, index) => (
             <li key={step} className={`flex items-center gap-3 py-2.5 ${index > active ? "opacity-40" : ""}`}>
               <span className="grid size-6 place-items-center">
@@ -171,12 +171,12 @@ export default function ScanLink() {
       )}
 
       {result && checks && (
-        <div className="animate-fade-up space-y-8">
-          <section className="flex flex-wrap items-center gap-8">
+        <div className="animate-fade-up space-y-6">
+          <section className="card flex flex-wrap items-center gap-8 p-7">
             <ScoreGauge score={result.score} verdict={result.verdict} size={190} />
             <div className="min-w-60 flex-1 space-y-2">
               <VerdictBadge verdict={result.verdict} large />
-              <div className="break-all font-mono text-xl font-semibold" dir="ltr">
+              <div className="font-display break-all text-[26px] font-semibold leading-tight" dir="ltr">
                 {hostOf(result)}
               </div>
               <p className="text-[15px] leading-relaxed">{lang === "ar" ? result.summary_ar : result.summary_en}</p>
@@ -184,11 +184,11 @@ export default function ScanLink() {
             </div>
           </section>
 
-          {checks.note && <p className="rounded-lg bg-black/[0.03] px-4 py-3 text-[15px]">{checks.note}</p>}
+          {checks.note && <p className="rounded-2xl border border-line bg-white/60 px-5 py-3.5 text-[15px] text-muted">{checks.note}</p>}
 
-          <section>
+          <section className="card p-6">
             <h2 className="mb-3 text-lg font-semibold">{t("scan.checks")}</h2>
-            <ol className="divide-y divide-line border-y border-line">
+            <ol className="divide-y divide-line">
               {checks.done.map((c) => (
                 <li key={c.key} className="flex items-center gap-3 py-2.5">
                   <span className={`grid size-6 place-items-center ${c.tone === "warn" ? "text-fraud" : "text-safe"}`}>
@@ -211,7 +211,7 @@ export default function ScanLink() {
             </ol>
           </section>
 
-          <section>
+          <section className="card p-6">
             <h2 className="mb-3 text-lg font-semibold">{t("scan.top_reasons")}</h2>
             <ul className="space-y-2">
               {topReasons.map((reason) => (

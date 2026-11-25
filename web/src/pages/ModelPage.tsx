@@ -9,7 +9,7 @@ import { localized } from "../brand";
 import { dateTime, number } from "../lib/format";
 
 const RETRAIN_ENABLED = import.meta.env.VITE_ALLOW_RETRAIN === "1";
-const APPROACH_COLORS: Record<ApproachMetrics["approach"], string> = { rules: "#6b7280", model: "#60a5fa", combined: "#17644f" };
+const APPROACH_COLORS: Record<ApproachMetrics["approach"], string> = { rules: "#94a3b8", model: "#c9a04a", combined: "#17644f" };
 const VERDICTS: Verdict[] = ["safe", "suspicious", "fraud"];
 const tooltipStyle = { background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10 };
 
@@ -17,18 +17,18 @@ const pct = (value: number) => `${(value * 100).toFixed(1)}%`;
 
 function Card({ label, value, hint, tone = "text-text" }: { label: string; value: string; hint?: string; tone?: string }) {
   return (
-    <div className="px-1">
-      <div className={`text-4xl font-semibold tabular-nums ${tone}`}>{value}</div>
-      <div className="mt-1 text-sm">{label}</div>
-      {hint && <div className="mt-0.5 text-xs text-muted">{hint}</div>}
+    <div className="card animate-fade-up px-5 pb-5 pt-4">
+      <div className="text-[13px] font-medium text-muted">{label}</div>
+      <div className={`mt-3 text-[32px] font-semibold leading-none tracking-tight tabular-nums ${tone}`}>{value}</div>
+      {hint && <div className="mt-2 text-xs text-muted">{hint}</div>}
     </div>
   );
 }
 
 function Section({ title, children, className = "", tour }: { title: string; children: ReactNode; className?: string; tour?: string }) {
   return (
-    <section data-tour={tour} className={className}>
-      <h2 className="mb-4 text-lg font-semibold">{title}</h2>
+    <section data-tour={tour} className={`card p-6 ${className}`}>
+      <h2 className="mb-4 text-[17px] font-semibold">{title}</h2>
       {children}
     </section>
   );
@@ -127,7 +127,7 @@ export default function ModelPage() {
         ))}
       </div>
 
-      <section data-tour="model-cards" className="grid grid-cols-2 gap-y-6 border-y border-line py-6 lg:grid-cols-5">
+      <section data-tour="model-cards" className="grid grid-cols-2 gap-4 lg:grid-cols-5">
         <Card label={t("model.precision")} value={pct(current.precision)} hint={t("model.test_split")} />
         <Card label={t("model.recall")} value={pct(current.recall)} hint={t("model.test_split")} />
         <Card label={t("model.f1")} value={pct(current.f1)} hint={t("model.test_split")} />

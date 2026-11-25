@@ -2,7 +2,7 @@ import type { MapsSweep, PhoneStatus } from "@shared/contract";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api, useDataMode } from "../api";
-import { PageHeader, primaryButton } from "../components/ui";
+import { Kpi, PageHeader, primaryButton } from "../components/ui";
 import { dateTime } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
 
@@ -63,19 +63,10 @@ export default function HelplinesPage() {
       />
 
       {sweep && (
-        <section className="grid grid-cols-3 border-y border-line py-6">
-          {(
-            [
-              ["fake", "text-fraud"],
-              ["official", "text-safe"],
-              ["unknown", "text-text"],
-            ] as const
-          ).map(([key, tone]) => (
-            <div key={key} className="px-1">
-              <div className={`text-4xl font-semibold tabular-nums ${tone}`}>{counts[key]}</div>
-              <div className="mt-1 text-sm text-muted">{t(`helplines.count_${key}`)}</div>
-            </div>
-          ))}
+        <section className="grid grid-cols-3 gap-4">
+          <Kpi label={t("helplines.count_fake")} value={counts.fake} tone="text-fraud" accent="fraud" />
+          <Kpi label={t("helplines.count_official")} value={counts.official} tone="text-safe" accent="brand" delay={60} />
+          <Kpi label={t("helplines.count_unknown")} value={counts.unknown} delay={120} />
         </section>
       )}
 
@@ -106,10 +97,13 @@ export default function HelplinesPage() {
                   {listing.address && <div className="text-xs text-muted">{listing.address}</div>}
                 </td>
                 <td className="px-3 py-3">{brandName(listing.brand_id) ?? "—"}</td>
-                <td className="px-3 py-3 font-mono" dir="ltr">
+                <td
+                  className={`px-3 py-3 font-mono ${listing.phone_status === "fake_listing" || listing.phone_status === "reported_scam" ? "font-semibold text-fraud line-through decoration-2" : ""}`}
+                  dir="ltr"
+                >
                   {listing.phones.map(pretty).join(", ") || "—"}
                 </td>
-                <td className="px-3 py-3 font-mono text-muted" dir="ltr">
+                <td className="px-3 py-3 font-mono font-semibold text-safe" dir="ltr">
                   {official(listing.brand_id) ? pretty(official(listing.brand_id)!) : "—"}
                 </td>
                 <td className="px-3 py-3">

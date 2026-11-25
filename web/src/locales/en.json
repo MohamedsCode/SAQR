@@ -10,7 +10,9 @@
     "helplines": "Fake helplines",
     "cases": "Cases",
     "networks": "Scam networks",
-    "public_app": "Public app"
+    "public_app": "Public app",
+    "portal": "Police scam intelligence",
+    "section": "Workspace"
   },
   "lang_toggle": "العربية",
   "ops": {
@@ -53,7 +55,20 @@
     "hours_other": "{{count}} hours",
     "days_one": "{{count}} day",
     "days_other": "{{count}} days",
-    "all_cases": "All cases"
+    "all_cases": "All cases",
+    "kpi_median_short": "Median time to detect",
+    "by_brand_hint": "Flagged sites per impersonated institution",
+    "hero_eyebrow": "Seen first",
+    "hero_title": "<b>{{caught}} of {{total}}</b> scam sites caught before anyone reported them",
+    "hero_sub": "Median {{median}} from domain registration to SAQR detection.",
+    "hero_none": "No registration dates yet for flagged sites.",
+    "legend_registered": "Domain registered",
+    "legend_saqr": "Caught by SAQR",
+    "legend_citizen": "Reported by a citizen",
+    "lag_m": "{{n}} min",
+    "lag_h": "{{n}} h",
+    "lag_d": "{{n}} days",
+    "kpi_brands": "Institutions targeted"
   },
   "verdict": {
     "safe": "Safe",
@@ -208,7 +223,17 @@
     "pdf_unavailable": "The evidence pack could not be generated. It needs the SAQR API running with the evidence module enabled.",
     "expand": "Expand campaign",
     "trusts": "Why SAQR trusts it",
-    "match": "{{percent}}% match"
+    "match": "{{percent}}% match",
+    "tl_title": "How this scam unfolded",
+    "tl_registered": "Domain registered",
+    "tl_cert": "Certificate issued",
+    "tl_saqr": "Caught by SAQR",
+    "tl_call": "Scam call blocked",
+    "breakdown": "How the score adds up",
+    "capped": "capped at {{score}}",
+    "vs_scam": "Scam site",
+    "vs_official": "Official site",
+    "vs_match": "look-alike"
   },
   "scan": {
     "kicker": "Investigation",
@@ -312,12 +337,17 @@
   "tour": {
     "cta": "Take the tour",
     "label": "Guided tour",
-    "skip": "Skip",
+    "kicker": "One-minute tour",
+    "skip": "Close tour",
     "back": "Back",
     "next": "Next",
     "start": "Start the tour",
-    "finish": "Finish",
-    "progress": "Step {{current}} of {{total}}",
+    "autoplay": "Play automatically",
+    "pause": "Pause",
+    "progress": "{{current}} of {{total}}",
+    "hint": "Use the arrow keys to move · Esc to close",
+    "try": "Check a link yourself",
+    "again": "Watch again",
     "criteria": {
       "accuracy": "Detection accuracy · 30%",
       "early": "Early detection · 25%",
@@ -325,10 +355,17 @@
       "uae": "UAE relevance · 15%",
       "feasibility": "Feasibility · 10%"
     },
+    "proof": {
+      "accuracy": "Measured on labelled links the model never saw during training",
+      "early": "Finds new scam sites from certificate logs before anyone reports them",
+      "explain": "Every score broken into reasons, in English and Arabic",
+      "uae": "Knows UAE police, government, bank and delivery brands and their real domains",
+      "feasibility": "Police-ready evidence pack and takedown request in one click"
+    },
     "pillars": {
       "find": {
         "title": "Find early",
-        "body": "Certificate logs, look-alike domains, Maps listings"
+        "body": "Certificate logs, look-alike domains and Maps listings"
       },
       "explain": {
         "title": "Explain clearly",
@@ -336,45 +373,52 @@
       },
       "act": {
         "title": "Act fast",
-        "body": "Police-ready evidence and takedown letters"
+        "body": "Evidence packs police can act on"
       }
     },
     "steps": {
       "welcome": {
-        "title": "Meet SAQR",
-        "body": "Finds fake UAE police, bank and government sites, explains them, and hands police the evidence."
+        "title": "SAQR in one minute",
+        "body": "SAQR hunts fake UAE police, bank and government websites, explains exactly why each one is a scam, and hands police the evidence to take it down."
       },
-      "feed": {
-        "title": "Found before anyone reports",
-        "body": "Certificate logs, look-alike domains and Maps listings surface scams before victims do."
+      "early": {
+        "title": "Found before anyone reports it",
+        "body": "SAQR watches new certificate logs and look-alike domains. Most of these scam sites were caught by SAQR itself, not reported by a victim, and the median shows how soon after registration."
       },
-      "case": {
-        "title": "One score, one verdict",
-        "body": "Rules plus machine learning give a 0–100 risk score. Official sites are never flagged."
+      "uae": {
+        "title": "Built for the UAE",
+        "body": "This site pretends to be a UAE institution. SAQR knows the real domains and helplines of UAE police, government, banks and delivery services, so it can say exactly who is being impersonated."
       },
-      "reasons": {
-        "title": "Every point explained",
-        "body": "Each reason shows its weight and evidence, in English and Arabic."
+      "explain": {
+        "title": "Every score explained",
+        "body": "No black box: each point of the risk score comes from a concrete finding, written in English and Arabic side by side, with the evidence underneath."
       },
-      "visual": {
-        "title": "Caught looking like the real thing",
-        "body": "Visual match to the official site, and cloaking that hides the scam from computers."
+      "act": {
+        "title": "From finding to takedown",
+        "body": "One click produces a police-ready evidence pack: screenshots, registrar, hosting, certificates and file hashes, ready for a takedown request."
       },
-      "evidence": {
-        "title": "Police-ready in one click",
-        "body": "Bilingual PDF with hashes, timestamps and a takedown letter to the registrar and host."
+      "accuracy": {
+        "title": "Proven accuracy",
+        "body": "These numbers come from a held-out test set of labelled links the model never trained on, including real official UAE sites that must never be flagged."
       },
-      "model": {
-        "title": "Measured, not claimed",
-        "body": "Precision and recall on a held-out test set, with zero official sites flagged."
+      "finish": {
+        "title": "That's SAQR",
+        "body": "Five things judges look for, each one shown on a real case."
       },
-      "demo": {
-        "title": "Watch it stop a live scam",
-        "body": "Trigger a scam call: the SMS link is blocked on the phone and the case opens here. We never read calls or messages."
+      "phone": {
+        "title": "See it stop a real scam call",
+        "body": "A fake police officer calls, then texts a payment link. Play it on the simulated phone and watch SAQR step in."
       }
     },
-    "autoplay": "Auto-play",
-    "pause": "Pause"
+    "cta_hint": "One minute · 6 stops",
+    "phone_chip": "Live demo",
+    "phone_ring": "Ring the phone",
+    "phone_open": "Open on a phone",
+    "phone_steps": {
+      "1": "Tap the phone screen once to arm it, then ring it.",
+      "2": "Answer the fake police call, then open the link in the SMS.",
+      "3": "SAQR blocks the link, and the case opens on this screen."
+    }
   },
   "pages": {
     "overview": {

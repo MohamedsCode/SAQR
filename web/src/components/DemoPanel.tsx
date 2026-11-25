@@ -52,13 +52,13 @@ export default function DemoMenu() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-sm ${active ? "font-semibold text-fraud" : "text-muted hover:text-gold"}`}
+        className={`flex items-center gap-2 rounded-full px-2.5 py-1.5 text-[13px] transition ${active ? "bg-white/15 font-semibold text-white" : "text-white/55 hover:bg-white/5 hover:text-white"}`}
       >
-        <span className={`size-2 rounded-full ${active ? "animate-pulse-dot bg-fraud" : "bg-muted/60"}`} />
+        <span className={`size-2 rounded-full ${active ? "animate-pulse-dot bg-[#ff6b5e]" : "bg-white/40"}`} />
         {t("demo.menu")}
       </button>
       {open && (
-        <div className="panel absolute start-0 bottom-11 z-40 w-60 space-y-2 p-3 shadow-2xl">
+        <div className="card tour-pop absolute bottom-11 start-0 z-50 w-64 space-y-2 p-3 text-text shadow-2xl">
           <div className="text-xs text-muted">{t(`demo.state_${phone}`)}</div>
           <button
             type="button"

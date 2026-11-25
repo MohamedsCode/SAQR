@@ -2,12 +2,11 @@ import type { DiscoveryRun } from "@shared/contract";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { api, useDataMode } from "../api";
 import { PageHeader, SectionTitle, primaryButton, selectClass } from "../components/ui";
 import VerdictBadge, { SourceBadge } from "../components/VerdictBadge";
 import { hostOf } from "../lib/display";
-import { dateTime } from "../lib/format";
+import { dateTime, number } from "../lib/format";
 import { useBrands } from "../lib/useBrands";
 import { useCases } from "../lib/useCases";
 
@@ -54,7 +53,7 @@ export default function DetectionPage() {
     <div className="space-y-6">
       <PageHeader page="detection" />
 
-      <section className="flex flex-wrap items-center gap-3">
+      <section className="card flex flex-wrap items-center gap-3 px-6 py-4">
         <span className="text-sm font-semibold">{t("detection.run_for")}</span>
         <select value={brand} onChange={(e) => setBrand(e.target.value)} className={selectClass}>
           {Object.values(brands).map((b) => (
@@ -83,15 +82,42 @@ export default function DetectionPage() {
       {lag.length > 0 && (
         <section className="section">
           <SectionTitle>{t("detection.lag_title")}</SectionTitle>
-          <div style={{ height: Math.max(140, lag.length * 34) }} dir="ltr">
-            <ResponsiveContainer>
-              <BarChart data={lag} layout="vertical" margin={{ left: 8, right: 24 }}>
-                <XAxis type="number" unit="h" stroke="#6b7280" fontSize={11} />
-                <YAxis type="category" dataKey="host" width={230} stroke="#6b7280" fontSize={11} />
-                <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 10 }} formatter={(v) => `${v} h`} />
-                <Bar dataKey="hours" name={t("detection.lag")} fill="#17644f" radius={[0, 6, 6, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+          <ol className="space-y-5">
+            {lag.map((row, i) => {
+              const max = Math.max(1, ...lag.map((r) => r.hours));
+              const x = 6 + Math.sqrt(row.hours / max) * 74;
+              const label =
+                row.hours < 1
+                  ? t("ops.lag_m", { n: number(Math.max(1, Math.round(row.hours * 60)), lang) })
+                  : row.hours < 48
+                    ? t("ops.lag_h", { n: number(row.hours, lang) })
+                    : t("ops.lag_d", { n: number(Math.round(row.hours / 24), lang) });
+              return (
+                <li key={row.host}>
+                  <div className="mb-2 text-[13px] font-medium" dir="ltr">
+                    <span className="font-data">{row.host}</span>
+                  </div>
+                  <div className="relative h-4">
+                    <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-slate-200" />
+                    <span
+                      className="animate-grow-x absolute start-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full"
+                      style={{ width: `${x}%`, background: "linear-gradient(90deg, #cbd5e1, #c9a04a)", animationDelay: `${i * 100}ms` }}
+                    />
+                    <span className="absolute start-0 top-1/2 size-2.5 -translate-y-1/2 rounded-full bg-slate-400" />
+                    <span className="absolute top-1/2 -translate-y-1/2" style={{ insetInlineStart: `calc(${x}% - 7px)` }}>
+                      <span className="diamond-in block size-3.5 bg-brass shadow-[0_0_10px_2px_rgb(201_160_74/0.45)]" style={{ animationDelay: `${500 + i * 100}ms` }} />
+                    </span>
+                    <span className="font-data absolute top-1/2 -translate-y-1/2 whitespace-nowrap ps-5 text-[12.5px] font-semibold text-[#9a7425]" style={{ insetInlineStart: `${x}%` }}>
+                      {label}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+          <div className="mt-6 flex gap-5 border-t border-line pt-4 text-[12px] text-muted">
+            <span className="flex items-center gap-2"><span className="size-2 rounded-full bg-slate-400" />{t("ops.legend_registered")}</span>
+            <span className="flex items-center gap-2"><span className="size-2 rotate-45 bg-brass" />{t("ops.legend_saqr")}</span>
           </div>
         </section>
       )}

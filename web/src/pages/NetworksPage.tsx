@@ -104,41 +104,50 @@ export default function NetworksPage() {
           selector: "node",
           style: {
             label: "data(display)",
-            color: "#111827",
+            color: "rgba(255,255,255,0.88)",
+            "font-family": "IBM Plex Sans, Segoe UI, sans-serif",
             "font-size": 12,
             "text-valign": "bottom",
-            "text-margin-y": 7,
-            "text-outline-color": "#ffffff",
+            "text-margin-y": 8,
+            "text-outline-color": "#0a1714",
             "text-outline-width": 3,
             opacity: 0,
           },
         },
         {
           selector: "node.domain",
-          style: { width: 46, height: 46, "background-color": "#b45309", "border-width": 3, "border-color": "#ffffff", "font-size": 14, "font-weight": "bold" },
+          style: {
+            width: 34,
+            height: 34,
+            "background-color": "#d97706",
+            "border-width": 2,
+            "border-color": "#0a1714",
+            "font-size": 13,
+            "font-weight": 600,
+            "underlay-color": "#d97706",
+            "underlay-opacity": 0.18,
+            "underlay-padding": 9,
+            "underlay-shape": "ellipse",
+          },
         },
         {
           selector: "node.fraud",
-          style: { "background-color": "#b42318", "underlay-color": "#b42318", "underlay-opacity": 0.12, "underlay-padding": 10, "underlay-shape": "ellipse" },
+          style: { "background-color": "#e5484d", "underlay-color": "#e5484d", "underlay-opacity": 0.2, "underlay-padding": 11, "underlay-shape": "ellipse" },
         },
-        { selector: "node.seed", style: { width: 60, height: 60, "border-color": "#17644f", "border-width": 5 } },
+        {
+          selector: "node.seed",
+          style: { width: 48, height: 48, "border-color": "#c9a04a", "border-width": 4, "font-size": 15, color: "#ffffff", "underlay-color": "#c9a04a", "underlay-opacity": 0.22, "underlay-padding": 16 },
+        },
         {
           selector: "node[type != 'domain']",
-          style: { shape: "diamond", width: 18, height: 18, "background-color": "#9ca3af", color: "#4b5563", "font-size": 11 },
+          style: { shape: "diamond", width: 14, height: 14, "background-color": "#c9a04a", color: "rgba(255,255,255,0.55)", "font-size": 11, "font-weight": 400 },
         },
         {
           selector: "edge",
           style: {
-            width: 2,
-            "line-color": "#cbd5e1",
+            width: 1.5,
+            "line-color": "rgba(201,160,74,0.5)",
             "curve-style": "bezier",
-            label: "data(label)",
-            "font-size": 11,
-            color: "#17644f",
-            "text-rotation": "autorotate",
-            "text-background-color": "#ffffff",
-            "text-background-opacity": 1,
-            "text-background-padding": "3px",
             opacity: 0,
           },
         },
@@ -226,17 +235,18 @@ export default function NetworksPage() {
         }
       />
       {error && <p className="text-fraud">{t("networks.error")}</p>}
-      <section className="panel relative overflow-hidden p-0">
-        <div ref={container} className="h-[600px] w-full" dir="ltr" />
-        <div className="pointer-events-none absolute start-4 top-4 flex flex-wrap gap-3 text-[11px] text-muted">
-          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-fraud" />{t("verdict.fraud")}</span>
-          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-suspicious" />{t("verdict.suspicious")}</span>
-          <span className="flex items-center gap-1.5"><span className="size-2 rotate-45 bg-gray-400" />{t("networks.indicator")}</span>
+      <section className="relative overflow-hidden rounded-[28px] bg-ink shadow-[0_30px_60px_-30px_rgb(10_23_20/0.7)]">
+        <div className="eye-rings pointer-events-none absolute -end-56 -top-64 size-[700px]" />
+        <div ref={container} className="relative h-[560px] w-full" dir="ltr" />
+        <div className="pointer-events-none absolute start-6 top-5 flex flex-wrap gap-4 text-[12px] text-white/60">
+          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-[#e5484d]" />{t("verdict.fraud")}</span>
+          <span className="flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-[#d97706]" />{t("verdict.suspicious")}</span>
+          <span className="flex items-center gap-1.5"><span className="size-2 rotate-45 bg-brass" />{t("networks.indicator")}</span>
         </div>
       </section>
       {grown && domainCount > 0 && (
-        <section className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
-          <p className="flex flex-wrap items-center gap-3 text-2xl font-bold">
+        <section className="card flex flex-wrap items-center justify-between gap-4 px-7 py-5">
+          <p className="font-display flex flex-wrap items-center gap-3 text-[26px] font-semibold">
             <span className="animate-fade-up">{t("networks.caption_report")}</span>
             <span className="animate-fade-up text-gold" style={{ animationDelay: "300ms" }}>→</span>
             <span className="animate-fade-up text-fraud" style={{ animationDelay: "500ms" }}>{t("networks.caption_sites", { count: domainCount })}</span>
