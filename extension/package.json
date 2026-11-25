@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --noEmit && vite build --mode background && vite build --mode content"
+    "build": "tsc --noEmit && vite build --mode background && vite build --mode content && vite build --mode popup"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.14",

@@ -21,7 +21,7 @@ the other. If a change touches anything in the "do not touch" lists below, ask t
 
 ## 2. Website and extension: UI changes only
 
-Changes to `web/` and to the extension's look (`extension/src/Warning.tsx`, `styles.css`, `i18n.ts`) must be purely
+Changes to `web/` and to the extension's look (`extension/src/Warning.tsx`, the toolbar panel `Panel.tsx`, `styles.css`, `i18n.ts`) must be purely
 visual: layout, styling, colours, wording, images, animation. **Do not change how they talk to the server:**
 
 - API calls, paths, request bodies, headers or response handling: `web/src/api.ts`,

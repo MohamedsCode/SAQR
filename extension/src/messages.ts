@@ -8,8 +8,15 @@ export type CheckOutcome =
   | { kind: WarningKind; domain: string; reasons: Reason[] }
   | { kind: "error"; domain: string };
 
+/** What the toolbar panel shows for the open tab. */
+export type PanelStatus =
+  | { kind: "skipped" }
+  | { kind: "result"; domain: string; score: number; reasons: Reason[] }
+  | { kind: "error"; domain: string };
+
 export type ExtensionMessage =
   | { type: "saqr:check"; url: string }
+  | { type: "saqr:status"; url: string }
   | { type: "saqr:bypass"; host: string }
   | { type: "saqr:leave" };
 

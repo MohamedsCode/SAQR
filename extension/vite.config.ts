@@ -10,6 +10,7 @@ const sharedDir = fileURLToPath(new URL("../shared", import.meta.url));
 const ENTRIES: Record<string, string> = {
   background: "src/background.ts",
   content: "src/content.tsx",
+  popup: "src/popup.tsx",
 };
 
 function brandIcons(): Plugin {
