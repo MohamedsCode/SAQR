@@ -29,7 +29,7 @@ export const STRINGS = {
     riskScore: "Risk score",
     panelFound: "What SAQR found",
     skippedTitle: "Nothing to check here",
-    skippedBody: "SAQR checks websites. Browser pages and SAQR's own site are not checked.",
+    skippedBody: "SAQR checks public websites. Browser pages, local addresses and SAQR's own site are not checked.",
     checkAnother: "Check another link",
   },
   ar: {
@@ -60,7 +60,7 @@ export const STRINGS = {
     riskScore: "درجة الخطورة",
     panelFound: "ما رصده صقر",
     skippedTitle: "لا يوجد ما يمكن فحصه هنا",
-    skippedBody: "يفحص صقر المواقع الإلكترونية، ولا يفحص صفحات المتصفح أو موقع صقر نفسه.",
+    skippedBody: "يفحص صقر المواقع الإلكترونية العامة، ولا يفحص صفحات المتصفح أو العناوين المحلية أو موقع صقر نفسه.",
     checkAnother: "افحص رابطاً آخر",
   },
 } as const;

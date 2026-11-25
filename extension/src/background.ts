@@ -9,6 +9,9 @@ const ERROR_REPEAT_MINUTES = 10;
 // SAQR's own site and local servers; *.localhost demo pages are still checked.
 const NOT_CHECKED = new Set(["saqr-nu.vercel.app", "localhost", "127.0.0.1", "[::1]"]);
 
+/** The server answers 422 for addresses that are not a public website, such as https://intranet/. */
+class NotAWebsite extends Error {}
+
 interface Lookup {
   score: number;
   reasons: Reason[];
@@ -46,6 +49,7 @@ async function lookup(target: string): Promise<Lookup> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ input: target }),
   });
+  if (response.status === 422) throw new NotAWebsite();
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const scan = (await response.json()) as ScanResult;
   const result = { score: scan.score, reasons: scan.reasons };
@@ -62,7 +66,8 @@ async function check(raw: string): Promise<CheckOutcome> {
     const { score, reasons } = await lookup(page.target);
     const verdict = verdictFor(score);
     return verdict === "safe" ? { kind: "none" } : { kind: verdict, domain: page.host, reasons };
-  } catch {
+  } catch (error) {
+    if (error instanceof NotAWebsite) return { kind: "none" };
     // A failed check is never treated as safe; the notice is shown once per site every few minutes.
     if (await fresh(`error:${page.host}`, ERROR_REPEAT_MINUTES)) return { kind: "none" };
     await chrome.storage.session.set({ [`error:${page.host}`]: Date.now() });
@@ -77,8 +82,8 @@ async function status(raw: string): Promise<PanelStatus> {
   try {
     const { score, reasons } = await lookup(page.target);
     return { kind: "result", domain: page.host, score, reasons };
-  } catch {
-    return { kind: "error", domain: page.host };
+  } catch (error) {
+    return error instanceof NotAWebsite ? { kind: "skipped" } : { kind: "error", domain: page.host };
   }
 }
 
