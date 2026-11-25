@@ -80,11 +80,11 @@ They must always match; `tests/test_contract.py` fails if they don't.
 
 ## 7. Releasing the Chrome extension
 
-The extension currently calls `http://localhost:8000/api`, which only works on a computer running the server. For
-a release, point `API` in `extension/src/background.ts` and `host_permissions` in `extension/public/manifest.json`
-at `https://saqr-nu.vercel.app/api` (only `/api/check` is needed), run `npm run build` in `extension/`, zip the
-*contents* of `extension/dist/` as `SAQR-Chrome.zip`, and attach it to a GitHub Release so the README's download
-link works.
+The extension calls the live server at `https://saqr-nu.vercel.app/api` (build with
+`VITE_SAQR_API=http://localhost:8000/api` to test against a local server instead). For a release: raise `version`
+in `extension/public/manifest.json` and `extension/package.json`, run `npm run build` in `extension/`, zip the
+*contents* of `extension/dist/` (not the folder itself) as `SAQR-Chrome.zip`, and attach it to a new GitHub Release
+on **MohamedsCode/SAQR**, the project's only repo. The README's download link always takes the newest release.
 
 ## 8. Before you push
 

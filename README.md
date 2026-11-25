@@ -120,7 +120,7 @@ from it is sent, never the number itself.
 
 SAQR warns you before you type anything into a scam website.
 
-1. **[Download SAQR](https://github.com/hankhali/Saqr/releases/latest/download/SAQR-Chrome.zip)**, then open the
+1. **[Download SAQR](https://github.com/MohamedsCode/SAQR/releases/latest/download/SAQR-Chrome.zip)**, then open the
    downloaded file and click **Extract all**.
 2. In Chrome, type **chrome://extensions** in the address bar, press Enter, and switch on **Developer mode** in the
    top right corner.
