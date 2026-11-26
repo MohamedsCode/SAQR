@@ -503,6 +503,10 @@
     "caption_sites_one": "{{count}} scam site",
     "caption_sites_other": "{{count}} scam sites",
     "caption_takedown": "1 takedown request",
-    "export": "Export takedown package"
+    "export": "Export takedown package",
+    "col_seed": "Reported site",
+    "col_clues": "Shared clues",
+    "col_sites": "Linked scam sites",
+    "hint": "Click a site to open its case."
   }
 }
