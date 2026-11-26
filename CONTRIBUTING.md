@@ -43,7 +43,8 @@ They must always match; `tests/test_contract.py` fails if they don't.
   `/api/check`, `/api/scan`, `/api/report`, `/api/brands`, `/api/health`, `/api/stats`, `/api/scans`,
   `/api/scans/{id}` (with `/evidence.json`, `/evidence.pdf`, `/screenshot/{kind}`), `/api/model` and
   `/api/model/retrain` (with `/stream`), `/api/discovery/run`, `/api/discovery/runs/{id}`, `/api/maps-sweep` (and
-  `/run`), `/api/graph`, `/api/demo/reset`.
+  `/run`), `/api/graph`, `/api/demo/reset`, `/api/demo-bus/emit` and `/api/demo-bus/events` (the demo button and the
+  phone simulator talk through these).
 
 ## 4. The AI model: it is tied to its features
 

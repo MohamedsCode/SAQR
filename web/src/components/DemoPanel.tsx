@@ -36,7 +36,8 @@ export default function DemoMenu() {
     setBusy(true);
     try {
       if (mode === "live") {
-        await api.demoReset();
+        // The public demo server refuses to wipe its cases; the phone is still reset below.
+        await api.demoReset().catch(() => null);
         const scan = await api.scan(DEMO_URL).catch(() => null);
         if (scan) rememberSkitCase(scan.id);
       }
